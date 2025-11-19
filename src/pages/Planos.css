@@ -1,0 +1,226 @@
+.planos-hero {
+    background-color: #F8F6FD;
+    padding: 100px 20px 60px;
+    margin-top: 80px;
+}
+
+.planos-hero-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 25px;
+}
+
+.planos-hero-content {
+    flex: 1;
+}
+
+.planos-titulo-principal {
+    font-size: 48px;
+    font-weight: 700;
+    color: var(--cor-texto-escuro);
+    text-transform: uppercase;
+    margin-bottom: 15px;
+    font-family: 'Ysabeau SC', sans-serif;
+}
+
+.planos-subtitulo {
+    font-size: 20px;
+    color: var(--cor-texto-principal);
+    font-family: Arial, sans-serif;
+}
+
+.planos-hero-imagem {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.planos-hero-imagem img {
+    max-width: 100%;
+    height: auto;
+}
+
+.secao-planos {
+    background-color: #FFFFFF;
+    padding: 40px 20px;
+    text-align: center;
+}
+
+.secao-planos h2 {
+    color: #F57F20;
+    font-size: 24px;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 10px;
+    font-family: 'Ysabeau SC', sans-serif;
+}
+
+.subtitulo-planos {
+    color: #888888;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    margin-bottom: 25px;
+}
+
+.planos-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.card-plano {
+    background-color: #FFFFFF;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    width: 340px;
+    overflow: hidden;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.card-plano-header {
+    padding: 25px;
+    color: #FFFFFF;
+}
+
+.card-plano--orange .card-plano-header {
+    background-color: #F58634;
+}
+
+.card-plano--purple .card-plano-header {
+    background-color: #7A2FF5;
+}
+
+.card-plano-header h3 {
+    font-size: 16px;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    font-family: 'Ysabeau SC', sans-serif;
+}
+
+.preco {
+    display: flex;
+    align-items: baseline;
+}
+
+.preco-valor {
+    font-size: 36px;
+    font-weight: 700;
+}
+
+.preco-mes {
+    font-size: 16px;
+    font-weight: 500;
+    margin-left: 8px;
+    opacity: 0.8;
+}
+
+.card-plano-body {
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.lista-beneficios {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 30px;
+    flex-grow: 1;
+}
+
+.lista-beneficios li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    color: #333333;
+    line-height: 1.4;
+}
+
+.lista-beneficios li .simbolosBeneficios {
+    width: 20px;
+    height: 20px;
+}
+
+.beneficio-inativo {
+    color: #999999;
+}
+
+.btn-assinar {
+    border: none;
+    border-radius: 8px;
+    padding: 14px;
+    color: #FFFFFF;
+    font-weight: 700;
+    font-size: 14px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    width: 100%;
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+}
+
+.btn-assinar:hover {
+    transform: scale(1.03);
+}
+
+.btn-assinar--orange {
+    background-color: #F58634;
+}
+
+.btn-assinar--purple {
+    background-color: #7A2FF5;
+}
+
+.card-plano--popular {
+    position: relative;
+    border: 3px solid #7A2FF5;
+    transform: scale(1.05);
+    z-index: 10;
+}
+
+.popular-tag {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background-color: #00C49A;
+    color: #FFFFFF;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+@media (max-width: 768px) {
+    .planos-hero-container {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .planos-titulo-principal {
+        font-size: 32px;
+    }
+
+    .card-plano--popular {
+        transform: scale(1);
+    }
+}
+

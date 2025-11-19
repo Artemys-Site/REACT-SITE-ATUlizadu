@@ -1,0 +1,28 @@
+.relatorios-page {
+    padding: 40px 20px;
+    margin-top: 90px;
+    min-height: calc(100vh - 90px);
+    background-color: #F5F5F5;
+}
+
+.relatorios-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: white;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.relatorios-container h1 {
+    font-size: 36px;
+    color: #3B2561;
+    margin: 0 0 20px 0;
+    text-transform: uppercase;
+}
+
+.relatorios-container p {
+    font-size: 16px;
+    color: #666;
+}
+
