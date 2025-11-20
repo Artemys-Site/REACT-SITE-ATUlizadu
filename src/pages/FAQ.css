@@ -1,0 +1,421 @@
+.faq-page {
+    padding: 40px 20px 60px;
+    background-color: #F5F5F5;
+    margin-top: 90px;
+    min-height: calc(100vh - 90px);
+}
+
+.faq-container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.faq-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.btn-voltar {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #7A2FF5;
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-decoration: none;
+    margin-bottom: 30px;
+    transition: all 0.3s ease;
+    font-family: 'Ysabeau SC', sans-serif;
+}
+
+.btn-voltar:hover {
+    color: #5A4B81;
+    transform: translateX(-5px);
+}
+
+.btn-voltar i {
+    font-size: 16px;
+}
+
+.faq-titulo-principal {
+    font-size: 48px;
+    font-weight: 700;
+    color: #3B2561;
+    margin: 0 0 15px 0;
+    text-transform: uppercase;
+    font-family: 'Ysabeau SC', sans-serif;
+}
+
+.faq-subtitulo {
+    font-size: 18px;
+    color: #666;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.faq-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 50px;
+}
+
+.faq-item {
+    background-color: #FFFFFF;
+    border-radius: 12px;
+    border: 2px solid #E6DFFF;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.faq-item:hover {
+    border-color: #7A2FF5;
+    box-shadow: 0 4px 15px rgba(122, 47, 245, 0.15);
+}
+
+.faq-item.open {
+    border-color: #7A2FF5;
+    box-shadow: 0 6px 20px rgba(122, 47, 245, 0.25);
+}
+
+.faq-pergunta {
+    width: 100%;
+    background-color: transparent;
+    border: none;
+    color: #3B2561;
+    font-size: 16px;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 20px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: left;
+    font-family: 'Ysabeau SC', sans-serif;
+    gap: 20px;
+}
+
+.faq-pergunta:hover {
+    background-color: #F8F5FF;
+    color: #7A2FF5;
+}
+
+.faq-pergunta span {
+    flex: 1;
+}
+
+.faq-pergunta i {
+    font-size: 20px;
+    color: #7A2FF5;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+}
+
+.faq-item.open .faq-pergunta {
+    color: #7A2FF5;
+    background-color: #F8F5FF;
+}
+
+.faq-item.open .faq-pergunta i {
+    color: #FF6B35;
+    transform: rotate(180deg);
+}
+
+.faq-resposta {
+    padding: 0 24px 24px 24px;
+    background-color: #F8F5FF;
+    animation: slideDown 0.3s ease;
+}
+
+.faq-resposta p {
+    color: #666;
+    font-size: 15px;
+    line-height: 1.7;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+        max-height: 0;
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+        max-height: 500px;
+    }
+}
+
+.faq-contato {
+    background: linear-gradient(135deg, #7A2FF5 0%, #5A4B81 100%);
+    border-radius: 16px;
+    padding: 40px;
+    text-align: center;
+    color: #FFFFFF;
+}
+
+.faq-contato-titulo {
+    font-size: 28px;
+    font-weight: 700;
+    color: #FFFFFF;
+    margin: 0 0 10px 0;
+    text-transform: uppercase;
+    font-family: 'Ysabeau SC', sans-serif;
+}
+
+.faq-contato-texto {
+    font-size: 16px;
+    color: #E6DFFF;
+    margin: 0 0 30px 0;
+    font-family: Arial, sans-serif;
+}
+
+.faq-contato-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.btn-contato {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 28px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Ysabeau SC', sans-serif;
+}
+
+.btn-contato i {
+    font-size: 18px;
+}
+
+.btn-email {
+    background-color: #FF6B35;
+    color: #FFFFFF;
+    border: 2px solid #FF6B35;
+}
+
+.btn-email:hover {
+    background-color: #E55A2B;
+    border-color: #E55A2B;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+}
+
+.btn-telefone {
+    background-color: transparent;
+    color: #FFFFFF;
+    border: 2px solid #FFFFFF;
+}
+
+.btn-telefone:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
+}
+
+/* formulario de contato */
+.faq-formulario-section {
+    margin-top: 50px;
+    background-color: #FFFFFF;
+    border-radius: 16px;
+    padding: 40px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.faq-formulario-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.faq-formulario-titulo {
+    font-size: 28px;
+    font-weight: 700;
+    color: #3B2561;
+    margin: 0 0 10px 0;
+    text-transform: uppercase;
+    text-align: center;
+    font-family: 'Ysabeau SC', sans-serif;
+}
+
+.faq-formulario-subtitulo {
+    font-size: 16px;
+    color: #666;
+    margin: 0 0 30px 0;
+    text-align: center;
+    font-family: Arial, sans-serif;
+}
+
+.mensagem-sucesso {
+    background-color: #D4EDDA;
+    color: #28A745;
+    padding: 15px 20px;
+    border-radius: 8px;
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: Arial, sans-serif;
+}
+
+.mensagem-sucesso i {
+    font-size: 20px;
+}
+
+.faq-formulario {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-row-faq {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.form-group-faq {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group-faq label {
+    font-size: 12px;
+    font-weight: 700;
+    color: #3B2561;
+    text-transform: uppercase;
+    font-family: 'Ysabeau SC', sans-serif;
+}
+
+.form-group-faq input,
+.form-group-faq textarea {
+    width: 100%;
+    padding: 14px;
+    border: 2px solid #E6DFFF;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: Arial, sans-serif;
+    color: #3B2561;
+    background-color: #FFFFFF;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+}
+
+.form-group-faq input:focus,
+.form-group-faq textarea:focus {
+    outline: none;
+    border-color: #7A2FF5;
+    box-shadow: 0 0 0 3px rgba(122, 47, 245, 0.1);
+}
+
+.form-group-faq input::placeholder,
+.form-group-faq textarea::placeholder {
+    color: #999;
+}
+
+.form-group-faq textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.btn-enviar-mensagem {
+    background-color: #7A2FF5;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 12px;
+    padding: 16px 32px;
+    font-size: 16px;
+    font-weight: 700;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-family: 'Ysabeau SC', sans-serif;
+    margin-top: 10px;
+}
+
+.btn-enviar-mensagem:hover {
+    background-color: #6A4C9C;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(122, 47, 245, 0.3);
+}
+
+.btn-enviar-mensagem i {
+    font-size: 18px;
+}
+
+@media (max-width: 768px) {
+    .faq-page {
+        margin-top: 70px;
+        padding: 20px 15px 40px;
+    }
+
+    .faq-titulo-principal {
+        font-size: 32px;
+    }
+
+    .faq-subtitulo {
+        font-size: 16px;
+    }
+
+    .faq-pergunta {
+        font-size: 14px;
+        padding: 16px 20px;
+    }
+
+    .faq-resposta p {
+        font-size: 14px;
+    }
+
+    .faq-contato {
+        padding: 30px 20px;
+    }
+
+    .faq-contato-titulo {
+        font-size: 24px;
+    }
+
+    .faq-contato-texto {
+        font-size: 14px;
+    }
+
+    .faq-contato-buttons {
+        flex-direction: column;
+    }
+
+    .btn-contato {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .faq-formulario-section {
+        padding: 25px 20px;
+    }
+
+    .faq-formulario-titulo {
+        font-size: 24px;
+    }
+
+    .form-row-faq {
+        grid-template-columns: 1fr;
+    }
+}
+

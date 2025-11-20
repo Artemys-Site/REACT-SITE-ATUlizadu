@@ -1,0 +1,778 @@
+.configuracoes-page {
+    margin-top: 90px;
+    padding: 40px 20px;
+    background-color: #F8F6FD;
+    min-height: calc(100vh - 90px);
+}
+
+.configuracoes-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.configuracoes-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.configuracoes-titulo {
+    font-size: 32px;
+    font-weight: 700;
+    color: #3B2561;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    font-family: 'Ysabeau SC', sans-serif;
+}
+
+.configuracoes-subtitulo {
+    font-size: 16px;
+    color: #6A4C9C;
+    font-family: Arial, sans-serif;
+}
+
+.configuracoes-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+}
+
+.config-tab {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background-color: #E6DFFF;
+    color: #6A4C9C;
+    border: none;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    font-family: 'Ysabeau SC', sans-serif;
+}
+
+.config-tab:hover {
+    background-color: #D0C5EC;
+}
+
+.config-tab.active {
+    background-color: #7A2FF5;
+    color: #FFFFFF;
+}
+
+.config-tab img {
+    width: 18px;
+    height: 18px;
+}
+
+.config-tab i {
+    font-size: 18px;
+}
+
+.config-content {
+    display: none;
+}
+
+.config-content.active {
+    display: block;
+}
+
+.perfil-card {
+    background-color: #FFFFFF;
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+}
+
+.perfil-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.perfil-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.perfil-foto {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #7A2FF5;
+}
+
+.perfil-nome {
+    font-size: 24px;
+    font-weight: 700;
+    color: #3B2561;
+    margin-bottom: 5px;
+    font-family: 'Ysabeau SC', sans-serif;
+}
+
+.perfil-tipo {
+    font-size: 14px;
+    color: #6A4C9C;
+    font-family: Arial, sans-serif;
+}
+
+.btn-editar-perfil {
+    background-color: #7A2FF5;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    font-family: 'Ysabeau SC', sans-serif;
+}
+
+.btn-editar-perfil:hover {
+    background-color: #6A4C9C;
+}
+
+.btn-editar-perfil img {
+    width: 18px;
+    height: 18px;
+}
+
+.perfil-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.perfil-campo {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.perfil-campo label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #6A4C9C;
+    font-family: Arial, sans-serif;
+}
+
+.perfil-campo input,
+.perfil-campo select {
+    padding: 12px;
+    border: 1px solid #E6DFFF;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: Arial, sans-serif;
+    color: #3B2561;
+    background-color: #F8F6FD;
+}
+
+.perfil-campo input:disabled,
+.perfil-campo select:disabled {
+    background-color: #E6DFFF;
+    cursor: not-allowed;
+}
+
+.pets-section {
+    margin-top: 30px;
+}
+
+.pets-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.pets-section-titulo {
+    font-size: 20px;
+    font-weight: 700;
+    color: #3B2561;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    font-family: 'Ysabeau SC', sans-serif;
+}
+
+.pets-section-subtitulo {
+    font-size: 14px;
+    color: #6A4C9C;
+    font-family: Arial, sans-serif;
+}
+
+.btn-cadastrar-pet {
+    background-color: #7A2FF5;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 20px;
+    padding: 12px 24px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    font-family: 'Ysabeau SC', sans-serif;
+}
+
+.btn-cadastrar-pet:hover {
+    background-color: #6A4C9C;
+}
+
+.btn-cadastrar-pet img {
+    width: 18px;
+    height: 18px;
+}
+
+.pets-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.pet-card {
+    background-color: #FFFFFF;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.pet-card-header {
+    background-color: #7A2FF5;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+}
+
+.pet-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.pet-foto {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #FFFFFF;
+}
+
+.pet-nome {
+    color: #FFFFFF;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 3px;
+    font-family: 'Ysabeau SC', sans-serif;
+}
+
+.pet-tipo {
+    color: #E6DFFF;
+    font-size: 14px;
+    font-family: Arial, sans-serif;
+}
+
+.btn-editar-pet {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.btn-editar-pet img {
+    width: 20px;
+    height: 20px;
+    filter: brightness(0) invert(1);
+}
+
+.pet-card-body {
+    padding: 20px;
+}
+
+.pet-detalhes {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.pet-detalhe-item {
+    font-size: 13px;
+    color: #5A4B81;
+    font-family: Arial, sans-serif;
+}
+
+.pet-detalhe-item strong {
+    color: #3B2561;
+    font-weight: 600;
+}
+
+.btn-mais-detalhes {
+    background-color: #7A2FF5;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    transition: all 0.3s ease;
+    font-family: 'Ysabeau SC', sans-serif;
+}
+
+.btn-mais-detalhes:hover {
+    background-color: #6A4C9C;
+}
+
+.historico-card {
+    background-color: #FFFFFF;
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.historico-titulo {
+    font-size: 20px;
+    font-weight: 700;
+    color: #3B2561;
+    margin-bottom: 20px;
+    font-family: 'Ysabeau SC', sans-serif;
+}
+
+.historico-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #E6DFFF;
+}
+
+.historico-item:last-child {
+    border-bottom: none;
+}
+
+.historico-info {
+    flex: 1;
+}
+
+.historico-servico {
+    font-size: 16px;
+    font-weight: 600;
+    color: #3B2561;
+    margin-bottom: 5px;
+    font-family: 'Ysabeau SC', sans-serif;
+}
+
+.historico-detalhes {
+    font-size: 14px;
+    color: #6A4C9C;
+    font-family: Arial, sans-serif;
+    margin-bottom: 3px;
+}
+
+.historico-veterinario {
+    font-size: 13px;
+    color: #888888;
+    font-family: Arial, sans-serif;
+}
+
+.historico-status {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.status-badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-family: Arial, sans-serif;
+}
+
+.status-concluido {
+    background-color: #DBFEEA;
+    color: #007D38;
+}
+
+.status-agendado {
+    background-color: #E6F3FF;
+    color: #0066CC;
+}
+
+.historico-preco {
+    font-size: 18px;
+    font-weight: 700;
+    color: #F58634;
+}
+
+.pagamento-titulo {
+    font-size: 20px;
+    font-weight: 700;
+    color: #3B2561;
+    margin-bottom: 30px;
+    font-family: 'Ysabeau SC', sans-serif;
+}
+
+.pagamento-layout {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+.pagamento-principal-card {
+    background: linear-gradient(135deg, #7A2FF5 0%, #6A4C9C 100%);
+    border-radius: 20px;
+    padding: 35px;
+    color: #FFFFFF;
+    box-shadow: 0 8px 25px rgba(122, 47, 245, 0.3);
+    position: relative;
+    min-height: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.cartao-principal-header {
+    margin-bottom: 20px;
+}
+
+.cartao-principal-label {
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.9;
+    font-family: Arial, sans-serif;
+}
+
+.cartao-principal-numero {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    margin-bottom: 30px;
+    font-family: 'Courier New', monospace;
+}
+
+.cartao-principal-info {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.cartao-info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.cartao-info-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    opacity: 0.8;
+    letter-spacing: 1px;
+    font-family: Arial, sans-serif;
+}
+
+.cartao-info-value {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.cartao-principal-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.btn-padrao {
+    background-color: #F58634;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    font-family: Arial, sans-serif;
+}
+
+.btn-padrao:hover {
+    background-color: #E67523;
+}
+
+.btn-deletar-cartao {
+    width: 40px;
+    height: 40px;
+    background-color: #FF4444;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-left: auto;
+}
+
+.btn-deletar-cartao:hover {
+    background-color: #E63333;
+    transform: scale(1.1);
+}
+
+.btn-deletar-cartao i {
+    font-size: 18px;
+}
+
+.pagamento-sidebar {
+    display: flex;
+    flex-direction: column;
+}
+
+.formas-pagamento-section {
+    background-color: #FFFFFF;
+    border-radius: 16px;
+    padding: 25px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.formas-pagamento-titulo {
+    font-size: 16px;
+    font-weight: 700;
+    color: #3B2561;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    font-family: 'Ysabeau SC', sans-serif;
+}
+
+.forma-pagamento-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    transition: all 0.3s ease;
+}
+
+.forma-pagamento-item:last-child {
+    margin-bottom: 0;
+}
+
+.forma-pagamento-item:hover {
+    background-color: #F8F6FD;
+}
+
+.forma-pagamento-item i {
+    font-size: 24px;
+    color: #FFD700;
+}
+
+.forma-pagamento-item span {
+    font-size: 14px;
+    font-weight: 600;
+    color: #3B2561;
+    font-family: Arial, sans-serif;
+}
+
+.btn-adicionar-pagamento {
+    background-color: #F58634;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 12px;
+    padding: 18px 30px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    text-decoration: none;
+    font-family: Arial, sans-serif;
+    box-shadow: 0 4px 15px rgba(245, 134, 52, 0.3);
+}
+
+.btn-adicionar-pagamento:hover {
+    background-color: #E67523;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(245, 134, 52, 0.4);
+}
+
+.btn-adicionar-pagamento i {
+    font-size: 22px;
+}
+
+@media (max-width: 1024px) {
+    .pagamento-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .pagamento-principal-card {
+        padding: 25px;
+        min-height: 220px;
+    }
+
+    .cartao-principal-numero {
+        font-size: 24px;
+        letter-spacing: 3px;
+    }
+
+    .cartao-principal-actions {
+        flex-wrap: wrap;
+    }
+
+    .btn-adicionar-pagamento {
+        padding: 15px 20px;
+        font-size: 14px;
+    }
+}
+
+.notificacoes-card {
+    background-color: #FFFFFF;
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.notificacoes-titulo {
+    font-size: 20px;
+    font-weight: 700;
+    color: #3B2561;
+    margin-bottom: 25px;
+    font-family: 'Ysabeau SC', sans-serif;
+}
+
+.notificacao-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #E6DFFF;
+}
+
+.notificacao-item:last-child {
+    border-bottom: none;
+}
+
+.notificacao-info {
+    flex: 1;
+}
+
+.notificacao-titulo {
+    font-size: 16px;
+    font-weight: 600;
+    color: #3B2561;
+    margin-bottom: 5px;
+    font-family: 'Ysabeau SC', sans-serif;
+}
+
+.notificacao-descricao {
+    font-size: 13px;
+    color: #888888;
+    font-family: Arial, sans-serif;
+}
+
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 26px;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #E6DFFF;
+    transition: 0.3s;
+    border-radius: 26px;
+}
+
+.toggle-slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: 0.3s;
+    border-radius: 50%;
+}
+
+.toggle-switch input:checked + .toggle-slider {
+    background-color: var(--cor-roxo-principal);
+}
+
+.toggle-switch input:checked + .toggle-slider:before {
+    transform: translateX(24px);
+}
+
+@media (max-width: 768px) {
+    .configuracoes-page {
+        margin-top: 70px;
+        padding: 20px 15px;
+    }
+
+    .configuracoes-titulo {
+        font-size: 28px;
+    }
+
+    .configuracoes-tabs {
+        flex-wrap: wrap;
+        gap: 5px;
+    }
+
+    .config-tab {
+        padding: 10px 15px;
+        font-size: 12px;
+    }
+
+    .perfil-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .pets-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .pet-detalhes {
+        grid-template-columns: 1fr;
+    }
+}
+
