@@ -1,0 +1,231 @@
+@import url('https://fonts.googleapis.com/css2?family=Ysabeau+SC:wght@1..1000&display=swap');
+
+.login-page-title {
+    text-align: center;
+    font-size: 36px;
+    font-weight: 700;
+    color: #3B2561;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 30px;
+    margin-top: 0;
+    font-family: 'Ysabeau SC', sans-serif;
+}
+
+.login-container {
+    width: 100%;
+    max-width: 450px;
+    padding: 40px 20px;
+    margin: 0 auto;
+    padding-top: 100px;
+}
+
+.login-card {
+    background-color: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    margin-top: 0;
+}
+
+.login-content {
+    padding: 30px;
+}
+
+.account-type-section {
+    margin-bottom: 25px;
+}
+
+.account-type-section h2 {
+    font-size: 16px;
+    margin-bottom: 15px;
+    color: #3B2561;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 700;
+}
+
+.account-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.account-option {
+    display: flex;
+    align-items: center;
+    padding: 14px 15px;
+    border: 2px solid #E0D5F0;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background-color: #fff;
+}
+
+.account-option:hover {
+    border-color: #7A2FF5;
+    background-color: #F8F5FF;
+}
+
+.account-option.selected {
+    border-color: #7A2FF5;
+    background-color: #F8F5FF;
+}
+
+.option-bullet {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 2px solid #3B2561;
+    margin-right: 12px;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+}
+
+.account-option.selected .option-bullet {
+    border-color: #7A2FF5;
+    background-color: #7A2FF5;
+}
+
+.option-text {
+    font-weight: 600;
+    font-size: 14px;
+    color: #3B2561;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.login-form {
+    margin: 25px 0;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    color: #3B2561;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 14px 15px;
+    border: 2px solid #E0D5F0;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: all 0.3s;
+    background-color: #F8F5FF;
+    box-sizing: border-box;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #7A2FF5;
+    background-color: #fff;
+}
+
+.login-button {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(to right, #7A2FF5, #5A1FA5);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+}
+
+.login-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(122, 47, 245, 0.4);
+}
+
+.login-button:active {
+    transform: translateY(0);
+}
+
+.forgot-password-section {
+    text-align: right;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.forgot-link {
+    color: #3B2561;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 13px;
+    transition: color 0.3s;
+}
+
+.forgot-link:hover {
+    color: #7A2FF5;
+    text-decoration: underline;
+}
+
+.register-section {
+    text-align: center;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+.register-section p {
+    color: #3B2561;
+    font-size: 14px;
+    margin: 0;
+    margin-bottom: 10px;
+}
+
+.register-section p:last-child {
+    margin-bottom: 0;
+}
+
+.clinica-register-link {
+    margin-top: 10px;
+}
+
+.register-link {
+    color: #D97706;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s;
+}
+
+.register-link:hover {
+    color: #B86205;
+    text-decoration: underline;
+}
+
+@media (max-width: 480px) {
+    .login-container {
+        padding: 20px 15px;
+    }
+    
+    .login-content {
+        padding: 20px;
+    }
+    
+    .account-options {
+        grid-template-columns: 1fr;
+    }
+    
+    .login-page-title {
+        font-size: 28px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+}
+

@@ -1,0 +1,157 @@
+footer {
+    background-color: #2C1F42;
+    color: #f5f5ff;
+    padding: 20px 0;
+    width: 100%;
+}
+
+.logoERedesRodape {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+    margin: 0 auto;
+    margin-bottom: 20px;
+}
+
+.brand-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.logoRodape {
+    width: 70px;
+    height: auto;
+}
+
+.nomeESloganRodape {
+    color: #f5f5f5;
+}
+
+.nomeProjetoRodape {
+    font-weight: 600;
+    font-size: 24px;
+}
+
+.sloganProjetoRodape {
+    font-size: 12px;
+}
+
+.listaRedesSociais {
+    display: flex;
+    list-style-type: none;
+    gap: 25px;
+    font-size: 12px;
+}
+
+.listaRedesSociais a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: Arial, sans-serif;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: inherit;
+    text-decoration: none;
+    transition: opacity 0.3s ease;
+}
+
+.listaRedesSociais a:hover {
+    opacity: 0.7;
+}
+
+.listaRedesSociais img {
+    height: 24px;
+    width: auto;
+}
+
+.diferenciais {
+    background-color: #3B2561;
+    border: 1px solid #4F3F70;
+    border-radius: 10px;
+    width: 90%;
+    margin: 0 auto;
+    padding: 10px 25px;
+}
+
+.listaDiferenciais {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    list-style-type: none;
+    width: 100%;
+    font-size: 12px;
+}
+
+.listaDiferenciais li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.listaDiferenciais img {
+    width: 25px;
+    height: 25px;
+}
+
+.link-fale-conosco {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #f5f5f5;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    font-family: Arial, sans-serif;
+    padding: 8px 12px;
+    border-radius: 8px;
+}
+
+.link-fale-conosco:hover {
+    color: #7A2FF5;
+    background-color: rgba(122, 47, 245, 0.1);
+    transform: translateY(-2px);
+}
+
+.link-fale-conosco i {
+    font-size: 18px;
+    color: #FFFFFF;
+}
+
+.direitosAutorias {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 90%;
+    margin: 20px auto 0 auto;
+    padding-top: 15px;
+    border-top: 1px solid #4F3F70;
+}
+
+.logoDireitosAutorais {
+    width: 11px;
+    height: 11px;
+}
+
+.conteudoDireitosAutorais {
+    color: #f5f5f5;
+    font-size: 8px;
+}
+
+@media (max-width: 768px) {
+    .logoERedesRodape {
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+    }
+
+    .listaDiferenciais {
+        flex-direction: column;
+        gap: 15px;
+    }
+}
+

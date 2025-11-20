@@ -1,0 +1,448 @@
+/* Container geral */
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Seção MVV (Missão, Visão e Valores) */
+.section-mvv {
+    background-color: #9370DB;
+    padding: 80px 20px;
+    margin-top: 90px;
+}
+
+.section-mvv .section-title {
+    text-align: center;
+    color: #FFFFFF;
+    font-size: 2.5em;
+    margin-bottom: 60px;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-family: 'Ysabeau SC', sans-serif;
+}
+
+.mvv-grid {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.mvv-card {
+    background-color: #FFFFFF;
+    border-radius: 15px;
+    padding: 30px;
+    width: 300px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border: 3px solid #7B68EE;
+    min-height: 350px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.mvv-image-top {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.mvv-img {
+    height: 180px;
+    width: 100%;
+    object-fit: contain;
+}
+
+.mvv-card h2 {
+    color: #7B68EE;
+    font-size: 1.8em;
+    margin-top: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-family: 'Ysabeau SC', sans-serif;
+}
+
+.mvv-card p {
+    color: #333;
+    font-weight: 400;
+    font-size: 1.05em;
+    padding: 10px 0;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-transform: uppercase;
+    line-height: 1.8;
+    font-family: Arial, sans-serif;
+}
+
+.valores-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.valores-list li {
+    font-weight: 400;
+    color: #333;
+    font-size: 1.05em;
+    text-transform: uppercase;
+    line-height: 1.6;
+    font-family: Arial, sans-serif;
+}
+
+/* Seção Impacto (ODS) */
+.section-impact {
+    background-color: #7B68EE;
+    padding: 80px 20px;
+}
+
+.impact-title {
+    color: #FFFFFF;
+    text-align: center;
+    font-size: 2.5em;
+    margin-bottom: 30px;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-family: 'Ysabeau SC', sans-serif;
+}
+
+.impact-text {
+    color: #FFFFFF;
+    text-align: center;
+    margin-bottom: 50px;
+    font-size: 1.1em;
+    padding: 0 10%;
+    line-height: 1.8;
+    text-transform: uppercase;
+    font-family: Arial, sans-serif;
+}
+
+.ods-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+}
+
+.ods-card {
+    width: 300px;
+    height: 300px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s;
+    position: relative;
+}
+
+.ods-card:hover {
+    transform: translateY(-5px);
+}
+
+.ods-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Seção Team (Membros da Artemys) */
+.section-team {
+    padding: 100px 20px 80px;
+    background-color: #F8F6FD;
+}
+
+.team-title {
+    color: #7B68EE;
+    text-align: center;
+    font-size: 2.5em;
+    margin-bottom: 15px;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-family: 'Ysabeau SC', sans-serif;
+}
+
+.team-subtitle {
+    text-align: center;
+    color: #9370DB;
+    font-size: 1.2em;
+    margin-bottom: 50px;
+    text-transform: uppercase;
+    font-family: Arial, sans-serif;
+}
+
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px 30px;
+    justify-content: center;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.member-card:last-child,
+.member-card.last-member {
+    grid-column: 1 / -1;
+    justify-self: center;
+    max-width: 485px;
+}
+
+.member-card {
+    background-color: #E6DFFF;
+    color: #3B2561;
+    border-radius: 15px;
+    padding: 20px;
+    padding-top: 80px;
+    text-align: left;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    position: relative;
+    min-height: 250px;
+    display: flex;
+    flex-direction: column;
+    border-left: 8px solid #7B68EE;
+}
+
+.member-photo-circle {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    overflow: hidden;
+    position: absolute;
+    top: -60px;
+    left: 20px;
+    border: 4px solid #F58634;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    background-color: #eee;
+}
+
+.member-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.member-photo-circle img[src*="ismaelimagem"] {
+    object-fit: cover;
+    object-position: center;
+    transform: scale(1.1);
+}
+
+.member-info {
+    margin-bottom: 15px;
+    margin-top: 10px;
+}
+
+.member-name {
+    font-size: 1.5em;
+    margin-bottom: 8px;
+    font-weight: 700;
+    color: #3B2561;
+    text-transform: uppercase;
+    font-family: 'Ysabeau SC', sans-serif;
+}
+
+.member-role {
+    font-size: 0.9em;
+    margin: 3px 0;
+    color: #6A4C9C;
+    text-transform: uppercase;
+    font-weight: 500;
+    font-family: Arial, sans-serif;
+}
+
+.member-social {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-top: 10px;
+    margin-top: auto;
+    gap: 15px;
+}
+
+.social-icon {
+    font-size: 1.8em;
+    color: #3B2561;
+    transition: color 0.3s;
+}
+
+.social-icon:hover {
+    color: #7B68EE;
+}
+
+/* Responsividade */
+@media (max-width: 900px) {
+    .mvv-grid {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .mvv-card {
+        width: 90%;
+        min-height: auto;
+    }
+
+    .ods-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .ods-card {
+        width: 90%;
+        max-width: 300px;
+    }
+
+    .team-grid {
+        grid-template-columns: 1fr;
+        gap: 60px 30px;
+    }
+
+    .section-mvv,
+    .section-impact,
+    .section-team {
+        padding: 60px 20px;
+    }
+
+    .section-mvv {
+        margin-top: 70px;
+    }
+}
+
+@media (max-width: 768px) {
+    .section-mvv {
+        padding: 40px 15px;
+        margin-top: 70px;
+    }
+
+    .section-mvv .section-title {
+        font-size: 1.8em;
+        margin-bottom: 40px;
+    }
+
+    .mvv-grid {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .mvv-card {
+        width: 100%;
+        max-width: 400px;
+        min-height: auto;
+        padding: 25px 20px;
+    }
+
+    .mvv-img {
+        height: 150px;
+    }
+
+    .mvv-card h2 {
+        font-size: 1.5em;
+    }
+
+    .mvv-card p {
+        font-size: 0.95em;
+    }
+
+    .valores-list li {
+        font-size: 0.95em;
+    }
+
+    .section-impact {
+        padding: 40px 15px;
+    }
+
+    .impact-title {
+        font-size: 1.8em;
+        margin-bottom: 25px;
+    }
+
+    .impact-text {
+        font-size: 0.95em;
+        padding: 0;
+    }
+
+    .ods-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .ods-card {
+        width: 100%;
+        max-width: 300px;
+    }
+
+    .section-team {
+        padding: 40px 15px;
+    }
+
+    .team-title {
+        font-size: 1.8em;
+        margin-bottom: 40px;
+    }
+
+    .team-grid {
+        grid-template-columns: 1fr;
+        gap: 80px 0;
+    }
+
+    .member-card {
+        width: 100%;
+        max-width: 400px;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 600px) {
+    .section-title,
+    .impact-title,
+    .team-title {
+        font-size: 1.5em;
+    }
+    
+    .mvv-card,
+    .ods-card {
+        width: 100%;
+        padding: 20px 15px;
+    }
+
+    .mvv-img {
+        height: 120px;
+    }
+
+    .impact-text {
+        padding: 0;
+        font-size: 0.9em;
+    }
+
+    .team-subtitle {
+        font-size: 1em;
+    }
+}
+
+@media (max-width: 480px) {
+    .section-mvv .section-title {
+        font-size: 1.3em;
+    }
+
+    .mvv-card h2 {
+        font-size: 1.3em;
+    }
+
+    .mvv-card p,
+    .valores-list li {
+        font-size: 0.85em;
+    }
+
+    .impact-title,
+    .team-title {
+        font-size: 1.3em;
+    }
+}

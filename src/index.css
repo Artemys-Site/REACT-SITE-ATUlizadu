@@ -1,0 +1,36 @@
+@import url('https://fonts.googleapis.com/css2?family=Ysabeau+SC:wght@1..1000&display=swap');
+
+* {
+    font-family: 'Ysabeau SC', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+a {
+    text-decoration: none;
+}
+
+:root {
+    --cor-fundo: #FFFFFF;
+    --cor-borda: #E6DFFF;
+    --cor-texto-principal: #6A4C9C;
+    --cor-texto-escuro: #3B2561;
+    --cor-link-ativo-fundo: #E6DFFF;
+    --cor-link-ativo-texto: #3B2561;
+    --cor-roxo-principal: #7A2FF5;
+    --cor-laranja: #F58634;
+    --cor-fundo-claro: #F8F6FD;
+}
+
+body {
+    margin: 0;
+    font-family: 'Ysabeau SC', sans-serif;
+    background-color: var(--cor-fundo);
+    color: var(--cor-texto-escuro);
+    min-height: 100vh;
+}
+
+#root {
+    min-height: 100vh;
+}

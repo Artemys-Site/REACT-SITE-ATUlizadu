@@ -1,0 +1,223 @@
+.pagamento-page {
+    margin-top: 80px;
+    padding: 30px 20px;
+    background-color: #F8F6FD;
+    min-height: calc(100vh - 80px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pagamento-modal {
+    background-color: #FFFFFF;
+    border-radius: 16px;
+    padding: 25px;
+    max-width: 600px;
+    width: 100%;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+    position: relative;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.modal-titulo {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--cor-roxo-principal);
+    text-transform: uppercase;
+    font-family: 'Ysabeau SC', sans-serif;
+}
+
+.btn-fechar {
+    background-color: transparent;
+    border: none;
+    font-size: 24px;
+    color: #888888;
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.btn-fechar:hover {
+    background-color: #E6DFFF;
+    color: var(--cor-roxo-principal);
+}
+
+.tipo-pagamento-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #E6DFFF;
+    padding-bottom: 0;
+}
+
+.tipo-pagamento-tab {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background-color: transparent;
+    border: none;
+    border-bottom: 3px solid transparent;
+    color: #6A4C9C;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    font-family: 'Ysabeau SC', sans-serif;
+    margin-bottom: -2px;
+}
+
+.tipo-pagamento-tab:hover {
+    color: var(--cor-roxo-principal);
+}
+
+.tipo-pagamento-tab.active {
+    color: #FFFFFF;
+    background-color: var(--cor-roxo-principal);
+    border-bottom-color: var(--cor-roxo-principal);
+    border-radius: 8px 8px 0 0;
+}
+
+.tipo-pagamento-tab img {
+    width: 18px;
+    height: 18px;
+}
+
+.form-pagamento {
+    display: none;
+}
+
+.form-pagamento.active {
+    display: block;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: #6A4C9C;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    font-family: 'Ysabeau SC', sans-serif;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #E6DFFF;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: Arial, sans-serif;
+    color: #3B2561;
+    background-color: #F8F6FD;
+    box-sizing: border-box;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: var(--cor-roxo-principal);
+}
+
+.form-group input::placeholder {
+    color: #999999;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 15px;
+}
+
+.form-actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.btn-cancelar {
+    flex: 1;
+    background-color: #E6DFFF;
+    color: #6A4C9C;
+    border: none;
+    border-radius: 20px;
+    padding: 14px 24px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+}
+
+.btn-cancelar:hover {
+    background-color: #D0C5EC;
+}
+
+.btn-adicionar {
+    flex: 1;
+    background-color: var(--cor-roxo-principal);
+    color: #FFFFFF;
+    border: none;
+    border-radius: 20px;
+    padding: 14px 24px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+}
+
+.btn-adicionar:hover {
+    background-color: #6A4C9C;
+}
+
+@media (max-width: 768px) {
+    .pagamento-page {
+        margin-top: 70px;
+        padding: 20px 15px;
+    }
+
+    .pagamento-modal {
+        padding: 25px;
+    }
+
+    .modal-titulo {
+        font-size: 20px;
+    }
+
+    .tipo-pagamento-tabs {
+        flex-wrap: wrap;
+        gap: 5px;
+    }
+
+    .tipo-pagamento-tab {
+        padding: 10px 15px;
+        font-size: 12px;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+}
+

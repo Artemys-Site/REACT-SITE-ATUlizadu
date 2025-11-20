@@ -1,0 +1,487 @@
+/*back pfvr ignore isso, nao é da sua conta ;-;*/
+
+
+.painel-tutor-page {
+    padding: 40px 20px 60px;
+    background-color: #F5F5F5;
+    margin-top: 90px;
+    min-height: calc(100vh - 90px);
+}
+
+.painel-tutor-container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.painel-tutor-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 40px;
+}
+
+.painel-tutor-titulo {
+    font-size: 42px;
+    font-weight: 700;
+    color: #3B2561;
+    margin: 0 0 10px 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.painel-tutor-subtitulo {
+    font-size: 16px;
+    color: #666;
+    margin: 0;
+}
+
+.btn-ambulancia {
+    background-color: #DC3545;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 12px;
+    padding: 15px 30px;
+    font-size: 16px;
+    font-weight: 700;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: Arial, sans-serif;
+}
+
+.btn-ambulancia:hover {
+    background-color: #C82333;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
+}
+
+.btn-ambulancia i {
+    font-size: 20px;
+}
+
+/* Cards de Métricas */
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+    margin-bottom: 30px;
+}
+
+.metric-card {
+    background-color: #FFFFFF;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    border-top: 4px solid;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.metric-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+}
+
+.metric-card.metric-purple {
+    border-top-color: #7A2FF5;
+}
+
+.metric-card.metric-orange {
+    border-top-color: #FF6B35;
+}
+
+.metric-card.metric-green {
+    border-top-color: #28A745;
+}
+
+.metric-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+.metric-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #666;
+    text-transform: uppercase;
+    margin: 0;
+    flex: 1;
+}
+
+.metric-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+}
+
+.metric-icon-purple {
+    background: linear-gradient(135deg, #7A2FF5 0%, #9D5FF5 100%);
+    color: #FFFFFF;
+}
+
+.metric-icon-orange {
+    background: linear-gradient(135deg, #FF6B35 0%, #FF8C5A 100%);
+    color: #FFFFFF;
+}
+
+.metric-icon-green {
+    background: linear-gradient(135deg, #28A745 0%, #48C765 100%);
+    color: #FFFFFF;
+}
+
+.metric-value {
+    font-size: 48px;
+    font-weight: 700;
+    color: #3B2561;
+    margin: 15px 0;
+}
+
+.metric-description {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 15px;
+}
+
+.metric-trend {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+}
+
+.trend-up {
+    color: #28A745;
+    font-size: 16px;
+}
+
+.trend-value {
+    font-weight: 600;
+    color: #28A745;
+}
+
+.trend-label {
+    color: #999;
+}
+
+/* Cards de Análise */
+.analysis-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+    margin-bottom: 30px;
+}
+
+.analysis-card {
+    background-color: #FFFFFF;
+    border-radius: 12px;
+    padding: 40px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.analysis-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+}
+
+.analysis-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+}
+
+.analysis-purple::before {
+    background: linear-gradient(90deg, #7A2FF5 0%, #9D5FF5 100%);
+}
+
+.analysis-orange::before {
+    background: linear-gradient(90deg, #FF6B35 0%, #FF8C5A 100%);
+}
+
+.analysis-header {
+    margin-bottom: 30px;
+}
+
+.analysis-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #3B2561;
+    margin: 0 0 8px 0;
+    text-transform: uppercase;
+}
+
+.analysis-subtitle {
+    font-size: 14px;
+    color: #999;
+    margin: 0;
+}
+
+.analysis-icon {
+    font-size: 80px;
+    margin: 30px 0;
+    opacity: 0.8;
+}
+
+.analysis-purple .analysis-icon {
+    color: #7A2FF5;
+}
+
+.analysis-orange .analysis-icon {
+    color: #FF6B35;
+}
+
+.analysis-description {
+    font-size: 14px;
+    color: #666;
+    margin: 0;
+}
+
+/* Card de Agendamentos */
+.appointments-card {
+    background-color: #FFFFFF;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    margin-bottom: 30px;
+    position: relative;
+    overflow: hidden;
+}
+
+.appointments-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: linear-gradient(90deg, #7A2FF5 0%, #9D5FF5 100%);
+}
+
+.appointments-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 25px;
+    padding-top: 10px;
+}
+
+.appointments-title-section {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+}
+
+.appointments-title-icon {
+    font-size: 32px;
+    color: #7A2FF5;
+    margin-top: 5px;
+}
+
+.appointments-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #7A2FF5;
+    margin: 0 0 5px 0;
+    text-transform: uppercase;
+}
+
+.appointments-subtitle {
+    font-size: 14px;
+    color: #666;
+    margin: 0;
+}
+
+.btn-ver-todos {
+    background-color: #FF6B35;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 24px;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    font-family: Arial, sans-serif;
+}
+
+.btn-ver-todos:hover {
+    background-color: #E55A2B;
+    transform: translateY(-2px);
+}
+
+.appointments-table {
+    overflow-x: auto;
+}
+
+.appointments-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.appointments-table thead {
+    background-color: #F8F9FA;
+}
+
+.appointments-table th {
+    padding: 15px;
+    text-align: left;
+    font-size: 12px;
+    font-weight: 700;
+    color: #3B2561;
+    text-transform: uppercase;
+    border-bottom: 2px solid #E6DFFF;
+}
+
+.appointments-table td {
+    padding: 15px;
+    font-size: 14px;
+    color: #333;
+    border-bottom: 1px solid #F0F0F0;
+}
+
+.appointments-table tbody tr:hover {
+    background-color: #F8F9FA;
+}
+
+.badge {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.badge-tipo {
+    background-color: #E6DFFF;
+    color: #7A2FF5;
+}
+
+.badge-status {
+    background-color: #D4EDDA;
+    color: #28A745;
+}
+
+.badge-confirmada {
+    background-color: #D4EDDA;
+    color: #28A745;
+}
+
+.badge-agendada {
+    background-color: #FFF3CD;
+    color: #856404;
+}
+
+.badge-pendente {
+    background-color: #F8D7DA;
+    color: #721C24;
+}
+
+/* Botões de Ação */
+.action-buttons {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.btn-action {
+    flex: 1;
+    min-width: 200px;
+    background-color: #7A2FF5;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 12px;
+    padding: 18px 30px;
+    font-size: 16px;
+    font-weight: 700;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-family: Arial, sans-serif;
+}
+
+.btn-action:hover {
+    background-color: #6A4C9C;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(122, 47, 245, 0.3);
+}
+
+.btn-action i {
+    font-size: 20px;
+}
+
+@media (max-width: 1024px) {
+    .metrics-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .analysis-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .painel-tutor-page {
+        margin-top: 70px;
+        padding: 20px 15px 40px;
+    }
+
+    .painel-tutor-header {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .painel-tutor-titulo {
+        font-size: 28px;
+    }
+
+    .metrics-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .appointments-header {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .appointments-table {
+        overflow-x: scroll;
+    }
+
+    .appointments-table table {
+        min-width: 800px;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+    }
+
+    .btn-action {
+        width: 100%;
+    }
+}
+

@@ -1,0 +1,457 @@
+.relatorios-page {
+    padding: 40px 20px 60px;
+    background-color: #F5F5F5;
+    margin-top: 90px;
+    min-height: calc(100vh - 90px);
+}
+
+.relatorios-container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* Header */
+.relatorios-header {
+    margin-bottom: 40px;
+}
+
+.relatorios-header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.relatorios-titulo {
+    font-size: 42px;
+    font-weight: 700;
+    color: #7A2FF5;
+    margin: 0 0 10px 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-family: 'Ysabeau SC', sans-serif;
+}
+
+.relatorios-subtitulo {
+    font-size: 16px;
+    color: #666;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.relatorios-filters {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.relatorios-periodo-select {
+    padding: 12px 40px 12px 15px;
+    border: 2px solid #E6DFFF;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: Arial, sans-serif;
+    color: #3B2561;
+    background-color: #FFFFFF;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%233B2561' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+}
+
+.relatorios-periodo-select:focus {
+    outline: none;
+    border-color: #7A2FF5;
+    box-shadow: 0 0 0 3px rgba(122, 47, 245, 0.1);
+}
+
+.btn-exportar-relatorio {
+    background-color: #7A2FF5;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 25px;
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Ysabeau SC', sans-serif;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+    box-shadow: 0 4px 15px rgba(122, 47, 245, 0.3);
+}
+
+.btn-exportar-relatorio:hover {
+    background-color: #6A4C9C;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(122, 47, 245, 0.4);
+}
+
+.btn-exportar-relatorio i {
+    font-size: 18px;
+}
+
+/* Cards de Métricas */
+.relatorios-metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    margin-bottom: 40px;
+}
+
+.relatorio-metric-card {
+    background-color: #FFFFFF;
+    border-radius: 16px;
+    padding: 28px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.relatorio-metric-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.relatorio-metric-icon-wrapper {
+    width: 60px;
+    height: 60px;
+    min-width: 60px;
+    min-height: 60px;
+    max-width: 60px;
+    max-height: 60px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.relatorio-metric-icon-wrapper i {
+    font-size: 28px;
+    line-height: 1;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+.relatorio-metric-card.metric-purple .relatorio-metric-icon-wrapper {
+    background-color: #F0E6FF;
+    color: #7A2FF5;
+}
+
+.relatorio-metric-card.metric-orange .relatorio-metric-icon-wrapper {
+    background-color: #FFE5D9;
+    color: #FF6B35;
+}
+
+.relatorio-metric-card.metric-green .relatorio-metric-icon-wrapper {
+    background-color: #D4EDDA;
+    color: #28A745;
+}
+
+.relatorio-metric-content {
+    flex: 1;
+}
+
+.relatorio-metric-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #666;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    font-family: Arial, sans-serif;
+}
+
+.relatorio-metric-value {
+    font-size: 36px;
+    font-weight: 700;
+    color: #3B2561;
+    margin-bottom: 8px;
+    font-family: 'Ysabeau SC', sans-serif;
+    line-height: 1;
+}
+
+.relatorio-metric-trend {
+    font-size: 12px;
+    color: #28A745;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-family: Arial, sans-serif;
+}
+
+.relatorio-metric-trend i {
+    font-size: 14px;
+}
+
+/* Tabs */
+.relatorios-tabs {
+    display: flex;
+    gap: 0;
+    margin-bottom: 30px;
+    border-bottom: 2px solid #E6DFFF;
+}
+
+.relatorio-tab {
+    background: none;
+    border: none;
+    padding: 15px 30px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #666;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Ysabeau SC', sans-serif;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px;
+}
+
+.relatorio-tab:hover {
+    color: #7A2FF5;
+}
+
+.relatorio-tab.active {
+    color: #7A2FF5;
+    border-bottom-color: #7A2FF5;
+}
+
+/* Conteúdo */
+.relatorios-content {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.relatorio-section-card {
+    background-color: #FFFFFF;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.relatorio-section-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #3B2561;
+    margin: 0 0 8px 0;
+    text-transform: uppercase;
+    font-family: 'Ysabeau SC', sans-serif;
+}
+
+.relatorio-section-subtitle {
+    font-size: 14px;
+    color: #666;
+    margin: 0 0 25px 0;
+    font-family: Arial, sans-serif;
+}
+
+/* Grid 3 colunas */
+.relatorios-grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+}
+
+/* Placeholders de gráficos */
+.chart-placeholder {
+    background-color: #F8F5FF;
+    border-radius: 8px;
+    padding: 60px 20px;
+    text-align: center;
+    color: #666;
+    font-family: Arial, sans-serif;
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.chart-placeholder p {
+    margin: 5px 0;
+}
+
+.chart-note {
+    font-size: 12px;
+    color: #999;
+    font-style: italic;
+}
+
+.chart-placeholder-small {
+    background-color: #F8F5FF;
+    border-radius: 8px;
+    padding: 40px 20px;
+    text-align: center;
+    color: #666;
+    font-family: Arial, sans-serif;
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+/* Lista de Espécies */
+.especies-list {
+    margin-bottom: 20px;
+}
+
+.especie-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 15px;
+}
+
+.especie-color-bar {
+    width: 4px;
+    height: 40px;
+    border-radius: 2px;
+    flex-shrink: 0;
+}
+
+.especie-info {
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.especie-nome {
+    font-size: 14px;
+    font-weight: 600;
+    color: #3B2561;
+    text-transform: uppercase;
+    font-family: Arial, sans-serif;
+}
+
+.especie-percentual {
+    font-size: 16px;
+    font-weight: 700;
+    color: #3B2561;
+    font-family: 'Ysabeau SC', sans-serif;
+}
+
+/* Lista de Procedimentos */
+.procedimentos-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.procedimento-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    padding: 15px;
+    background-color: #F8F5FF;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+
+.procedimento-item:hover {
+    background-color: #F0E6FF;
+}
+
+.procedimento-numero {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #7A2FF5;
+    color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 700;
+    flex-shrink: 0;
+    font-family: 'Ysabeau SC', sans-serif;
+}
+
+.procedimento-info {
+    flex: 1;
+}
+
+.procedimento-nome {
+    font-size: 14px;
+    font-weight: 700;
+    color: #3B2561;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    font-family: Arial, sans-serif;
+}
+
+.procedimento-detalhes {
+    font-size: 12px;
+    color: #666;
+    font-family: Arial, sans-serif;
+}
+
+/* Responsividade */
+@media (max-width: 1200px) {
+    .relatorios-metrics-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .relatorios-grid-3 {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .relatorios-page {
+        margin-top: 70px;
+        padding: 30px 15px 40px;
+    }
+
+    .relatorios-titulo {
+        font-size: 28px;
+    }
+
+    .relatorios-header-content {
+        flex-direction: column;
+    }
+
+    .relatorios-filters {
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .relatorios-periodo-select,
+    .btn-exportar-relatorio {
+        width: 100%;
+    }
+
+    .relatorios-metrics-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .relatorios-tabs {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .relatorio-tab {
+        white-space: nowrap;
+        padding: 12px 20px;
+        font-size: 12px;
+    }
+}
