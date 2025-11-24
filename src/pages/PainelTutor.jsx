@@ -82,7 +82,7 @@ const PainelTutor = () => {
             <p className="painel-tutor-subtitulo">ACOMPANHE AS MÉTRICAS E ATIVIDADES EM TEMPO REAL</p>
           </div>
           <Link to="/ambulancia" className="btn-ambulancia">
-            <i className="bi bi-ambulance"></i>
+            <i className="fa fa-ambulance" aria-hidden="true"></i>
             AMBULÂNCIA
           </Link>
         </div>

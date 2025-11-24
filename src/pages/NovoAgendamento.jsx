@@ -5,7 +5,9 @@ import './NovoAgendamento.css';
 const NovoAgendamento = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    paciente: '',
+    // Dados do paciente para backend
+    pacienteId: '', // ID do paciente selecionado
+    paciente: '', // Nome do paciente (para exibição/envio)
     tutor: '',
     profissional: '',
     data: '',
@@ -46,8 +48,16 @@ const NovoAgendamento = () => {
     if (paciente) {
       setFormData(prev => ({
         ...prev,
+        pacienteId: pacienteId,
         paciente: paciente.nome,
         tutor: paciente.tutor
+      }));
+    } else {
+      setFormData(prev => ({
+        ...prev,
+        pacienteId: '',
+        paciente: '',
+        tutor: ''
       }));
     }
   };
@@ -55,19 +65,19 @@ const NovoAgendamento = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    if (!formData.paciente || !formData.profissional || !formData.data || !formData.hora) {
-      alert('Preencha todos os campos obrigatórios');
+    if (!formData.pacienteId || !formData.profissional || !formData.data || !formData.hora) {
+      alert('PREENCHA TODOS OS CAMPOS OBRIGATÓRIOS');
       return;
     }
     
     try {
       // TODO: implementar chamada à API de criação de agendamento
       console.log('Dados do agendamento:', formData);
-      alert('Agendamento será criado pelo backend');
+      alert('AGENDAMENTO SERÁ CRIADO PELO BACKEND');
       navigate('/agendamento-clinica');
     } catch (error) {
       console.error('Erro ao criar agendamento:', error);
-      alert('Erro ao criar agendamento. Tente novamente.');
+      alert('ERRO AO CRIAR AGENDAMENTO. TENTE NOVAMENTE.');
     }
   };
 
@@ -103,7 +113,7 @@ const NovoAgendamento = () => {
                 <select
                   id="paciente"
                   name="paciente"
-                  value={formData.paciente}
+                  value={formData.pacienteId}
                   onChange={handlePacienteChange}
                   required
                 >

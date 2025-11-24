@@ -6,6 +6,8 @@ import ProtectedRoute from './components/ProtectedRoute';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Artigos from './pages/Artigos';
+import ArtigosLista from './pages/ArtigosLista';
+import GuiasPrimeirosSocorros from './pages/GuiasPrimeirosSocorros';
 import Sobre from './pages/Sobre';
 import Servicos from './pages/Servicos';
 import ServicosPlus from './pages/ServicosPlus';
@@ -18,6 +20,7 @@ import HomeLogado from './pages/HomeLogado';
 import Agendamentos from './pages/Agendamentos';
 import AgendamentosClinica from './pages/AgendamentosClinica';
 import NovoAgendamento from './pages/NovoAgendamento';
+import AgendarServico from './pages/AgendarServico';
 import CadastroPet from './pages/CadastroPet';
 import MetodoPagamento from './pages/MetodoPagamento';
 import FinalizarPagamento from './pages/FinalizarPagamento';
@@ -36,6 +39,8 @@ import PerfilProfissional from './pages/PerfilProfissional';
 import EditarPerfilProfissional from './pages/EditarPerfilProfissional';
 import Relatorios from './pages/Relatorios';
 import ConfiguracoesSistema from './pages/ConfiguracoesSistema';
+import GestaoAmbulancia from './pages/GestaoAmbulancia';
+import RegistroOcorrencia from './pages/RegistroOcorrencia';
 import FAQ from './pages/FAQ';
 import AcessoNegado from './pages/AcessoNegado';
 import ChatBotButton from './components/ChatBotButton';
@@ -49,9 +54,12 @@ function AppContent() {
       <Header isLoggedIn={isLoggedIn} />
       <main>
         <Routes>
+          {/* rotas que qualquer usuario pode acessar, sem login */}
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/artigos" element={<Artigos />} />
+          <Route path="/artigos-lista" element={<ArtigosLista />} />
+          <Route path="/guias-primeiros-socorros" element={<GuiasPrimeirosSocorros />} />
           <Route path="/planos" element={<Planos />} />
           <Route path="/sobre" element={<Sobre />} />
           <Route path="/servicos/ver-perfil" element={<ServicosPlus />} />
@@ -69,21 +77,12 @@ function AppContent() {
           <Route path="/cadastro-responsavel-tecnico" element={<CadastroResponsavelTecnico />} />
           <Route path="/cadastro-tutor" element={<CadastroTutor />} />
           
-          {/* rotas protegidas - so clinica pode acessar */}
+          {/* ROTAS PROTEGIDAS -Aqui só a clinica pode acessar*/}
           <Route 
             path="/painel-clinica" 
             element={
               <ProtectedRoute allowedRoles="clinica">
                 <PainelClinica />
-              </ProtectedRoute>
-            } 
-          />
-          {/* rota protegida - so tutor pode acessar */}
-          <Route 
-            path="/painel-tutor" 
-            element={
-              <ProtectedRoute allowedRoles="tutor">
-                <PainelTutor />
               </ProtectedRoute>
             } 
           />
@@ -136,6 +135,48 @@ function AppContent() {
             } 
           />
           <Route 
+            path="/agendamento-clinica" 
+            element={
+              <ProtectedRoute allowedRoles="clinica">
+                <AgendamentosClinica />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/gestao-ambulancia" 
+            element={
+              <ProtectedRoute allowedRoles="clinica">
+                <GestaoAmbulancia />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/registro-ocorrencia" 
+            element={
+              <ProtectedRoute allowedRoles="clinica">
+                <RegistroOcorrencia />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/novo-agendamento" 
+            element={
+              <ProtectedRoute allowedRoles="clinica">
+                <NovoAgendamento />
+              </ProtectedRoute>
+            } 
+          />
+
+          {/* ROTAS PROTEGIDAS -Aqui só o tutor pode acessar*/}
+          <Route 
+            path="/painel-tutor" 
+            element={
+              <ProtectedRoute allowedRoles="tutor">
+                <PainelTutor />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
             path="/perfil" 
             element={
               <ProtectedRoute allowedRoles="tutor">
@@ -152,22 +193,6 @@ function AppContent() {
             } 
           />
           <Route 
-            path="/agendamento-clinica" 
-            element={
-              <ProtectedRoute allowedRoles="clinica">
-                <AgendamentosClinica />
-              </ProtectedRoute>
-            } 
-          />
-          <Route 
-            path="/novo-agendamento" 
-            element={
-              <ProtectedRoute allowedRoles="clinica">
-                <NovoAgendamento />
-              </ProtectedRoute>
-            } 
-          />
-          <Route 
             path="/cadastro-pet" 
             element={
               <ProtectedRoute allowedRoles="tutor">
@@ -176,6 +201,7 @@ function AppContent() {
             } 
           />
           <Route path="/servicos" element={<Servicos />} />
+          <Route path="/agendar-servico" element={<AgendarServico />} />
           <Route path="/faq" element={<FAQ />} />
           
           {/* rota pra quando nao pode acessar */}
@@ -199,3 +225,4 @@ function App() {
 }
 
 export default App;
+

@@ -40,7 +40,7 @@ const RastreamentoAmbulancia = () => {
         }
         return 0;
       });
-    }, 60000); // Atualiza a cada minuto
+    }, 60000);
 
     return () => clearInterval(interval);
   }, []);
