@@ -1,3 +1,7 @@
+/* A ia nao conseguia entender o figma, fiz basicamente essa prr sozinho, rendeu mais de 3 horas nessa prr, to irritado */
+
+
+/* Página de Artigos */
 .artigos-page {
     margin-top: 90px;
     padding: 40px 20px;
@@ -5,245 +9,75 @@
     min-height: calc(100vh - 90px);
 }
 
-.artigos-container {
+/* Botões de navegação ARTIGOS / GUIAS */
+.artigos-navegacao {
     max-width: 1200px;
-    margin: 0 auto;
-}
-
-.artigos-nav {
+    margin: 0 auto 30px auto;
     display: flex;
     gap: 15px;
-    margin-bottom: 30px;
+    padding: 0 20px;
 }
 
-.artigos-nav-btn {
-    background-color: #E6DFFF;
-    color: #6A4C9C;
-    border: none;
-    border-radius: 25px;
+.nav-botao {
     padding: 12px 24px;
+    border-radius: 8px;
     font-size: 14px;
     font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
+    text-decoration: none;
     text-transform: uppercase;
     font-family: 'Ysabeau SC', sans-serif;
+    transition: all 0.3s ease;
+    border: 2px solid #7A2FF5;
+    background-color: #FFFFFF;
+    color: #7A2FF5;
+    cursor: pointer;
 }
 
-.artigos-nav-btn.active {
+.nav-botao:hover {
+    background-color: #F8F6FD;
+}
+
+.nav-botao-ativo {
     background-color: #7A2FF5;
     color: #FFFFFF;
-}
-
-.artigos-nav-btn:hover {
-    background-color: #D0C5EC;
-}
-
-.artigos-nav-btn.active:hover {
-    background-color: #6A4C9C;
-}
-
-.artigos-titulo {
-    font-size: 32px;
-    font-weight: 700;
-    color: #3B2561;
-    margin-bottom: 10px;
-    font-family: 'Ysabeau SC', sans-serif;
-}
-
-.artigos-subtitulo {
-    font-size: 16px;
-    color: #5A4B81;
-    font-family: Arial, sans-serif;
-    margin-bottom: 30px;
-}
-
-.filtros-container {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-    margin-bottom: 40px;
-}
-
-.filtro-btn {
-    background-color: #FFFFFF;
-    color: #6A4C9C;
-    border: 1px solid #E6DFFF;
-    border-radius: 20px;
-    padding: 10px 20px;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-family: 'Ysabeau SC', sans-serif;
-}
-
-.filtro-btn:hover {
-    background-color: #E6DFFF;
     border-color: #7A2FF5;
 }
 
-.filtro-btn img {
-    width: 18px;
-    height: 18px;
-}
-
-.artigos-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 30px;
-    margin-bottom: 40px;
-}
-
-.artigo-card {
-    background-color: #E6DFFF;
-    border: 1px solid #C8B6F0;
-    border-radius: 16px;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.artigo-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-}
-
-.artigo-card-imagem {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-}
-
-.artigo-card-conteudo {
-    padding: 20px;
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-}
-
-.artigo-card-tag {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background-color: #7A2FF5;
-    color: #FFFFFF;
-    padding: 6px 12px;
-    border-radius: 15px;
-    font-size: 11px;
-    font-weight: 600;
-    margin-bottom: 12px;
-    width: fit-content;
-    font-family: 'Ysabeau SC', sans-serif;
-}
-
-.artigo-card-tag img {
-    width: 14px;
-    height: 14px;
-}
-
-.artigo-card-titulo {
-    font-size: 18px;
-    font-weight: 700;
-    color: #3B2561;
-    margin-bottom: 10px;
-    line-height: 1.3;
-    font-family: 'Ysabeau SC', sans-serif;
-}
-
-.artigo-card-descricao {
-    font-size: 13px;
-    color: #6A4C9C;
-    font-family: Arial, sans-serif;
-    line-height: 1.5;
-    margin-bottom: 20px;
-    flex-grow: 1;
-}
-
-.artigo-card-botoes {
-    display: flex;
-    gap: 10px;
-}
-
-.btn-saiba-mais-artigo {
-    flex: 1;
+.nav-botao-ativo:hover {
     background-color: #6A4C9C;
-    color: #FFFFFF;
-    border: none;
-    border-radius: 20px;
-    padding: 10px 20px;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    font-family: 'Ysabeau SC', sans-serif;
-    text-transform: uppercase;
+    border-color: #6A4C9C;
 }
 
-.btn-saiba-mais-artigo:hover {
-    background-color: #3B2561;
-}
-
-.btn-saiba-mais-artigo img {
-    width: 16px;
-    height: 16px;
-}
-
-.btn-ler-artigo {
-    background-color: #F58634;
-    color: #FFFFFF;
-    border: none;
-    border-radius: 20px;
-    padding: 10px 20px;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    font-family: 'Ysabeau SC', sans-serif;
-    text-transform: uppercase;
-}
-
-.btn-ler-artigo:hover {
-    background-color: #E0792F;
-}
-
-.artigo-completo {
-    display: none;
+.artigos-container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 40px 20px;
-    margin-top: 90px;
-}
-
-.artigo-completo.active {
-    display: block;
-}
-
-.artigo-completo-container {
     display: grid;
-    grid-template-columns: 1fr 350px;
-    gap: 40px;
+    grid-template-columns: 2fr 1fr;
+    gap: 30px;
+    align-items: start;
 }
 
-.artigo-completo-main {
+/* Retângulo roxo principal à esquerda */
+.artigo-retangulo-esquerdo {
     background-color: #E6DFFF;
     border-radius: 16px;
     padding: 40px;
 }
 
+/* Metadados do artigo */
 .artigo-meta {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 15px;
     margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.artigo-meta-botoes {
+    display: flex;
+    align-items: center;
+    gap: 10px;
     flex-wrap: wrap;
 }
 
@@ -254,6 +88,7 @@
     color: #6A4C9C;
     font-size: 14px;
     font-family: Arial, sans-serif;
+    flex-shrink: 0;
 }
 
 .artigo-tempo-leitura img {
@@ -261,8 +96,29 @@
     height: 20px;
 }
 
-.btn-ler-complemento {
+.btn-guia {
     background-color: #7A2FF5;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 20px;
+    padding: 8px 16px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    font-family: 'Ysabeau SC', sans-serif;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease;
+    white-space: nowrap;
+    display: inline-block;
+}
+
+.btn-guia:hover {
+    background-color: #6A4C9C;
+}
+
+.btn-ler-complemento {
+    background-color: #F58634;
     color: #FFFFFF;
     border: none;
     border-radius: 20px;
@@ -272,6 +128,12 @@
     cursor: pointer;
     font-family: 'Ysabeau SC', sans-serif;
     text-transform: uppercase;
+    transition: background-color 0.3s ease;
+    white-space: nowrap;
+}
+
+.btn-ler-complemento:hover {
+    background-color: #E0792F;
 }
 
 .btn-salvar-conteudo {
@@ -288,8 +150,16 @@
     gap: 6px;
     font-family: 'Ysabeau SC', sans-serif;
     text-transform: uppercase;
+    transition: all 0.3s ease;
+    white-space: nowrap;
 }
 
+.btn-salvar-conteudo:hover {
+    background-color: #F8F6FD;
+    border-color: #7A2FF5;
+}
+
+/* Informações do autor */
 .artigo-autor-info {
     display: flex;
     align-items: center;
@@ -310,15 +180,17 @@
     font-family: Arial, sans-serif;
 }
 
+/* Título do artigo */
 .artigo-titulo-completo {
     font-size: 32px;
     font-weight: 700;
-    color: #3B2561;
+    color: #7A2FF5;
     margin-bottom: 30px;
     line-height: 1.3;
     font-family: 'Ysabeau SC', sans-serif;
 }
 
+/* Imagem principal */
 .artigo-imagem-principal {
     width: 100%;
     height: 400px;
@@ -327,50 +199,48 @@
     margin-bottom: 30px;
 }
 
+/* Box de alerta */
 .artigo-alerta {
     background-color: #FFF4E6;
     border-left: 4px solid #F58634;
     padding: 20px;
     border-radius: 8px;
     margin-bottom: 30px;
-    display: flex;
-    align-items: flex-start;
-    gap: 15px;
-}
-
-.artigo-alerta img {
-    width: 24px;
-    height: 24px;
-    flex-shrink: 0;
 }
 
 .artigo-alerta-texto {
-    color: #3B2561;
+    color: #7A2FF5;
     font-size: 14px;
     font-family: Arial, sans-serif;
     line-height: 1.6;
+    font-weight: 600;
+    margin: 0;
 }
 
+/* Seções do artigo */
 .artigo-secao {
     margin-bottom: 40px;
 }
 
 .artigo-secao-titulo {
+  
     font-size: 24px;
     font-weight: 700;
-    color: #3B2561;
+    color: #7A2FF5;
     margin-bottom: 20px;
     font-family: 'Ysabeau SC', sans-serif;
 }
 
 .artigo-secao-conteudo {
-    color: #5A4B81;
+ 
+    color: #000000;
     font-size: 16px;
     font-family: Arial, sans-serif;
     line-height: 1.8;
     margin-bottom: 20px;
 }
 
+/* Passos numerados */
 .artigo-passo {
     display: flex;
     gap: 20px;
@@ -391,6 +261,10 @@
     font-weight: 700;
     flex-shrink: 0;
     font-family: 'Ysabeau SC', sans-serif;
+    /* SIFUDE, MSM ALINHANDO COM FLEX O BAGUIO NAO VAI EU IREI ENLOQU*/
+    line-height: 1;
+    padding: 0;
+    margin: 0;
 }
 
 .artigo-passo-conteudo {
@@ -400,123 +274,23 @@
 .artigo-passo-titulo {
     font-size: 18px;
     font-weight: 700;
-    color: #3B2561;
+    color: #7A2FF5;
     margin-bottom: 10px;
     font-family: 'Ysabeau SC', sans-serif;
 }
 
 .artigo-passo-texto {
-    color: #5A4B81;
+    color: #000000;
     font-size: 15px;
     font-family: Arial, sans-serif;
     line-height: 1.7;
 }
 
-.artigo-sidebar {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.sidebar-card {
-    background-color: #E6DFFF;
-    border-radius: 16px;
-    padding: 25px;
-}
-
-.sidebar-card-titulo {
-    font-size: 18px;
-    font-weight: 700;
-    color: #3B2561;
-    margin-bottom: 15px;
-    font-family: 'Ysabeau SC', sans-serif;
-}
-
-.sidebar-lista {
-    list-style: none;
-    padding: 0;
-}
-
-.sidebar-lista li {
-    margin-bottom: 12px;
-}
-
-.sidebar-lista a {
-    color: #6A4C9C;
-    text-decoration: none;
-    font-size: 14px;
-    font-family: Arial, sans-serif;
-    transition: color 0.3s ease;
-}
-
-.sidebar-lista a:hover,
-.sidebar-lista a.active {
-    color: #7A2FF5;
-    font-weight: 600;
-}
-
-.sidebar-emergencia {
-    background-color: #FFF4E6;
-    border: 2px solid #F58634;
-}
-
-.sidebar-emergencia-texto {
-    color: #3B2561;
-    font-size: 14px;
-    font-family: Arial, sans-serif;
-    line-height: 1.6;
-    margin-bottom: 15px;
-}
-
-.btn-chamar-ambulancia {
-    background-color: #F58634;
-    color: #FFFFFF;
-    border: none;
-    border-radius: 20px;
-    padding: 12px 20px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    text-decoration: none;
-    font-family: 'Ysabeau SC', sans-serif;
-    text-transform: uppercase;
-}
-
-.btn-chamar-ambulancia:hover {
-    background-color: #E0792F;
-}
-
-.sidebar-autor {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.sidebar-autor-icon {
-    width: 40px;
-    height: 40px;
-    background-color: #D0C5EC;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.sidebar-autor-texto {
-    font-size: 14px;
-    color: #6A4C9C;
-    font-family: Arial, sans-serif;
-}
-
+/* Botões de ação */
 .artigo-botoes-acoes {
     display: flex;
     gap: 15px;
-    justify-content: center;
+    justify-content: space-between;
     margin-top: 40px;
 }
 
@@ -534,6 +308,7 @@
     gap: 8px;
     font-family: 'Ysabeau SC', sans-serif;
     text-transform: uppercase;
+    transition: background-color 0.3s ease;
 }
 
 .btn-voltar:hover {
@@ -555,21 +330,167 @@
     font-weight: 600;
     cursor: pointer;
     text-decoration: none;
-    display: inline-block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-family: 'Ysabeau SC', sans-serif;
     text-transform: uppercase;
+    transition: background-color 0.3s ease;
+    line-height: 1;
 }
 
 .btn-chamar-ambulancia-footer:hover {
     background-color: #E0792F;
 }
 
+/* Sidebar com 3 cards à direita */
+.artigos-sidebar-direita {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.sidebar-card {
+    background-color: #E6DFFF;
+    border-radius: 16px;
+    padding: 25px;
+}
+
+.sidebar-card-titulo {
+    font-size: 18px;
+    font-weight: 700;
+    color: #7A2FF5;
+    margin-bottom: 15px;
+    font-family: 'Ysabeau SC', sans-serif;
+}
+
+/* Lista de navegação do guia */
+.sidebar-lista {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar-lista li {
+    margin-bottom: 12px;
+}
+
+.sidebar-lista a {
+    color: #6A4C9C;
+    text-decoration: none;
+    font-size: 14px;
+    font-family: Arial, sans-serif;
+    transition: color 0.3s ease;
+}
+
+.sidebar-lista a:hover {
+    color: #7A2FF5;
+    font-weight: 600;
+}
+
+.sidebar-lista a.active {
+    color: #7A2FF5;
+    font-weight: 600;
+    position: relative;
+    padding-left: 15px;
+}
+
+.sidebar-lista a.active::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: #7A2FF5;
+    font-weight: bold;
+}
+
+/* Card de emergência */
+.sidebar-emergencia {
+    background-color: #E6DFFF;
+    border: none;
+    border-radius: 16px;
+}
+
+.sidebar-emergencia-texto {
+    color: #6A4C9C;
+    font-size: 14px;
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.sidebar-emergencia-acoes {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.sidebar-emergencia-foto {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.btn-chamar-ambulancia {
+    background-color: #F58634;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 20px;
+    padding: 12px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-decoration: none;
+    font-family: 'Ysabeau SC', sans-serif;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease;
+}
+
+.btn-chamar-ambulancia:hover {
+    background-color: #E0792F;
+}
+
+/* Card do autor */
+.sidebar-autor {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.sidebar-autor-icon {
+    width: 40px;
+    height: 40px;
+    background-color: #D0C5EC;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sidebar-autor-icon-img {
+    width: 24px;
+    height: 24px;
+}
+
+.sidebar-autor-texto {
+    font-size: 14px;
+    color: #6A4C9C;
+    font-family: Arial, sans-serif;
+}
+
+/* Responsive */
 @media (max-width: 1024px) {
-    .artigo-completo-container {
+    .artigos-container {
         grid-template-columns: 1fr;
+        gap: 20px;
     }
 
-    .artigo-sidebar {
+    .artigos-sidebar-direita {
         order: -1;
     }
 }
@@ -580,70 +501,7 @@
         padding: 20px 15px;
     }
 
-    .artigos-nav {
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    .artigos-nav-btn {
-        width: 100%;
-        padding: 12px;
-        font-size: 13px;
-    }
-
-    .artigos-titulo {
-        font-size: 24px;
-        text-align: center;
-    }
-
-    .artigos-subtitulo {
-        font-size: 14px;
-        text-align: center;
-    }
-
-    .filtros-container {
-        justify-content: center;
-        gap: 8px;
-    }
-
-    .filtro-btn {
-        padding: 8px 16px;
-        font-size: 12px;
-    }
-
-    .filtro-btn img {
-        width: 16px;
-        height: 16px;
-    }
-
-    .artigos-grid {
-        grid-template-columns: 1fr;
-        gap: 20px;
-    }
-
-    .artigo-card {
-        width: 100%;
-    }
-
-    .artigo-card-imagem {
-        height: 180px;
-    }
-
-    .artigo-card-botoes {
-        flex-direction: column;
-    }
-
-    .btn-saiba-mais-artigo,
-    .btn-ler-artigo {
-        width: 100%;
-    }
-
-    .artigo-completo {
-        padding: 20px 15px;
-        margin-top: 70px;
-    }
-
-    .artigo-completo-main {
+    .artigo-retangulo-esquerdo {
         padding: 25px 20px;
     }
 
@@ -653,79 +511,12 @@
         gap: 10px;
     }
 
-    .artigo-tempo-leitura {
-        font-size: 12px;
-    }
-
-    .btn-ler-complemento,
-    .btn-salvar-conteudo {
-        width: 100%;
-        font-size: 11px;
-        padding: 10px;
-    }
-
-    .artigo-autor-info {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 8px;
-    }
-
-    .artigo-autor-foto {
-        width: 40px;
-        height: 40px;
-    }
-
-    .artigo-autor-texto {
-        font-size: 12px;
-    }
-
     .artigo-titulo-completo {
         font-size: 22px;
     }
 
     .artigo-imagem-principal {
         height: 250px;
-    }
-
-    .artigo-alerta {
-        padding: 15px;
-        flex-direction: column;
-    }
-
-    .artigo-alerta img {
-        width: 20px;
-        height: 20px;
-    }
-
-    .artigo-alerta-texto {
-        font-size: 13px;
-    }
-
-    .artigo-secao-titulo {
-        font-size: 20px;
-    }
-
-    .artigo-secao-conteudo {
-        font-size: 14px;
-    }
-
-    .artigo-passo {
-        flex-direction: column;
-        gap: 15px;
-    }
-
-    .artigo-passo-numero {
-        width: 40px;
-        height: 40px;
-        font-size: 20px;
-    }
-
-    .artigo-passo-titulo {
-        font-size: 16px;
-    }
-
-    .artigo-passo-texto {
-        font-size: 14px;
     }
 
     .artigo-botoes-acoes {
@@ -737,21 +528,221 @@
     .btn-chamar-ambulancia-footer {
         width: 100%;
     }
+}
 
-    .sidebar-card {
-        padding: 20px;
+/* Página de Lista de Guias */
+.guias-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.guias-titulo {
+    font-size: 36px;
+    font-weight: 700;
+    color: #7A2FF5;
+    margin-bottom: 10px;
+    font-family: 'Ysabeau SC', sans-serif;
+    text-transform: uppercase;
+}
+
+.guias-subtitulo {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 30px;
+    font-family: 'Ysabeau SC', sans-serif;
+}
+
+/* Botões de filtro */
+.guias-filtros {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+}
+
+.filtro-botao {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background-color: #7A2FF5;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'Ysabeau SC', sans-serif;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease;
+}
+
+.filtro-botao:hover {
+    background-color: #6A4C9C;
+}
+
+.filtro-botao img {
+    width: 20px;
+    height: 20px;
+}
+
+/* Lista de guias */
+.guias-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.guia-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background-color: #E6DFFF;
+    border-radius: 16px;
+    overflow: hidden;
+    gap: 0;
+}
+
+.guia-card-conteudo {
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.guia-card-header {
+    margin-bottom: 15px;
+}
+
+.guia-categoria-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.guia-icone-categoria {
+    width: 20px;
+    height: 20px;
+}
+
+.guia-categoria {
+    font-size: 12px;
+    font-weight: 600;
+    color: #7A2FF5;
+    font-family: 'Ysabeau SC', sans-serif;
+    text-transform: uppercase;
+}
+
+.guia-tempo {
+    font-size: 12px;
+    font-weight: 600;
+    color: #7A2FF5;
+    font-family: 'Ysabeau SC', sans-serif;
+    text-transform: uppercase;
+    margin-left: auto;
+}
+
+.guia-titulo {
+    font-size: 24px;
+    font-weight: 700;
+    color: #000000;
+    margin-bottom: 15px;
+    font-family: 'Ysabeau SC', sans-serif;
+    text-transform: uppercase;
+    line-height: 1.3;
+}
+
+.guia-descricao {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 20px;
+    font-family: 'Ysabeau SC', sans-serif;
+    text-transform: uppercase;
+    line-height: 1.5;
+}
+
+.guia-botoes {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.btn-adicionar-lista {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background-color: transparent;
+    color: #7A2FF5;
+    border: 2px solid #7A2FF5;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'Ysabeau SC', sans-serif;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+}
+
+.btn-adicionar-lista:hover {
+    background-color: #7A2FF5;
+    color: #FFFFFF;
+}
+
+.btn-adicionar-lista img {
+    width: 18px;
+    height: 18px;
+}
+
+.btn-ler-guia {
+    padding: 10px 30px;
+    background-color: #F58634;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    font-family: 'Ysabeau SC', sans-serif;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease;
+    display: inline-block;
+}
+
+.btn-ler-guia:hover {
+    background-color: #E0792F;
+}
+
+.guia-card-imagem {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.guia-card-imagem img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Responsividade para guias */
+@media (max-width: 768px) {
+    .guia-card {
+        grid-template-columns: 1fr;
     }
 
-    .sidebar-card-titulo {
-        font-size: 16px;
+    .guia-card-imagem {
+        order: -1;
+        height: 250px;
     }
 
-    .sidebar-emergencia {
+    .guias-filtros {
         flex-direction: column;
     }
 
-    .btn-chamar-ambulancia {
+    .filtro-botao {
         width: 100%;
-        margin-top: 10px;
+        justify-content: center;
     }
 }

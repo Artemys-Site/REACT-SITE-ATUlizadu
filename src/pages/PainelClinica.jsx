@@ -20,15 +20,8 @@ const PainelClinica = () => {
     sessionStorage.setItem('contexto_clinica', 'true');
   }, []);
   
-  // verifica se tem ambulancia cadastrada
-  // o botao so aparece se marcou sim no cadastro do responsavel tecnico
-  // o backend pode retornar um desses campos no user:
-  // temAmbulancia (true/false)
-  // cadastrarAmbulancia ('sim'/'nao')
-  // temAmbulanciaCadastrada (true/false)
-  const temAmbulancia = user?.temAmbulancia === true || 
-                        user?.cadastrarAmbulancia === 'sim' ||
-                        user?.temAmbulanciaCadastrada === true;
+  // TODO: Quando o backend estiver pronto, verificar se a clínica possui ambulância cadastrada
+  // e condicionar a exibição do botão. Por enquanto, o botão aparece sempre.
 
   const metrics = {
     agendamentos: {
@@ -143,12 +136,10 @@ const PainelClinica = () => {
             <h1 className="painel-tutor-titulo">PAINEL DA CLÍNICA</h1>
             <p className="painel-tutor-subtitulo">ACOMPANHE AS MÉTRICAS E ATIVIDADES EM TEMPO REAL</p>
           </div>
-          {temAmbulancia && (
-            <Link to="/ambulancia" className="btn-ambulancia">
-              <i className="bi bi-ambulance"></i>
-              AMBULÂNCIA
-            </Link>
-          )}
+          <Link to="/gestao-ambulancia" className="btn-ambulancia">
+            <i className="fa fa-ambulance" aria-hidden="true"></i>
+            AMBULÂNCIA
+          </Link>
         </div>
 
         {/* Cards de Métricas */}
@@ -241,9 +232,6 @@ const PainelClinica = () => {
                 <p className="appointments-subtitle">ÚLTIMAS CONSULTAS AGENDADAS NO SISTEMA</p>
               </div>
             </div>
-            <Link to="/agendamento-clinica" className="btn-ver-todos">
-              VER TODOS
-            </Link>
           </div>
 
           <div className="appointments-table">

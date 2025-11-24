@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Servicos.css';
 import iconSearch from '../assets/iconSearch.png';
 import iconLocation from '../assets/iconLocation.png';
@@ -9,6 +9,7 @@ import iconCloack from '../assets/iconCloack.png';
 import iconTelefone from '../assets/iconTelefone.png';
 
 const Servicos = () => {
+  const navigate = useNavigate();
   const [filtroAba, setFiltroAba] = useState('todos');
   const [buscaTexto, setBuscaTexto] = useState('');
   const [buscaLocal, setBuscaLocal] = useState('');
@@ -133,7 +134,7 @@ const Servicos = () => {
         <div className="busca-servicos-container">
           <h2 className="busca-servicos-titulo">Encontre o Melhor Cuidado para Seu Pet</h2>
           <p className="busca-servicos-subtitulo">
-            Conectando você aos melhores profissionais e clínicas veterinárias
+            CONECTANDO VOCÊ AOS MELHORES PROFISSIONAIS E CLÍNICAS VETERINÁRIAS
           </p>
 
           <form className="busca-input-group" onSubmit={handleBuscar}>
@@ -215,42 +216,47 @@ const Servicos = () => {
           </div>
 
           <div className="grid-resultados">
-            {servicosFiltrados.map(servico => (
-              <div key={servico.id} className="card-servico" data-tipo={servico.tipo}>
-                <div className="card-servico-imagem-wrapper">
-                  <img src={servico.imagem} alt={servico.nome} />
-                  {servico.tipo === 'clinica' && (
-                    <p className="nome-entidade">{servico.nome}</p>
-                  )}
+            {servicosFiltrados.map((servico) => {
+              return (
+                <div key={servico.id} className="card-servico" data-tipo={servico.tipo}>
+                  <div className="card-servico-imagem-wrapper">
+                    <img src={servico.imagem} alt={servico.nome} />
+                    {servico.tipo === 'clinica' && (
+                      <p className="nome-entidade">{servico.nome}</p>
+                    )}
+                  </div>
+                  <div className="card-servico-info">
+                    <div className="card-header-info">
+                      <h3>{servico.nome}</h3>
+                      <span className="avaliacao-badge">{servico.avaliacao}</span>
+                    </div>
+                    <p className="especialidade-vet">{servico.especialidade}</p>
+                    <p className="local-anos">
+                      <img src={iconLocation} alt="Localização" /> {servico.localizacao}{' '}
+                      <img src={iconMaleta} alt="Maleta" /> {servico.anos}
+                    </p>
+                    <p className="horario-valor">
+                      <img src={iconCloack} alt="Horário" /> {servico.horario}{' '}
+                      <span className="valor-consulta">{servico.valor}</span>
+                    </p>
+                    <div className="tags-servicos">
+                      {servico.tags.map((tag, index) => (
+                        <span key={index}>{tag}</span>
+                      ))}
+                    </div>
+                    <div className="card-botoes">
+                      <button 
+                        className="btn-contato"
+                        onClick={() => navigate('/agendar-servico', { state: { profissional: servico } })}
+                      >
+                        <img src={iconTelefone} alt="Telefone" /> Contatar
+                      </button>
+                      <Link to="/servicos/ver-perfil" className="btn-ver-perfil">Ver Perfil</Link>
+                    </div>
+                  </div>
                 </div>
-                <div className="card-servico-info">
-                  <div className="card-header-info">
-                    <h3>{servico.nome}</h3>
-                    <span className="avaliacao-badge">{servico.avaliacao}</span>
-                  </div>
-                  <p className="especialidade-vet">{servico.especialidade}</p>
-                  <p className="local-anos">
-                    <img src={iconLocation} alt="Localização" /> {servico.localizacao}{' '}
-                    <img src={iconMaleta} alt="Maleta" /> {servico.anos}
-                  </p>
-                  <p className="horario-valor">
-                    <img src={iconCloack} alt="Horário" /> {servico.horario}{' '}
-                    <span className="valor-consulta">{servico.valor}</span>
-                  </p>
-                  <div className="tags-servicos">
-                    {servico.tags.map((tag, index) => (
-                      <span key={index}>{tag}</span>
-                    ))}
-                  </div>
-                  <div className="card-botoes">
-                    <button className="btn-contato">
-                      <img src={iconTelefone} alt="Telefone" /> Contatar
-                    </button>
-                    <Link to="/servicos/ver-perfil" className="btn-ver-perfil">Ver Perfil</Link>
-                  </div>
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>

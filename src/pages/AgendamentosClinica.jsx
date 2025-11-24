@@ -107,7 +107,7 @@ const AgendamentosClinica = () => {
   const statusOptions = ['TODOS', 'CONFIRMADA', 'PENDENTE', 'CANCELADA'];
 
   // filtrar agendamentos
-  const filteredAgendamentos = agendamentos.filter(ag => {
+  const filteredAgendamentos = agendamentos.filter(ag => { //esse filteredAgendamentos filtra o que está no react, quando tiver banco de dados mude para o banco de dados
     const matchSearch = !searchTerm || 
       ag.paciente.toLowerCase().includes(searchTerm.toLowerCase()) ||
       ag.tutor.toLowerCase().includes(searchTerm.toLowerCase()) ||

@@ -140,27 +140,27 @@ const Header = ({ isLoggedIn: propIsLoggedIn }) => {
             <>
               <li>
                 <Link to="/home-logado" className={isActive('/home-logado')} onClick={closeMenu}>
-                  Início
+                  INÍCIO
                 </Link>
               </li>
               <li>
                 <Link to="/artigos" className={isActive('/artigos')} onClick={closeMenu}>
-                  Artigos
+                  ARTIGOS
                 </Link>
               </li>
               <li>
                 <Link to="/planos" className={isActive('/planos')} onClick={closeMenu}>
-                  Planos de Assinatura
+                  PLANOS DE ASSINATURA
                 </Link>
               </li>
               <li>
                 <Link to="/agendamento-tutor" className={isActive('/agendamento-tutor')} onClick={closeMenu}>
-                  Agendamentos
+                  AGENDAMENTOS
                 </Link>
               </li>
               <li>
                 <Link to="/servicos" className={isActive('/servicos')} onClick={closeMenu}>
-                  Serviços
+                  SERVIÇOS
                 </Link>
               </li>
             </>
@@ -168,27 +168,27 @@ const Header = ({ isLoggedIn: propIsLoggedIn }) => {
             <>
               <li>
                 <Link to="/" className={isActive('/')} onClick={closeMenu}>
-                  Início
+                  INÍCIO
                 </Link>
               </li>
               <li>
                 <Link to="/artigos" className={isActive('/artigos')} onClick={closeMenu}>
-                  Artigos
+                  ARTIGOS
                 </Link>
               </li>
               <li>
                 <Link to="/planos" className={isActive('/planos')} onClick={closeMenu}>
-                  Planos de Assinatura
+                  PLANOS DE ASSINATURA
                 </Link>
               </li>
               <li>
                 <Link to="/sobre" className={isActive('/sobre')} onClick={closeMenu}>
-                  Sobre Nós
+                  SOBRE NÓS
                 </Link>
               </li>
               <li>
                 <Link to="/servicos" className={isActive('/servicos')} onClick={closeMenu}>
-                  Serviços
+                  SERVIÇOS
                 </Link>
               </li>
             </>
@@ -197,8 +197,8 @@ const Header = ({ isLoggedIn: propIsLoggedIn }) => {
 
         {!shouldShowLoggedInHeader ? (
           <div className="nav-buttons">
-            <Link to="/login" className="btn-login">Entrar</Link>
-            <Link to="/cadastro" className="btn-signup">Cadastrar</Link>
+            <Link to="/login" className="btn-login">ENTRAR</Link>
+            <Link to="/cadastro" className="btn-signup">CADASTRAR</Link>
           </div>
         ) : (
           <div className="nav-user-actions">
@@ -229,15 +229,15 @@ const Header = ({ isLoggedIn: propIsLoggedIn }) => {
                   <>
                     <Link to="/perfil" className="dropdown-item" onClick={() => setIsDropdownOpen(false)}>
                       <i className="bi bi-person"></i>
-                      Meu Perfil
+                      MEU PERFIL
                     </Link>
                     <Link to="/agendamento-tutor" className="dropdown-item" onClick={() => setIsDropdownOpen(false)}>
                       <i className="bi bi-calendar-check"></i>
-                      Agendamentos
+                      AGENDAMENTOS
                     </Link>
                     <Link to="/perfil#pagamento" className="dropdown-item" onClick={() => setIsDropdownOpen(false)}>
                       <i className="bi bi-credit-card"></i>
-                      Pagamento
+                      PAGAMENTO
                     </Link>
                     <div className="dropdown-divider"></div>
                     <Link 
@@ -250,22 +250,22 @@ const Header = ({ isLoggedIn: propIsLoggedIn }) => {
                         navigate('/');
                       }}
                     >
-                      Sair
+                      SAIR
                     </Link>
                   </>
                 ) : isClinica ? (
                   <>
                     <Link to="/painel-clinica" className="dropdown-item" onClick={() => setIsDropdownOpen(false)}>
                       <i className="bi bi-speedometer2"></i>
-                      Painel
+                      PAINEL
                     </Link>
                     <Link to="/agendamento-clinica" className="dropdown-item" onClick={() => setIsDropdownOpen(false)}>
                       <i className="bi bi-calendar-check"></i>
-                      Agendamentos
+                      AGENDAMENTOS
                     </Link>
                     <Link to="/relatorios" className="dropdown-item" onClick={() => setIsDropdownOpen(false)}>
                       <i className="bi bi-file-earmark-text"></i>
-                      Relatórios
+                      RELATÓRIOS
                     </Link>
                     <div className="dropdown-divider"></div>
                     <Link 
@@ -278,14 +278,14 @@ const Header = ({ isLoggedIn: propIsLoggedIn }) => {
                         navigate('/');
                       }}
                     >
-                      Sair
+                      SAIR
                     </Link>
                   </>
                 ) : (
                   <>
-                    <Link to="/perfil" className="dropdown-item" onClick={() => setIsDropdownOpen(false)}>Meu Perfil</Link>
-                    <Link to="/agendamento-tutor" className="dropdown-item" onClick={() => setIsDropdownOpen(false)}>Agendamentos</Link>
-                    <Link to="/perfil#pagamento" className="dropdown-item" onClick={() => setIsDropdownOpen(false)}>Pagamento</Link>
+                    <Link to="/perfil" className="dropdown-item" onClick={() => setIsDropdownOpen(false)}>MEU PERFIL</Link>
+                    <Link to="/agendamento-tutor" className="dropdown-item" onClick={() => setIsDropdownOpen(false)}>AGENDAMENTOS</Link>
+                    <Link to="/perfil#pagamento" className="dropdown-item" onClick={() => setIsDropdownOpen(false)}>PAGAMENTO</Link>
                     <Link 
                       to="/" 
                       className="dropdown-item" 
@@ -296,7 +296,7 @@ const Header = ({ isLoggedIn: propIsLoggedIn }) => {
                         navigate('/');
                       }}
                     >
-                      Sair
+                      SAIR
                     </Link>
                   </>
                 )}

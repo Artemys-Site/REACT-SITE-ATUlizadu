@@ -1,0 +1,972 @@
+.registro-ocorrencia-page {
+    padding: 40px 20px 60px;
+    background-color: #F5F5F5;
+    margin-top: 90px;
+    min-height: calc(100vh - 90px);
+}
+
+.registro-ocorrencia-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Header */
+.registro-header {
+    margin-bottom: 30px;
+}
+
+.btn-voltar-registro {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #7A2FF5;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+    font-family: Arial, sans-serif;
+}
+
+.btn-voltar-registro:hover {
+    color: #6A4C9C;
+    transform: translateX(-5px);
+}
+
+.btn-voltar-registro i {
+    font-size: 18px;
+}
+
+.registro-titulo {
+    font-size: 32px;
+    font-weight: 700;
+    color: #3B2561;
+    margin: 0 0 10px 0;
+    text-transform: uppercase;
+    font-family: 'Ysabeau SC', sans-serif;
+}
+
+.registro-subtitulo {
+    font-size: 16px;
+    color: #666;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+/* Banner de Status */
+.ocorrencia-status-banner {
+    background-color: #FF6B35;
+    color: #FFFFFF;
+    padding: 15px 25px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+}
+
+.ocorrencia-status-banner i {
+    font-size: 24px;
+}
+
+.ocorrencia-status-banner div {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.status-text {
+    font-weight: 700;
+    font-size: 14px;
+    text-transform: uppercase;
+    font-family: 'Ysabeau SC', sans-serif;
+}
+
+.status-time {
+    font-size: 13px;
+    opacity: 0.9;
+    font-family: Arial, sans-serif;
+}
+
+/* Form */
+.form-registro-ocorrencia {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+/* Seções */
+.registro-section {
+    background-color: #FFFFFF;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 15px 20px;
+    border-radius: 8px;
+    margin-bottom: 25px;
+    margin-left: -30px;
+    margin-right: -30px;
+    margin-top: -30px;
+}
+
+.section-header.purple-header {
+    background-color: #7A2FF5;
+    color: #FFFFFF;
+}
+
+.section-header.orange-header {
+    background-color: #FF6B35;
+    color: #FFFFFF;
+}
+
+.section-header.green-header {
+    background-color: #28A745;
+    color: #FFFFFF;
+}
+
+.section-header i {
+    font-size: 24px;
+}
+
+.section-titulo {
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0;
+    text-transform: uppercase;
+    font-family: 'Ysabeau SC', sans-serif;
+}
+
+/* Seção Paciente */
+.paciente-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 30px;
+}
+
+.paciente-left {
+    display: flex;
+    gap: 20px;
+    flex: 1;
+}
+
+.paciente-foto {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #E6DFFF;
+    flex-shrink: 0;
+}
+
+.paciente-info {
+    flex: 1;
+}
+
+.paciente-nome {
+    font-size: 28px;
+    font-weight: 700;
+    color: #3B2561;
+    margin: 0 0 8px 0;
+    text-transform: uppercase;
+    font-family: 'Ysabeau SC', sans-serif;
+}
+
+.paciente-especie {
+    font-size: 14px;
+    color: #666;
+    margin: 0 0 15px 0;
+    font-weight: 600;
+    font-family: Arial, sans-serif;
+}
+
+.paciente-details {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 15px;
+}
+
+.paciente-details span {
+    font-size: 13px;
+    color: #3B2561;
+    font-family: Arial, sans-serif;
+}
+
+.btn-historico-medico {
+    background-color: #7A2FF5;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 16px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    cursor: pointer;
+    margin-bottom: 10px;
+    font-family: Arial, sans-serif;
+}
+
+.paciente-historico-texto {
+    font-size: 13px;
+    color: #666;
+    margin: 10px 0 0 0;
+    font-family: Arial, sans-serif;
+    line-height: 1.5;
+}
+
+.paciente-right {
+    display: flex;
+    align-items: flex-start;
+}
+
+.badge-cadastrado {
+    background-color: #7A2FF5;
+    color: #FFFFFF;
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-family: Arial, sans-serif;
+}
+
+/* Seção Tutor */
+.tutor-section {
+    background-color: #F8F5FF;
+}
+
+.tutor-content {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.tutor-info-item {
+    font-size: 14px;
+    color: #3B2561;
+    font-family: Arial, sans-serif;
+}
+
+.tutor-info-item strong {
+    font-weight: 700;
+    margin-right: 8px;
+}
+
+/* Form Groups */
+.form-group-registro {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.form-group-registro:last-child {
+    margin-bottom: 0;
+}
+
+.form-group-registro label {
+    font-size: 13px;
+    font-weight: 700;
+    color: #3B2561;
+    text-transform: uppercase;
+    font-family: Arial, sans-serif;
+}
+
+.input-registro,
+.select-registro,
+.textarea-registro {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #E6DFFF;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: Arial, sans-serif;
+    color: #3B2561;
+    background-color: #FFFFFF;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+}
+
+.input-registro:focus,
+.select-registro:focus,
+.textarea-registro:focus {
+    outline: none;
+    border-color: #7A2FF5;
+    box-shadow: 0 0 0 3px rgba(122, 47, 245, 0.1);
+}
+
+.input-registro::placeholder,
+.textarea-registro::placeholder {
+    color: #999;
+}
+
+.textarea-registro {
+    resize: vertical;
+    min-height: 100px;
+    font-family: Arial, sans-serif;
+}
+
+.form-row-registro {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+/* Sinais Vitais */
+.sinais-vitais-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 20px;
+}
+
+/* Procedimentos */
+.form-adicionar-procedimento {
+    margin-bottom: 25px;
+    padding-bottom: 25px;
+    border-bottom: 2px solid #E6DFFF;
+}
+
+.btn-adicionar-procedimento {
+    background-color: #28A745;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 25px;
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Ysabeau SC', sans-serif;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 15px;
+}
+
+.btn-adicionar-procedimento:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+}
+
+.btn-adicionar-procedimento i {
+    font-size: 18px;
+}
+
+.lista-vazia {
+    color: #999;
+    font-size: 14px;
+    font-style: italic;
+    text-align: center;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.lista-procedimentos,
+.lista-medicacoes {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.item-lista {
+    background-color: #F8F5FF;
+    padding: 12px 18px;
+    border-radius: 8px;
+    border-left: 4px solid #28A745;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: Arial, sans-serif;
+}
+
+.item-lista strong {
+    color: #3B2561;
+    font-size: 14px;
+}
+
+.item-lista span {
+    color: #666;
+    font-size: 13px;
+}
+
+/* Medicações */
+.medicacoes-comuns {
+    margin-bottom: 25px;
+    padding-bottom: 25px;
+    border-bottom: 2px solid #E6DFFF;
+}
+
+.medicacoes-comuns label {
+    display: block;
+    margin-bottom: 12px;
+}
+
+.medicacoes-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.medicacao-tag {
+    background-color: #F0E6FF;
+    color: #7A2FF5;
+    border: 2px solid #E6DFFF;
+    border-radius: 20px;
+    padding: 8px 16px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: Arial, sans-serif;
+}
+
+.medicacao-tag:hover {
+    background-color: #7A2FF5;
+    color: #FFFFFF;
+    border-color: #7A2FF5;
+}
+
+.form-adicionar-medicacao {
+    margin-bottom: 25px;
+}
+
+.btn-adicionar-medicacao {
+    background-color: #7A2FF5;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 25px;
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Ysabeau SC', sans-serif;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 15px;
+}
+
+.btn-adicionar-medicacao:hover {
+    background-color: #6A4C9C;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(122, 47, 245, 0.3);
+}
+
+.btn-adicionar-medicacao i {
+    font-size: 18px;
+}
+
+.lista-medicacoes .item-lista {
+    border-left-color: #7A2FF5;
+}
+
+/* Banner Importante */
+.banner-importante {
+    background-color: #F0E6FF;
+    border: 2px solid #7A2FF5;
+    border-radius: 12px;
+    padding: 20px 25px;
+    display: flex;
+    gap: 15px;
+    margin: 25px 0;
+}
+
+.banner-importante i {
+    font-size: 28px;
+    color: #7A2FF5;
+    flex-shrink: 0;
+}
+
+.banner-importante strong {
+    display: block;
+    color: #7A2FF5;
+    font-size: 16px;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+    font-family: 'Ysabeau SC', sans-serif;
+}
+
+.banner-importante p {
+    color: #3B2561;
+    font-size: 14px;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    line-height: 1.5;
+}
+
+/* Botões de Ação */
+.registro-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    padding-top: 30px;
+    border-top: 2px solid #E6DFFF;
+    margin-top: 25px;
+}
+
+.btn-salvar-ocorrencia {
+    background-color: #FFFFFF;
+    color: #3B2561;
+    border: 2px solid #E6DFFF;
+    border-radius: 8px;
+    padding: 14px 30px;
+    font-size: 16px;
+    font-weight: 700;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Ysabeau SC', sans-serif;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.btn-salvar-ocorrencia:hover {
+    background-color: #F8F5FF;
+    border-color: #7A2FF5;
+    color: #7A2FF5;
+}
+
+.btn-finalizar-ocorrencia {
+    background-color: #28A745;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 8px;
+    padding: 14px 30px;
+    font-size: 16px;
+    font-weight: 700;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Ysabeau SC', sans-serif;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+}
+
+.btn-finalizar-ocorrencia:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
+}
+
+.btn-salvar-ocorrencia i,
+.btn-finalizar-ocorrencia i {
+    font-size: 20px;
+}
+
+/* Modais */
+.modal-overlay-registro {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    padding: 20px;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.modal-registro {
+    background-color: #FFFFFF;
+    border-radius: 16px;
+    max-width: 700px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.modal-header-registro {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px 40px;
+    border-bottom: 2px solid #E6DFFF;
+    background-color: #F8F5FF;
+    border-radius: 16px 16px 0 0;
+}
+
+.modal-titulo-registro {
+    font-size: 24px;
+    font-weight: 700;
+    color: #7A2FF5;
+    margin: 0;
+    text-transform: uppercase;
+    font-family: 'Ysabeau SC', sans-serif;
+}
+
+.modal-close-registro {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #666;
+    cursor: pointer;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    width: 36px;
+    height: 36px;
+}
+
+.modal-close-registro:hover {
+    background-color: #FFFFFF;
+    color: #7A2FF5;
+}
+
+.modal-body-registro {
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.modal-footer-registro {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    padding: 30px 40px;
+    border-top: 2px solid #E6DFFF;
+    background-color: #F8F5FF;
+    border-radius: 0 0 16px 16px;
+}
+
+.btn-cancelar-modal {
+    background-color: #FFFFFF;
+    color: #666;
+    border: 2px solid #E6DFFF;
+    border-radius: 8px;
+    padding: 12px 25px;
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Ysabeau SC', sans-serif;
+}
+
+.btn-cancelar-modal:hover {
+    background-color: #F8F5FF;
+    border-color: #7A2FF5;
+    color: #7A2FF5;
+}
+
+.btn-confirmar-modal {
+    background-color: #28A745;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 25px;
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Ysabeau SC', sans-serif;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+}
+
+.btn-confirmar-modal:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
+}
+
+.btn-fechar-modal {
+    background-color: #7A2FF5;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 25px;
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Ysabeau SC', sans-serif;
+    box-shadow: 0 4px 15px rgba(122, 47, 245, 0.3);
+}
+
+.btn-fechar-modal:hover {
+    background-color: #6A4C9C;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(122, 47, 245, 0.4);
+}
+
+/* Modal Histórico Médico */
+.historico-medico-content {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.historico-paciente-info {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    background-color: #F8F5FF;
+    border-radius: 12px;
+    border: 2px solid #E6DFFF;
+}
+
+.historico-paciente-foto {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #E6DFFF;
+    flex-shrink: 0;
+}
+
+.historico-paciente-info h3 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #3B2561;
+    margin: 0 0 8px 0;
+    text-transform: uppercase;
+    font-family: 'Ysabeau SC', sans-serif;
+}
+
+.historico-paciente-info p {
+    font-size: 14px;
+    color: #666;
+    margin: 4px 0;
+    font-family: Arial, sans-serif;
+}
+
+.historico-section {
+    padding: 20px;
+    background-color: #F8F5FF;
+    border-radius: 12px;
+    border: 2px solid #E6DFFF;
+}
+
+.historico-section h4 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #7A2FF5;
+    margin: 0 0 15px 0;
+    text-transform: uppercase;
+    font-family: 'Ysabeau SC', sans-serif;
+}
+
+.historico-section p {
+    font-size: 14px;
+    color: #3B2561;
+    margin: 8px 0;
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+}
+
+.historico-section strong {
+    font-weight: 700;
+    color: #7A2FF5;
+}
+
+/* Modal Confirmação */
+.modal-confirmacao {
+    max-width: 500px;
+}
+
+.modal-confirmacao-content {
+    text-align: center;
+    padding: 20px;
+}
+
+.modal-confirmacao-icon {
+    font-size: 64px;
+    color: #28A745;
+    margin-bottom: 20px;
+}
+
+.modal-confirmacao-icon.warning {
+    color: #FF6B35;
+}
+
+.modal-confirmacao-content p {
+    font-size: 16px;
+    color: #3B2561;
+    margin: 10px 0;
+    font-family: Arial, sans-serif;
+    line-height: 1.5;
+}
+
+.modal-confirmacao-content p strong {
+    font-size: 18px;
+    color: #FF6B35;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    font-family: 'Ysabeau SC', sans-serif;
+}
+
+.modal-confirmacao-detalhes {
+    font-size: 14px !important;
+    color: #666 !important;
+    font-style: italic;
+    margin-top: 15px !important;
+}
+
+.btn-finalizar-modal {
+    background-color: #28A745;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 25px;
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Ysabeau SC', sans-serif;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+}
+
+.btn-finalizar-modal:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .registro-ocorrencia-page {
+        padding: 30px 15px 40px;
+        margin-top: 70px;
+    }
+
+    .registro-titulo {
+        font-size: 24px;
+    }
+
+    .paciente-content {
+        flex-direction: column;
+    }
+
+    .paciente-left {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .paciente-right {
+        align-self: center;
+    }
+
+    .tutor-content {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .form-row-registro {
+        grid-template-columns: 1fr;
+    }
+
+    .sinais-vitais-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .registro-actions {
+        flex-direction: column;
+    }
+
+    .btn-salvar-ocorrencia,
+    .btn-finalizar-ocorrencia {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .medicacoes-tags {
+        gap: 8px;
+    }
+
+    .medicacao-tag {
+        font-size: 11px;
+        padding: 6px 12px;
+    }
+
+    .modal-registro {
+        max-width: 95%;
+        max-height: 95vh;
+    }
+
+    .modal-header-registro,
+    .modal-body-registro,
+    .modal-footer-registro {
+        padding: 25px 20px;
+    }
+
+    .modal-titulo-registro {
+        font-size: 20px;
+    }
+
+    .historico-paciente-info {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .modal-footer-registro {
+        flex-direction: column;
+    }
+
+    .btn-cancelar-modal,
+    .btn-confirmar-modal,
+    .btn-fechar-modal,
+    .btn-finalizar-modal {
+        width: 100%;
+        justify-content: center;
+    }
+}
+

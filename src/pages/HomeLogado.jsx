@@ -36,8 +36,8 @@ const HomeLogado = () => {
             <div className="home-brand">
               <img className="imagem-logo" src={Vetorizado} alt="Logo Artemys" />
               <div className="brand-text">
-                <h2>Artemys</h2>
-                <h3>Conectanto quem ama a quem cuida</h3>
+                <h2>ARTEMYS</h2>
+                <h3>CONECTANDO QUEM AMA A QUEM CUIDA</h3>
               </div>
             </div>
 
