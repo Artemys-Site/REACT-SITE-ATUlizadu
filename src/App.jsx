@@ -1,6 +1,8 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import Header from './components/Header';
+import HeaderVeterinario from './components/HeaderVeterinario';
+import HeaderAmbulancia from './components/HeaderAmbulancia';
 import Footer from './components/Footer';
 import ProtectedRoute from './components/ProtectedRoute';
 import Home from './pages/Home';
@@ -44,14 +46,53 @@ import RegistroOcorrencia from './pages/RegistroOcorrencia';
 import FAQ from './pages/FAQ';
 import AcessoNegado from './pages/AcessoNegado';
 import ChatBotButton from './components/ChatBotButton';
+import PainelVeterinario from './pages/painelVeterinario';
+import PacientesVeterinario from './pages/pacientesVeterinario';
+import CadastroVeterinario from './pages/cadastroVeterinario';
+import AgendaVeterinario from './pages/agendaVeterinario';
+import RelatorioVeterinario from './pages/relatorioVeterinario';
+import ConfiguracaoVeterinario from './pages/configuracaoVeterinario';
+import ArtigosVeterinario from './pages/artigosVeterinario';
+import EdicaoArtigosVeterinario from './pages/edicaoArtigosVeterinario';
+import AmbulanciaConfiguracaoNotificacao from './pages/AmbulanciaConfiguracaoNotificacao';
+import AmbulanciaConfiguracaoSeguranca from './pages/AmbulanciaConfiguracaoSeguranca';
+import AmbulanciaConfiguracaoVeiculo from './pages/ambulanciaConfiguracaoVeiculo';
+import AmbulanciaFinanceiro from './pages/AmbulanciaFinanceiro';
+import AmbulanciaPerfil from './pages/AmbulanciaPerfil';
+import AmbulanciaRelatorios from './pages/AmbulanciaRelatorios';
+import ChamadosFinalizados from './pages/chamadosfinalizados';
+import ChamadosPendentes from './pages/chamadospendentes';
+import Historico from './pages/historico';
+import PainelAmbulancia from './pages/painelambulancia';
 import './App.css';
 
 function AppContent() {
   const { isLoggedIn } = useAuth();
+  const location = useLocation();
+  
+  // Verifica se está em uma rota do veterinário
+  const isVeterinarioRoute = location.pathname.startsWith('/painel-veterinario') ||
+                             location.pathname.startsWith('/pacientesVeterinario') ||
+                             location.pathname.startsWith('/agendaVeterinario') ||
+                             location.pathname.startsWith('/relatorioVeterinario') ||
+                             location.pathname.startsWith('/configuracaoVeterinario') ||
+                             location.pathname.startsWith('/artigosVeterinario') ||
+                             location.pathname.startsWith('/edicaoArtigosVeterinario') ||
+                             location.pathname === '/cadastro-veterinario';
+
+  // Verifica se está em uma rota de ambulância
+  const isAmbulanciaRoute = location.pathname.startsWith('/painel-ambulancia') ||
+                            location.pathname.startsWith('/chamados') ||
+                            location.pathname === '/historico' ||
+                            location.pathname.startsWith('/ambulancia/relatorios') ||
+                            location.pathname.startsWith('/ambulancia/configuracao') ||
+                            location.pathname.startsWith('/ambulancia/perfil');
 
   return (
     <div className="App">
-      <Header isLoggedIn={isLoggedIn} />
+      {isVeterinarioRoute ? <HeaderVeterinario /> : 
+       isAmbulanciaRoute ? <HeaderAmbulancia /> : 
+       <Header isLoggedIn={isLoggedIn} />}
       <main>
         <Routes>
           {/* rotas que qualquer usuario pode acessar, sem login */}
@@ -76,6 +117,7 @@ function AppContent() {
           <Route path="/cadastro-clinica" element={<CadastroClinica />} />
           <Route path="/cadastro-responsavel-tecnico" element={<CadastroResponsavelTecnico />} />
           <Route path="/cadastro-tutor" element={<CadastroTutor />} />
+          <Route path="/cadastro-veterinario" element={<CadastroVeterinario />} />
           
           {/* ROTAS PROTEGIDAS -Aqui só a clinica pode acessar*/}
           <Route 
@@ -203,6 +245,28 @@ function AppContent() {
           <Route path="/servicos" element={<Servicos />} />
           <Route path="/agendar-servico" element={<AgendarServico />} />
           <Route path="/faq" element={<FAQ />} />
+          
+          {/* ROTAS DE AMBULÂNCIA */}
+          <Route path="/painel-ambulancia" element={<PainelAmbulancia />} />
+          <Route path="/ambulancia/configuracao/notificacao" element={<AmbulanciaConfiguracaoNotificacao />} />
+          <Route path="/ambulancia/configuracao/seguranca" element={<AmbulanciaConfiguracaoSeguranca />} />
+          <Route path="/ambulancia/configuracao/veiculo" element={<AmbulanciaConfiguracaoVeiculo />} />
+          <Route path="/ambulancia/configuracao/financeiro" element={<AmbulanciaFinanceiro />} />
+          <Route path="/ambulancia/perfil" element={<AmbulanciaPerfil />} />
+          <Route path="/ambulancia/relatorios" element={<AmbulanciaRelatorios />} />
+          <Route path="/chamados/finalizados" element={<ChamadosFinalizados />} />
+          <Route path="/chamados/pendentes" element={<ChamadosPendentes />} />
+          <Route path="/historico" element={<Historico />} />
+          
+          {/* ROTAS DO VETERINÁRIO */}
+          <Route path="/painel-veterinario" element={<PainelVeterinario />} />
+          <Route path="/pacientesVeterinario" element={<PacientesVeterinario />} />
+          <Route path="/agendaVeterinario" element={<AgendaVeterinario />} />
+          <Route path="/relatorioVeterinario" element={<RelatorioVeterinario />} />
+          <Route path="/configuracaoVeterinario" element={<ConfiguracaoVeterinario />} />
+          <Route path="/artigosVeterinario" element={<ArtigosVeterinario />} />
+          <Route path="/edicaoArtigosVeterinario" element={<EdicaoArtigosVeterinario />} />
+          <Route path="/edicaoArtigosVeterinario/:id" element={<EdicaoArtigosVeterinario />} />
           
           {/* rota pra quando nao pode acessar */}
           <Route path="/acesso-negado" element={<AcessoNegado />} />

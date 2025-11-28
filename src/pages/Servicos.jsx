@@ -7,6 +7,12 @@ import iconAvaliacao from '../assets/iconAvaliacao.png';
 import iconMaleta from '../assets/iconMaleta.png';
 import iconCloack from '../assets/iconCloack.png';
 import iconTelefone from '../assets/iconTelefone.png';
+import clinicaVidaanimal from '../assets/clinicaVidaanimal.png';
+import drAnaPaula from '../assets/drAnaPaula.png';
+import clinicaAnimalFeliz from '../assets/clinicaAnimalFeliz.png';
+import drCarlos from '../assets/drCarlos.png';
+import clinicaPetcar from '../assets/clinicaPetcar.png';
+import draMarina from '../assets/draMarina.png';
 
 const Servicos = () => {
   const navigate = useNavigate();
@@ -34,7 +40,7 @@ const Servicos = () => {
       id: 1,
       tipo: "clinica",
       nome: "Clínica Veterinária Vida Animal",
-      imagem: "/clinicaVidaanimal.png",
+      imagem: clinicaVidaanimal,
       avaliacao: 4.8,
       especialidade: "Clínico Geral",
       localizacao: "Av. Paulista, 1000 - São Paulo,SP",
@@ -47,7 +53,7 @@ const Servicos = () => {
       id: 2,
       tipo: "vet",
       nome: "Dr. Ana Paula Silva",
-      imagem: "/drAnaPaula.png",
+      imagem: drAnaPaula,
       avaliacao: 4.9,
       especialidade: "Clínico Geral",
       localizacao: "São Paulo - SP",
@@ -60,7 +66,7 @@ const Servicos = () => {
       id: 3,
       tipo: "clinica",
       nome: "Centro Veterinário Animal Feliz",
-      imagem: "/clinicaAnimalFeliz.png",
+      imagem: clinicaAnimalFeliz,
       avaliacao: 4.7,
       especialidade: "Clínico Geral",
       localizacao: "Av Itaberaba, 2100 - São Paulo,SP",
@@ -73,7 +79,7 @@ const Servicos = () => {
       id: 4,
       tipo: "vet",
       nome: "Dr. Carlos Mendes",
-      imagem: "/drCarlos.png",
+      imagem: drCarlos,
       avaliacao: 4.8,
       especialidade: "Cirurgia e Ortopedia",
       localizacao: "São Paulo - SP",
@@ -86,7 +92,7 @@ const Servicos = () => {
       id: 5,
       tipo: "clinica",
       nome: "Hospital Veterinário Petcare",
-      imagem: "/clinicaPetcar.png",
+      imagem: clinicaPetcar,
       avaliacao: 4.2,
       especialidade: "Emergências e Cirurgia Avançada",
       localizacao: "Rua Tito, 358 - São Paulo,SP",
@@ -99,7 +105,7 @@ const Servicos = () => {
       id: 6,
       tipo: "vet",
       nome: "Dra. Marina Costa",
-      imagem: "/draMarina.png",
+      imagem: draMarina,
       avaliacao: 4.1,
       especialidade: "Dermatologia Veterinária",
       localizacao: "São Paulo - SP",

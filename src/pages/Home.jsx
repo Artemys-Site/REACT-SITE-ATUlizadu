@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import './Home.css';
 import iconePatapreta from '../assets/iconePatapreta.png';
-import Vetorizado from '../assets/Vetorizado.svg';
+import logo from '../assets/logo.svg';
 import iconePlanosplataforma from '../assets/iconePlanosplataforma.png';
 import iconeChamarambulancia from '../assets/iconeChamarambulancia.png';
 import ImagemMain1 from '../assets/ImagemMain1.png';
@@ -34,7 +34,7 @@ const Home = () => {
             </div>
 
             <div className="home-brand">
-              <img className="imagem-logo" src={Vetorizado} alt="Logo Artemys" />
+              <img className="imagem-logo" src={logo} alt="Logo Artemys" />
               <div className="brand-text">
                 <h2>ARTEMYS</h2>
                 <h3>CONECTANDO QUEM AMA A QUEM CUIDA</h3>

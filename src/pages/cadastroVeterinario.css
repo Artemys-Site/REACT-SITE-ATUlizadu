@@ -1,0 +1,310 @@
+.cadastro-veterinario-page {
+    padding: 40px 20px 60px;
+    background-color: #FFFFFF;
+    margin-top: 90px;
+    min-height: calc(100vh - 200px);
+    width: 100%;
+}
+
+.cadastro-veterinario-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.cadastro-veterinario-content {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 40px;
+    align-items: start;
+    position: relative;
+}
+
+.veterinario-mascot {
+    position: sticky;
+    top: 120px;
+    z-index: 1;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.mascot-image {
+    width: 100%;
+    max-width: 280px;
+    height: auto;
+    object-fit: contain;
+}
+
+.veterinario-form-wrapper {
+    flex: 1;
+}
+
+.veterinario-titulo {
+    font-size: 36px;
+    font-weight: 700;
+    color: #7A2FF5;
+    margin: 0 0 40px 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.veterinario-form {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.form-group-veterinario {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group-veterinario label {
+    font-size: 14px;
+    font-weight: 600;
+    margin: 0;
+    color: #3B2561;
+    text-transform: uppercase;
+    font-family: Arial, sans-serif;
+}
+
+.form-group-veterinario input,
+.form-group-veterinario select {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #E6DFFF;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: Arial, sans-serif;
+    color: #3B2561;
+    background-color: #FFFFFF;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+}
+
+.form-group-veterinario input:focus,
+.form-group-veterinario select:focus {
+    outline: none;
+    border-color: #7A2FF5;
+    box-shadow: 0 0 0 3px rgba(122, 47, 245, 0.1);
+}
+
+.form-group-veterinario input::placeholder {
+    color: #999;
+}
+ 
+
+.form-row-veterinario {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    display: block;
+
+    
+}
+
+.form-row-veterinario label{
+    font-size: 14px;
+    font-weight: 600;
+    color: #3B2561;
+    text-transform: uppercase;
+    font-family: Arial, sans-serif;
+}
+
+.dob-container {
+    margin-top: 8px;
+}
+
+.form-row-veterinario input {
+    padding: 10px;
+    border: 2px solid #E6DFFF;
+    border-radius: 8px;
+    flex-grow: 1;
+    display: inline-block;
+    margin-right: 3px;
+    
+
+}
+
+.genero-container{
+    margin-top: 15px;
+}
+
+.genero-option{
+    padding: 10px;
+    margin-right: 5px;
+    border: 2px solid #E6DFFF;
+    border-radius: 8px;
+}
+
+#nome-veterinario {
+    margin-top: auto;
+}
+
+#rgCpf {
+    margin:0px; 
+}
+
+.form-veterinario{
+    display: flex;
+    gap: 10px;
+   
+
+}
+
+.form-veterinario input{
+    width: 360px;
+}
+
+.form-veterinario select{
+    width: 360px;
+}
+
+
+.input-with-button {
+    display: flex;
+    gap: 10px;
+    align-items: flex-end;
+}
+
+.input-with-button input {
+    flex: 1;
+}
+
+.btn-upload {
+    background-color: #7A2FF5;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 20px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    white-space: nowrap;
+    font-family: Arial, sans-serif;
+}
+
+.btn-upload:hover {
+    background-color: #6A4C9C;
+    transform: translateY(-2px);
+}
+
+.btn-upload i {
+    font-size: 16px;
+}
+
+.veterinario-form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 30px;
+    padding-top: 20px;
+    padding-right: 300px; ;
+}
+
+.btn-proximo {
+    background-color: #6D28D9;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 12px;
+    padding: 15px 40px;
+    font-size: 16px;
+    font-weight: 700;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: Arial, sans-serif;
+    box-shadow: 0 4px 15px rgba(122, 47, 245, 0.3);
+}
+
+.btn-proximo:hover {
+    background-color: #6D28D9;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(130, 67, 233, 0.4);
+}
+
+.btn-ja-tem-conta {
+    background-color: #FFFFFF;
+    color: #6D28D9;
+    border: 2px solid #6D28D9;
+    border-radius: 12px;
+    padding: 15px 40px;
+    font-size: 16px;
+    font-weight: 700;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Arial, sans-serif;
+}
+
+.btn-ja-tem-conta:hover {
+    background-color: #F8F6FD;
+    transform: translateY(-2px);
+}
+
+@media (max-width: 1024px) {
+    .cadastro-veterinario-content {
+        grid-template-columns: 250px 1fr;
+        gap: 30px;
+    }
+
+    .veterinario-mascot {
+        position: relative;
+        top: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .cadastro-veterinario-page {
+        margin-top: 70px;
+        padding: 30px 15px 40px;
+    }
+
+    .cadastro-veterinario-content {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .veterinario-mascot {
+        display: none;
+    }
+
+    .veterinario-titulo {
+        font-size: 28px;
+    }
+
+    .form-row-veterinario {
+        grid-template-columns: 1fr;
+    }
+
+    .input-with-button {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .btn-upload {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .veterinario-form-actions {
+        flex-direction: column;
+    }
+
+    .btn-proximo,
+    .btn-ja-tem-conta {
+        width: 100%;
+    }
+}
+

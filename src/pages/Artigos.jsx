@@ -56,7 +56,7 @@ const Artigos = () => {
           </div>
 
           {/* Título principal do artigo */}
-          <h1 className="artigo-titulo-completo">EMGASGOS EM CÃOS E GATOS: OQUE FAZER IMADIATAMENTE</h1>
+          <h1 className="artigo-titulo-completo">ENGASGOS EM CÃOS E GATOS: O QUE FAZER IMEDIATAMENTE</h1>
 
           {/* Imagem principal do artigo */}
           <img src={imagemCachorro} alt="Cachorro" className="artigo-imagem-principal" />
@@ -75,7 +75,7 @@ const Artigos = () => {
           {/* Seção: SEGURANÇA PRIMEIRO */}
           <div className="artigo-secao">
             <h2 className="artigo-secao-titulo">SEGURANÇA PRIMEIRO</h2>
-            <p className="artigo-secao-conteudo">NUNCA COLOQUE OS DEDOS CEGAMENTE NA BOCA DO ANIMAL. SE ENXERGAR O OBJETO, TENTE REMOVER COM CUIDADO USADO UMA PINÇA. EVITE CAUSAR LESÕES.</p>
+            <p className="artigo-secao-conteudo">NUNCA COLOQUE OS DEDOS CEGAMENTE NA BOCA DO ANIMAL. SE ENXERGAR O OBJETO, TENTE REMOVER COM CUIDADO USANDO UMA PINÇA. EVITE CAUSAR LESÕES.</p>
           </div>
 
           {/* Seção: PASSO A PASSO */}
@@ -176,7 +176,7 @@ const Artigos = () => {
               SE O PET ESTÁ COM PROBLEMAS SEVEROS, INICIE RCP E SE DIRIJA-SE À CLÍNICA MAIS PRÓXIMA.
             </p>
             <p className="sidebar-emergencia-texto">
-              CASO TENHA SEU PLANO, INICIE O CHAMADO PARA CONTATAR UMA AMBULANCIA DE EMERGÊNCIA
+              CASO TENHA SEU PLANO, INICIE O CHAMADO PARA CONTATAR UMA AMBULÂNCIA DE EMERGÊNCIA
             </p>
             <div className="sidebar-emergencia-acoes">
               <img src={draMarina} alt="Dra. Sofia" className="sidebar-emergencia-foto" />

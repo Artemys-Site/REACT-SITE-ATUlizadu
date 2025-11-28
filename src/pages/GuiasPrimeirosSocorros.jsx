@@ -17,8 +17,8 @@ const GuiasPrimeirosSocorros = () => {
   const guias = [
     {
       id: 1,
-      titulo: "EMGASGOS EM CÃES E GATOS: OQUE FAZER IMADIATAMENTE",
-      descricao: "PASSOS SIMPLES PARA DESOBISTRUÇÃO, QUANDO PARAR E IR AO VETERINARIO",
+      titulo: "ENGASGOS EM CÃES E GATOS: O QUE FAZER IMEDIATAMENTE",
+      descricao: "PASSOS SIMPLES PARA DESOBSTRUÇÃO, QUANDO PARAR E IR AO VETERINÁRIO",
       imagem: ImagemEngasgo,
       categoria: "PRIMEIROS SOCORROS",
       tempoLeitura: "LEITURA: 7 MIN",

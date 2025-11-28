@@ -1,0 +1,690 @@
+/* Variáveis de Cores */
+:root {
+  --primary-purple: #8e44ad; /* Cor principal (roxo mais vibrante) */
+  --light-purple: #9b59b6; 
+  --secondary-green: #27ae60; /* Cor para sucesso/salvar (verde) */
+  --light-gray: #f4f4f7; /* Fundo principal */
+  --medium-gray: #ccc;
+  --dark-text: #333;
+  --label-color: #666;
+  --border-radius: 8px;
+  --section-bg: white;
+  --input-bg: #f9f9f9;
+  --toggle-inactive: #ccc; /* Cinza claro para o estado desativado */
+  --header-text-color: #3B2561;
+  --header-subtitle-color: #707070;
+}
+
+/* ------------------------------------------------------------------- */
+/* ESTRUTURA GLOBAL E CABEÇALHO */
+/* ------------------------------------------------------------------- */
+
+.system-settings-page {
+  font-family: 'Ysabeau SC', sans-serif; 
+  padding: 20px;
+  background-color: var(--light-gray);
+  min-height: calc(100vh - 200px);
+  margin-top: 7rem;
+  width: 100%;
+  max-width: 100%;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.header-info h1 {
+  margin: 0;
+  font-size: 42px;
+  font-weight: 700;
+  color: var(--header-text-color);
+  text-transform: uppercase;
+}
+
+.header-info p {
+  margin-top: 6px;
+  color: var(--header-subtitle-color);
+   font-size: 16px;
+   text-transform: uppercase;
+}
+
+.save-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px; /* Espaço entre o ícone e o texto */
+  background-color: var(--secondary-green);
+  color: white;
+  border: none;
+  border-radius: var(--border-radius);
+  padding: 10px 20px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  box-shadow: 0 4px 6px rgba(39, 174, 96, 0.3);
+}
+
+.save-button:hover {
+  background-color: #2ecc71;
+}
+
+/* ------------------------------------------------------------------- */
+/* NAVEGAÇÃO POR ABAS (TABS) */
+/* ------------------------------------------------------------------- */
+
+.tab-navigation {
+  display: flex;
+  background-color: white;
+  padding: 5px;
+  border-radius: var(--border-radius);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  margin-bottom: 20px;
+  width: 72%;
+}
+
+.tab-button {
+  background: transparent;
+  border: none;
+  padding: 10px 20px;
+  color: var(--dark-text);
+  cursor: pointer;
+  font-size: 1em;
+  font-weight: 500;
+  border-radius: var(--border-radius);
+  margin-right: 15px;
+  display: flex;
+  align-items: center;
+  transition: background-color 0.2s, color 0.2s;
+  
+}
+
+
+.tab-button.active {
+  background-color: var(--primary-purple);
+  color: rgb(255, 255, 255);
+  font-weight: bold;
+  box-shadow: 0 2px 5px rgba(142, 68, 173, 0.4);
+}
+
+/* Estilo para os ícones Lucide nos botões de aba */
+.tab-button svg {
+    margin-right: 8px;
+    min-width: 16px;
+}
+.tab-button.active svg {
+    color: white;
+}
+
+/* ------------------------------------------------------------------- */
+/* CONTEÚDO DAS ABAS E SEÇÕES */
+/* ------------------------------------------------------------------- */
+
+.section {
+  background-color: var(--section-bg);
+  padding: 20px;
+  border-radius: var(--border-radius);
+  margin-bottom: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.section h3 {
+  color: var(--primary-purple);
+  font-size: 1.1em;
+  margin-top: 0;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+}
+
+/* Form Grid padrão (2 colunas) */
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px 20px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-group.full-width {
+    grid-column: 1 / -1;
+}
+
+.input-group label {
+    font-size: 0.8em;
+    font-weight: bold;
+    color: var(--label-color);
+    margin-bottom: 5px;
+}
+
+.input-group input,
+.input-group textarea {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: var(--input-bg);
+    font-size: 1em;
+}
+
+/* ----------------- ABA PERFIL ----------------- */
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.profile-pic {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 15px;
+    border: 2px solid #eee;
+}
+
+.alt-foto-button {
+    background-color: #8f3bdd;
+    color: #fff;
+    border-radius: 5px;
+    padding: 6px 12px;
+    font-size: 0.9em;
+    cursor: pointer;
+    margin-bottom: 5px;
+    display: flex;
+  align-items: center;
+  transition: background-color 0.2s, color 0.2s;
+  gap: 5px;
+}
+
+.alt-foto-button:hover{
+    background-color: #deb6f0;
+}
+
+.alt-foto-button:active{
+    color: #121013;
+}
+
+
+.formats-info {
+    font-size: 0.75em;
+    color: #999;
+    margin: 0;
+}
+
+.security-section h3.orange-text {
+    color: #e67e22;
+    border-color: #f0f0f0;
+}
+
+.alt-auth-button {
+    background-color: transparent;
+    color: #e67e22;
+    border: 1px solid #e67e22;
+    border-radius: 4px;
+    padding: 10px 15px;
+    font-weight: bold;
+    margin-top: 15px;
+    cursor: pointer;
+}
+
+/* ----------------- ABA PROFISSIONAL (Tags) ----------------- */
+
+.tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    padding: 5px 0;
+}
+
+.tag-input {
+    padding: 5px 8px !important; 
+    width: 150px !important;
+    border: 1px solid var(--light-purple) !important;
+    border-radius: 4px !important;
+    background-color: white !important;
+    font-size: 0.9em;
+    box-sizing: border-box;
+}
+
+.tag {
+    background-color: var(--light-purple);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 0.85em;
+    display: flex;
+    align-items: center;
+}
+
+.remove-tag-button {
+    background: none;
+    border: none;
+    color: white;
+    margin-left: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    padding: 0;
+    line-height: 1;
+    opacity: 0.8;
+}
+
+.remove-tag-button:hover {
+    opacity: 1;
+}
+
+.add-tag-button {
+    background: none;
+    border: 1px dashed var(--light-purple);
+    color: var(--light-purple);
+    padding: 5px 10px;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 0.85em;
+    transition: background-color 0.2s;
+}
+
+.add-tag-button:hover {
+    background-color: #f0f0f0;
+}
+
+.telemedicina-config p {
+    font-size: 0.9em;
+    color: #999;
+    margin-top: -10px;
+}
+
+.small-grid {
+    grid-template-columns: 1fr 1fr;
+    max-width: 500px;
+    margin-top: 20px;
+}
+
+/* ----------------- ABA HORÁRIOS ----------------- */
+
+.schedule-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.schedule-day {
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    width: 30%;
+}
+
+.schedule-day span {
+    margin-left: 10px;
+}
+
+.schedule-hours {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 50%;
+}
+
+.schedule-hours input {
+    padding: 8px;
+    width: 80px;
+    text-align: center;
+}
+
+.active-status {
+    color: var(--secondary-green);
+    font-weight: bold;
+    width: 20%;
+    text-align: right;
+}
+
+.inactive-status {
+    color: #e74c3c;
+    font-weight: bold;
+    width: 20%;
+    text-align: right;
+}
+
+/* ----------------- ABA SERVIÇOS ----------------- */
+
+.services-list p {
+    font-size: 0.9em;
+    color: #999;
+    margin-top: -10px;
+}
+
+.new-service-button {
+    background-color: var(--primary-purple);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius);
+    padding: 8px 15px;
+    font-weight: bold;
+    cursor: pointer;
+    float: right;
+    margin-top: -70px; 
+    transition: background-color 0.2s;
+    display: flex;
+    align-items: center;
+}
+
+.new-service-button:hover {
+  background-color: var(--light-purple);
+}
+
+.service-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.service-item:last-of-type {
+    border-bottom: none;
+}
+
+.service-info {
+    display: flex;
+    align-items: center;
+    font-size: 1em;
+}
+
+.service-info .name {
+    font-weight: bold;
+    color: var(--dark-text);
+    margin-left: 10px;
+}
+
+.service-info .duration {
+    font-size: 0.85em;
+    color: #999;
+    margin-left: 15px;
+}
+
+.service-actions {
+    display: flex;
+    align-items: center;
+}
+
+.service-actions .price {
+    font-weight: bold;
+    color: var(--secondary-green);
+    font-size: 1.1em;
+    margin-right: 20px;
+}
+
+.icon-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    color: var(--dark-text);
+}
+
+.icon-button:hover {
+    opacity: 1;
+}
+
+.trash-icon {
+    color: #e74c3c;
+}
+
+/* ----------------- MODAL (Serviço) ----------------- */
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 30px;
+    border-radius: var(--border-radius);
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.modal-content h2 {
+    color: var(--primary-purple);
+    font-size: 1.4em;
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+.modal-content .input-group {
+    margin-bottom: 15px;
+}
+
+.modal-content input {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 25px;
+}
+
+.cancel-button {
+    background: none;
+    border: none;
+    color: #666;
+    padding: 10px 15px;
+    cursor: pointer;
+}
+
+.save-modal-button {
+    background-color: var(--primary-purple);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius);
+    padding: 10px 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+/* ----------------- ABA FINANCEIRO ----------------- */
+
+.verification-status {
+    padding: 10px;
+    margin-top: 20px;
+    border-radius: var(--border-radius);
+    font-size: 0.9em;
+    font-weight: 600;
+    display: flex; 
+    align-items: center;
+}
+.verification-status svg {
+    min-width: 16px;
+    margin-right: 5px;
+}
+
+.verification-status.verified {
+    background-color: #e8f9f7;
+    color: var(--secondary-green);
+    border: 1px solid var(--secondary-green);
+}
+
+.method-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.method-info h4 {
+    margin: 0;
+    font-size: 1em;
+    color: var(--dark-text);
+}
+
+.method-info .subtitle {
+    margin: 3px 0 0;
+    font-size: 0.85em;
+    color: #999;
+}
+
+/* ----------------- ABA NOTIFICAÇÕES (FINAL) ----------------- */
+
+.category-group {
+    margin-top: 20px;
+    padding-top: 10px;
+    border-top: 1px solid #f0f0f0;
+}
+
+.category-group.consult-group {
+    border-top: none; 
+    margin-top: 0;
+}
+.category-group.finance-group {
+    border-top: none; 
+}
+
+
+.category-title {
+    color: var(--dark-text);
+    font-size: 1em;
+    font-weight: bold;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+}
+
+.category-title.green-text {
+    color: var(--secondary-green);
+}
+
+/* 1. Estilização dos Toggles e Ícones de Notificação */
+.notification-options {
+    display: flex;
+    gap: 15px; 
+    align-items: center;
+}
+.toggle-group {
+    display: flex;
+    gap: 5px; 
+    align-items: center;
+}
+.notification-icon {
+    color: #999;
+    transition: color 0.2s;
+}
+
+/* 2. Fundo verde claro e margem negativa para os itens financeiros */
+.notification-item.finance-highlight {
+    background-color: #f7fff7; 
+    padding-left: 20px; 
+    padding-right: 20px;
+    margin: 0 -20px; 
+}
+
+/* ----------------- TOGGLES (Geral) -- REGRAS UNIVERSAIS DE COR ----------------- */
+
+/* Tamanho padrão para Atendimento Online e Métodos de Pagamento */
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 45px; 
+  height: 25px;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  cursor: pointer; 
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--toggle-inactive); /* Cinza desativado universal */
+  transition: .4s;
+  border-radius: 25px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px; 
+  width: 18px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+/* Cor Padrão de Ativação (Roxo) para Toggles Grandes e Horários/Serviços */
+input:checked + .slider {
+  background-color: var(--primary-purple); 
+}
+
+input:checked + .slider:before {
+  transform: translateX(20px);
+}
+
+/* ----------------- TOGGLES PEQUENOS (Notificações) ----------------- */
+
+.toggle-switch.small-toggle {
+    width: 35px;
+    height: 20px;
+}
+
+.toggle-switch.small-toggle .slider:before {
+    height: 14px;
+    width: 14px;
+    left: 3px;
+    bottom: 3px;
+}
+
+.toggle-switch.small-toggle input:checked + .slider:before {
+  transform: translateX(15px);
+}
+
+/* --- Toggles de Notificação (Sobrescrita para cores específicas) --- */
+
+/* Verde para Financeiro (Sobrescreve o roxo) */
+.notification-item.finance-highlight input:checked + .slider {
+  background-color: var(--secondary-green);
+}
+
+/* Ativação dos ícones de notificação */
+.notification-item input:checked ~ .toggle-group .notification-icon {
+    color: var(--primary-purple);
+}
+/* Verde para ícones de notificação financeira */
+.notification-item.finance-highlight input:checked ~ .toggle-group .notification-icon {
+    color: var(--secondary-green);
+}
