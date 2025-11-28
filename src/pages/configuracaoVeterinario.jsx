@@ -4,7 +4,7 @@ import {
     Phone, Clock, Calendar, CheckCircle, User, Briefcase, 
     DollarSign, Bell, CreditCard, Edit, Trash2, Mail, PhoneCall, Smartphone 
 } from 'lucide-react';
-import './ConfiguracaoVeterinario.css'; 
+import './configuracaoVeterinario.css'; 
 import veterinariaLauraimg from '../assets/veterinariaLauraimg.jpg';
 
 
