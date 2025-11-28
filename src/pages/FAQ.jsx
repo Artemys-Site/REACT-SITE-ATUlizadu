@@ -16,42 +16,42 @@ const FAQ = () => {
     {
       id: 1,
       pergunta: 'COMO FUNCIONA O SISTEMA DE AGENDAMENTOS?',
-      resposta: 'Voce pode agendar consultas diretamente pela plataforma, escolhendo o profissional ou clinica desejada, data e horario disponivel. O agendamento e confirmado automaticamente.'
+      resposta: 'Você pode agendar consultas diretamente pela plataforma, escolhendo o profissional ou clínica desejada, data e horário disponível. O agendamento é confirmado automaticamente.'
     },
     {
       id: 2,
       pergunta: 'POSSO AGENDAR CONSULTAS ONLINE?',
-      resposta: 'Sim! A plataforma oferece opcao de telemedicina veterinaria. Voce pode realizar consultas online com profissionais qualificados, sem sair de casa.'
+      resposta: 'Sim! A plataforma oferece opção de telemedicina veterinária. Você pode realizar consultas online com profissionais qualificados, sem sair de casa.'
     },
     {
       id: 3,
       pergunta: 'COMO FUNCIONA O SERVIÇO DE AMBULÂNCIA?',
-      resposta: 'O servico de ambulancia veterinaria esta disponivel para emergencias. Ao solicitar, um veiculo especializado sera enviado para atendimento imediato ao seu pet.'
+      resposta: 'O serviço de ambulância veterinária está disponível para emergências. Ao solicitar, um veículo especializado será enviado para atendimento imediato ao seu pet.'
     },
     {
       id: 4,
       pergunta: 'QUAIS FORMAS DE PAGAMENTO SÃO ACEITAS?',
-      resposta: 'Aceitamos diversas formas de pagamento: cartao de credito, debito, PIX e transferencia bancaria. Os pagamentos sao processados de forma segura.'
+      resposta: 'Aceitamos diversas formas de pagamento: cartão de crédito, débito, PIX e transferência bancária. Os pagamentos são processados de forma segura.'
     },
     {
       id: 5,
       pergunta: 'COMO CADASTRAR MINHA CLÍNICA NA PLATAFORMA?',
-      resposta: 'Para cadastrar sua clinica, acesse a pagina de cadastro, preencha os dados da empresa e do responsavel tecnico. Aprovacao leva ate 48 horas.'
+      resposta: 'Para cadastrar sua clínica, acesse a página de cadastro, preencha os dados da empresa e do responsável técnico. Aprovação leva até 48 horas.'
     },
     {
       id: 6,
       pergunta: 'POSSO CANCELAR UM AGENDAMENTO?',
-      resposta: 'Sim, voce pode cancelar agendamentos pela plataforma com ate 24 horas de antecedencia sem custos adicionais.'
+      resposta: 'Sim, você pode cancelar agendamentos pela plataforma com até 24 horas de antecedência sem custos adicionais.'
     },
     {
       id: 7,
       pergunta: 'COMO FUNCIONA O PLANO DE ASSINATURA?',
-      resposta: 'Os planos de assinatura oferecem descontos em consultas e procedimentos. Voce pode escolher entre diferentes planos conforme sua necessidade e pagar mensalmente.'
+      resposta: 'Os planos de assinatura oferecem descontos em consultas e procedimentos. Você pode escolher entre diferentes planos conforme sua necessidade e pagar mensalmente.'
     },
     {
       id: 8,
       pergunta: 'POSSO CADASTRAR MAIS DE UM PET?',
-      resposta: 'Sim! Voce pode cadastrar quantos pets quiser na sua conta. Cada pet tera seu proprio perfil e historico de consultas.'
+      resposta: 'Sim! Você pode cadastrar quantos pets quiser na sua conta. Cada pet terá seu próprio perfil e histórico de consultas.'
     }
   ];
 
@@ -67,7 +67,7 @@ const FAQ = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    // criar link mailto com os dados do formulario
+    // criar link mailto com os dados do formulário
     const assunto = encodeURIComponent(formData.assunto || 'Contato através do site Artemys');
     const corpo = encodeURIComponent(
       `Nome: ${formData.nome}\n` +
@@ -95,7 +95,7 @@ const FAQ = () => {
             VOLTAR
           </Link>
           <h1 className="faq-titulo-principal">PERGUNTAS FREQUENTES</h1>
-          <p className="faq-subtitulo">ENCONTRE RESPOSTAS PARA AS DUVIDAS MAIS COMUNS</p>
+          <p className="faq-subtitulo">ENCONTRE RESPOSTAS PARA AS DÚVIDAS MAIS COMUNS</p>
         </div>
 
         <div className="faq-lista">
@@ -115,7 +115,7 @@ const FAQ = () => {
         </div>
 
         <div className="faq-contato">
-          <h3 className="faq-contato-titulo">AINDA TEM DUVIDAS?</h3>
+          <h3 className="faq-contato-titulo">AINDA TEM DÚVIDAS?</h3>
           <p className="faq-contato-texto">Entre em contato conosco através dos nossos canais de atendimento</p>
           <div className="faq-contato-buttons">
             <a href="mailto:projetoartemys@gmail.com" className="btn-contato btn-email">
@@ -129,16 +129,16 @@ const FAQ = () => {
           </div>
         </div>
 
-        {/* formulario de contato */}
+        {/* formulário de contato */}
         <div className="faq-formulario-section">
           <div className="faq-formulario-container">
             <h3 className="faq-formulario-titulo">ENVIE SUA MENSAGEM</h3>
-            <p className="faq-formulario-subtitulo">Preencha o formulario abaixo e entraremos em contato</p>
+            <p className="faq-formulario-subtitulo">Preencha o formulário abaixo e entraremos em contato</p>
             
             {enviado && (
               <div className="mensagem-sucesso">
                 <i className="bi bi-check-circle"></i>
-                Mensagem preparada! Seu cliente de email sera aberto.
+                Mensagem preparada! Seu cliente de email será aberto.
               </div>
             )}
 

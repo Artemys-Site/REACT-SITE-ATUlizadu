@@ -1,0 +1,483 @@
+/* --- Variáveis CSS (Melhora a Manutenibilidade) --- */
+:root {
+    --color-purple-600: #7c3aed; /* Cor primária */
+    --color-purple-700: #6d28d9;
+    --color-purple-400: #e4cdf3;
+    --color-purple-200: #ede9fe;
+    --color-purple-100: #f3f4ff;
+    
+    --color-orange-500: #f97316; /* Cor secundária (Felino) */
+    --color-orange-600: #ea580c;
+    --color-orange-100: #ffedd5;
+
+    --color-pink-500: #ec4899; /* Icon MapPin */
+    --color-blue-500: #3b82f6; /* Icon Phone */
+    --color-green-500: #10b981; /* Icon Check */
+    --color-yellow-500: #f59e0b; /* Icon Clock */
+    
+    --color-gray-900: #111827;
+    --color-gray-800: #1f2937;
+    --color-gray-700: #374151;
+    --color-gray-600: #4b5563;
+    --color-gray-500: #6b7280;
+    --color-gray-400: #9ca3af;
+    --color-gray-300: #d1d5db;
+    --color-gray-200: #e5e7eb;
+    --color-gray-100: #f3f4f6;
+    --color-gray-50: #f9fafb;
+    --header-text-color: #3B2561; 
+    --header-subtitle-color: #707070; 
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+}
+
+/* reset*/
+
+.pacientes-main-container {
+    font-family: 'Ysabeau SC', sans-serif;
+    width: 100%;
+    padding: 0 20px;
+}
+
+
+.page-actions-bar h1 {
+    font-size: 42px;
+    font-weight: 700;
+    margin-top: 90px;
+    margin-bottom: 5px;
+    color: var(--header-text-color);
+}
+
+.page-actions-bar p {
+    font-size: 16px;
+    color: var(--header-subtitle-color);
+    margin-bottom: 24px;
+    text-transform: uppercase;
+}
+
+
+/* --- Barra de Pesquisa e Filtros --- */
+
+.search-filter-bar {
+    background-color: white;
+    padding: 16px; 
+    border-radius: 10px;
+    box-shadow: var(--shadow-lg);
+    margin-bottom: 32px;
+}
+
+.search-filter-content {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+}
+
+ .search-icon{
+    position: absolute;
+    top: 50%; 
+    transform: translateY(-50%);
+}
+
+.search-input-group {
+    position: relative;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 12px; 
+    background-color: var(--color-gray-100);
+    border-radius: 8px; 
+    width: 100%; 
+}
+
+
+
+.search-input {
+    background-color: transparent;
+    color: var(--color-gray-700);
+    flex: 1; 
+    border: none;
+    outline: none;
+    padding: 12px 12px 12px 40px;
+}
+
+.search-input::placeholder {
+    color: var(--color-gray-400);
+}
+
+.species-filter-select {
+    padding: 10px 16px;
+    border: 1px solid var(--color-gray-300);
+    border-radius: 8px; 
+    background-color: white;
+    color: var(--color-gray-700);
+    cursor: pointer;
+    width: 100%;
+}
+
+
+
+.more-filters-btn {
+    padding: 8px 16px; /* px-4 py-3 */
+    background-color: var(--color-gray-100);
+    color: var(--color-gray-700);
+    font-weight: 600; /* font-semibold */
+    border-radius: 8px; /* rounded-lg */
+    transition: background-color 150ms;
+    width: 15%; /* w-full */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px; /* space-x-2 */
+    border: 1px solid var(--color-gray-300);
+    cursor: pointer;
+}
+
+.more-filters-btn:hover {
+    background-color: var(--color-gray-200);
+}
+
+/* --- Grade de Pacientes --- */
+
+.patient-grid {
+    display: grid;
+    grid-template-columns: 1fr; /* grid-cols-1 */
+    gap: 24px; /* gap-6 */
+    margin-bottom: 32px; /* mb-8 */
+}
+
+
+.no-patients-found {
+    text-align: center;
+    color: var(--color-gray-500);
+    padding-top: 40px; /* py-10 */
+    padding-bottom: 40px;
+    grid-column: 1 / -1; /* Ocupa todas as colunas no grid */
+}
+
+/* --- Cartão de Paciente (PatientCard) --- */
+
+.patient-card {
+    background-color: white;
+    padding: 20px; /* p-6 */
+    border-radius: 12px; /* rounded-xl */
+    box-shadow: var(--shadow-lg);
+    transition: box-shadow 300ms;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 400px;
+}
+
+.patient-card:hover {
+    box-shadow: var(--shadow-xl);
+}
+
+.card-header {
+    padding: 0;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 16px; /* mb-4 */
+}
+
+.patient-info-main {
+    display: flex;
+    align-items: center;
+    gap: 15px; 
+}
+
+.patient-initial {
+    width: 40px; 
+    height: 40px;
+    border-radius: 9999px; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px; /* text-lg */
+    font-weight: 700; /* font-bold */
+    color: white;
+}
+
+.initial-purple {
+    background-color: var(--color-purple-600);
+}
+
+.initial-orange {
+    background-color: var(--color-orange-500);
+}
+
+.patient-details {
+    display: flex;
+    flex-direction: column;
+
+}
+
+.patient-name {
+    font-size: 20px; 
+    font-weight: 700; 
+    color: var(--color-gray-800);
+}
+
+.species-info {
+    display: flex;
+    gap: 8px;
+    margin-top: 4px;
+    font-size: 12px;
+}
+
+.species-tag {
+    padding: 3px 10px; 
+    border-radius: 9999px; /* rounded-full */
+    font-weight: 600; /* font-semibold */
+}
+
+.species-canino {
+    background-color: var(--color-purple-100);
+    color: var(--color-purple-600);
+}
+
+.species-canino svg{
+    height: 15px;
+}
+
+.species-felino {
+    background-color: var(--color-purple-100);
+    color: var(--color-purple-600);
+}
+
+.species-felino svg{
+    height: 15px;
+}
+
+.breed-text {
+   color: var(--color-orange-600); /* Ajustei a cor do texto para ser mais legível no fundo claro */
+    padding: 2px 8px; 
+    border-radius: 9999px; 
+    background-color: var(--color-orange-100); 
+    font-weight: 600; /* Para dar mais destaque ao texto */
+    
+}
+
+.patient-age{
+    color: var(--color-gray-600);
+    padding: 2px 8px; 
+    border-radius: 9999px; 
+    background-color: var(--color-gray-100); 
+    font-weight: 600;
+}
+
+
+/* --- Detalhes de Contato --- */
+
+.patient-contact-details {
+    display: flex;
+    flex-direction: column;
+    gap: 8px; 
+    margin-bottom: 10px; 
+    font-size: 14px; 
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 8px; 
+}
+
+.contact-icon {
+    width: 16px; /* w-4 h-4 */
+    height: 16px;
+}
+
+.contact-icon-map {
+    color: var(--color-pink-500);
+}
+
+.contact-icon-phone {
+    color: var(--color-blue-500);
+}
+
+.contact-text {
+    color: var(--color-gray-600);
+}
+
+.contact-value {
+    font-weight: 600; /* font-semibold */
+    color: var(--color-gray-800);
+}
+
+/* --- Métricas Rápidas --- */
+
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px; 
+    margin-bottom: 24px; /* mb-6 */
+    padding-top: 16px; /* pt-4 */
+}
+
+.metric-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 8px; 
+    border-radius: 8px; 
+    background-color: var(--color-purple-400);
+}
+
+
+.metric-value {
+    font-size: 17px !important;
+    font-weight: 500;
+    color: var(--color-purple-700) !important;
+}
+
+.metric-label {
+    font-size: 17px !important;
+    color: var(--color-gray-900);
+    text-align: center;
+}
+
+/* --- Ações do Cartão --- */
+
+.card-actions {
+    display: flex;
+    gap: 12px; 
+}
+
+.action-button-secondary {
+    flex: 1; /* flex-1 */
+    padding: 8px 16px; /* px-4 py-2 */
+    font-size: 14px; /* text-sm */
+    font-weight: 600; /* font-semibold */
+    color: var(--color-purple-600);
+    border: 1px solid var(--color-purple-200);
+    border-radius: 8px; /* rounded-lg */
+    transition: background-color 150ms;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px; /* space-x-1 */
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.action-button-secondary:hover {
+    background-color: var(--color-purple-100);
+}
+
+
+.action-button-primary {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex: 1; /* flex-1 */
+    padding: 8px 16px; /* px-4 py-2 */
+    font-size: 14px; /* text-sm */
+    font-weight: 700; /* font-bold */
+    background-color: var(--color-orange-500);
+    color: white;
+    border-radius: 8px; /* rounded-lg */
+    box-shadow: var(--shadow-md);
+    transition: background-color 150ms;
+    border: none;
+    cursor: pointer;
+}
+
+.action-button-primary:hover {
+    background-color: var(--color-orange-600);
+}
+
+
+/* --- Controles de Paginação --- */
+
+.pagination-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px; /* space-x-3 */
+}
+
+.pagination-btn {
+    padding: 12px; /* p-3 */
+    background-color: white;
+    border-radius: 9999px; /* rounded-full */
+    box-shadow: var(--shadow-md);
+    color: var(--color-gray-500);
+    transition: background-color 150ms;
+    border: none;
+    cursor: pointer;
+}
+
+.pagination-btn:hover {
+    background-color: var(--color-gray-100);
+}
+
+.pagination-btn:active {
+    background-color: var(--color-purple-400);
+}
+.pagination-icon {
+    width: 20px; /* w-5 h-5 */
+    height: 20px;
+}
+
+.pagination-icon-prev {
+    transform: rotate(180deg);
+}
+
+.pagination-page-numbers {
+    display: flex;
+    gap: 4px; /* space-x-1 */
+}
+
+.page-number {
+    padding: 4px 12px; /* px-3 py-1 */
+    color: var(--color-gray-600);
+    border-radius: 9999px; /* rounded-full */
+    cursor: pointer;
+    transition: background-color 150ms;
+}
+
+.page-number:hover:not(.page-number-active) {
+    background-color: var(--color-gray-200);
+}
+
+.page-number-active {
+    font-weight: 700; /* font-bold */
+    color: white;
+    background-color: var(--color-purple-600);
+    pointer-events: none; /* Desativa hover para o ativo */
+}
+
+@media (min-width: 768px) { 
+    .pacientes-main-container {
+        padding: 32px;
+    }
+}
+
+@media (min-width: 768px) { 
+    .search-filter-content {
+        flex-direction: row;
+    }
+}
+
+@media (min-width: 768px) {
+    .species-filter-select {
+        width: auto;
+    }
+}
+
+@media (min-width: 768px) {
+    .search-input-group {
+        width: auto; 
+    }
+}
+
+@media (min-width: 768px) { 
+    .patient-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+

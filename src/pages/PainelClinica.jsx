@@ -1,6 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
+import HeaderPainelClinica from '../components/HeaderPainelClinica';
 import './PainelTutor.css';
 //importei o painel tutor pq tava dando uns erros lá irado, pfvr nao usar o painel tutor, ele está descontinuado, só usue pra pegar o css
 
@@ -12,7 +13,7 @@ const PainelClinica = () => {
     const auth = useAuth();
     user = auth.user;
   } catch (e) {
-    // se nao tiver contexto, ignora
+    // se não tiver contexto, ignora
   }
 
   // Marcar contexto de clínica ao entrar nesta página
@@ -131,16 +132,7 @@ const PainelClinica = () => {
   return (
     <section className="painel-tutor-page">
       <div className="painel-tutor-container">
-        <div className="painel-tutor-header">
-          <div>
-            <h1 className="painel-tutor-titulo">PAINEL DA CLÍNICA</h1>
-            <p className="painel-tutor-subtitulo">ACOMPANHE AS MÉTRICAS E ATIVIDADES EM TEMPO REAL</p>
-          </div>
-          <Link to="/gestao-ambulancia" className="btn-ambulancia">
-            <i className="fa fa-ambulance" aria-hidden="true"></i>
-            AMBULÂNCIA
-          </Link>
-        </div>
+        <HeaderPainelClinica />
 
         {/* Cards de Métricas */}
         <div className="metrics-grid">

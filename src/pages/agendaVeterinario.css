@@ -1,0 +1,596 @@
+/*
+ * =================================
+ * VARIÁVEIS DE COR E TIPOGRAFIA
+ * =================================
+ */
+
+:root {
+    --purple-main: #6b46c1;
+    --purple-soft: #997eda;
+    --purple-light: #e9d8fd;
+    --orange-main: #f56565; 
+    --orange-light: #ffedd5;
+    --green-main: #16a34a; 
+    --green-light: #f0fff4;
+    --gray-dark: #2d3748;
+    --gray-text: #4a5568;
+    --gray-light: #f7fafc;
+    --border-color: #e2e8f0;
+    --header-text-color: #3B2561;
+    --header-subtitle-color: #707070;
+}
+
+.agenda-container {
+    padding: 2.3rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    font-family: 'Ysabeau SC', sans-serif;
+    width: 100%;
+}
+
+/* --------------------------------
+ * TOPO (agenda-topo)
+ * --------------------------------
+ */
+
+.agenda-topo {
+    margin-bottom: 1rem; /* Espaço entre título e métricas */
+    padding-top: 5rem;
+}
+
+.topo-content {
+    margin-bottom: 0.5rem;
+}
+
+.topo-title {
+    font-size: 42px;
+    font-weight: 700;
+    margin-bottom: 5px;
+    color: var(--header-text-color);
+}
+
+.topo-subtitle {
+    font-size: 16px;
+    color: var(--header-subtitle-color);
+    margin-bottom: 24px;
+    text-transform: uppercase;
+}
+
+.metrics-dashboard {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.metric-veterinario-card {
+    background-color: white;
+    height: 150px; 
+    padding-bottom: 1.5rem; 
+    padding-left: 1rem;
+    padding-right: 1rem;
+    border-radius: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    overflow: hidden;
+    border-top: 5px solid;
+}
+
+.metric-veterinario-card.metric-purple {
+    border-top-color: var(--purple-main);   /* Roxo */
+}
+
+.metric-veterinario-card.metric-orange {
+    border-top-color: var(--orange-main);   /* Laranja */
+}
+
+.metric-veterinario-card.metric-green {
+    border-top-color: var(--green-main);    /* Verde */
+}
+
+.metric-veterinario-card.metric-purple-soft {
+    border-top-color: var(--purple-soft);
+}
+
+
+.metric-veterinario-title {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #4a5568;
+    margin: 0 0 0.25rem 0;
+}
+
+.metric-veterinario-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--gray-dark);
+}
+
+.metric-icon-box {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 0.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.metric-icon-svg {
+    width: 1.5rem;
+    height: 1.5rem;
+    color: white;
+}
+
+.metric-icon-box.metric-purple { background-color: var(--purple-main)}
+.metric-icon-box.metric-orange { background-color: var(--orange-main)}
+.metric-icon-box.metric-green  { background-color: var(--green-main)}
+.metric-icon-box.metric-purple-soft   { background-color: var(--purple-soft)}
+
+/* --------------------------------
+ * LAYOUT PRINCIPAL (Sidebar + Lista)
+ * --------------------------------
+ */
+
+.main-content-wrapper {
+    display: flex;
+    gap: 2rem;
+    margin-top: 0.5rem; /* Ajustado para começar logo após as métricas */
+}
+
+.sidebar-panel {
+    width: 20rem; 
+    flex-shrink: 0;
+}
+
+.consultas-list-wrapper {
+    flex-grow: 1;
+    padding-top: 0; /* Limpando padding herdado */
+}
+
+@media (max-width: 1024px) {
+    .main-content-wrapper {
+        flex-direction: column;
+        margin-top: 1rem;
+    }
+    .sidebar-panel {
+        width: 100%;
+        display: flex;
+        gap: 2rem;
+    }
+    .calendar-box, .visualization-box {
+        flex: 1;
+    }
+}
+
+
+/* --------------------------------
+ * CALENDÁRIO
+ * --------------------------------
+ */
+
+.calendar-box {
+    background-color: white;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    margin-bottom: 1.5rem;
+}
+
+.calendar-header-box {
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.calendar-month-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--gray-dark);
+    margin: 0;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    text-align: center;
+    font-size: 0.875rem;
+}
+
+.calendar-day-header {
+    font-weight: 700;
+    color: #a0aec0;
+    padding-bottom: 0.5rem;
+}
+
+.calendar-day {
+    padding: 0.25rem;
+    height: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    margin: 0.1rem;
+    cursor: pointer;
+}
+
+.day-active {
+    color: var(--gray-dark);
+}
+
+.day-inactive {
+    color: #e2e8f0;
+}
+
+.day-selected {
+    background-color: var(--purple-main);
+    color: white;
+}
+
+
+/* --------------------------------
+ * VISUALIZAÇÃO
+ * --------------------------------
+ */
+
+.visualization-box {
+    background-color: white;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+.visualization-title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--orange-main);
+    margin: 0 0 1rem 0;
+    border-bottom: 2px solid var(--orange-main);
+    display: inline-block;
+    padding-bottom: 0.25rem;
+}
+
+.visualization-options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.option-item {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    color: #4a5568;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.option-item:hover {
+    background-color: #edf2f7;
+}
+
+.option-icon {
+    width: 1rem;
+    height: 1rem;
+    margin-right: 0.75rem;
+}
+
+.option-selected {
+    background-color: var(--orange-light);
+    color: var(--orange-main);
+    font-weight: 600;
+}
+
+/* --------------------------------
+ * LISTA DE CONSULTAS DE HOJE
+ * --------------------------------
+ */
+
+
+ .consultas-list-wrapper{
+    background-color: white;
+    padding: 3rem;
+    border-radius: 1rem;
+ }
+
+.consultas-list-header {
+    display: flexbox;
+    align-items: flex-start; 
+    justify-content: space-between; 
+    padding: 10px;
+}
+
+.consultas-title {
+    display: flex;
+    flex-direction: column; /* Faz o Título e a Data ficarem empilhados */
+}
+
+.consultas-date {
+    font-size: 0.875rem;
+    color: #718096;
+    white-space: nowrap;
+}
+
+
+
+.consultas-nav {
+    gap: 0.5rem;
+    margin-left: 90%;
+    margin-top: -4rem;
+    color: #a0aec0;
+    align-items: flex-start;
+}
+
+.nav-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    cursor: pointer;
+}
+
+.consultas-list {
+    margin-top: 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.consulta-item {
+    background-color: white;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: flex-start;
+    position: relative;
+}
+
+.consulta-time-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 1rem;
+    flex-shrink: 0;
+    padding-top: 0.1rem;
+}
+
+.consulta-clock-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    color: var(--purple-main);
+}
+
+.consulta-time {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--gray-dark);
+}
+
+.consulta-details {
+    flex-grow: 1;
+}
+
+.consulta-header {
+    margin-bottom: 0.25rem;
+}
+
+.pet-name {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--gray-dark);
+    margin: 0;
+}
+
+.tutor-name {
+    font-size: 0.875rem;
+    color: #718096;
+    margin: 0 0 0.5rem 0;
+    text-transform: capitalize;
+}
+
+.consulta-badges {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.consulta-status, .consulta-location {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.1rem 0.5rem;
+    border-radius: 0.25rem;
+    flex-shrink: 0;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+}
+
+.status-confirmado {
+    background-color: var(--green-light);
+    color: var(--green-main);
+}
+
+.status-pendente {
+    background-color: #fffbeb; 
+    color: #f6ad55; 
+}
+
+.location-online {
+    background-color: var(--purple-light);
+    color: var(--purple-main);
+}
+
+.location-fisica {
+    background-color: #edf2f7; 
+    color: #4a5568;
+}
+
+.consulta-notes-wrapper {
+    margin-bottom: 0.75rem;
+}
+
+.consulta-notes {
+    font-size: 0.875rem;
+    color: var(--gray-text);
+    margin: 0;
+    padding-bottom: 0.5rem; 
+}
+
+/* --------------------------------
+ * AÇÕES DOS CARDS E MENU DE 3 PONTOS
+ * --------------------------------
+ */
+
+.consulta-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.btn-action {
+    padding: 0.4rem 0.8rem;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s;
+    text-transform: uppercase;
+}
+
+/* INICIAR CONSULTA (Roxo sólido) */
+.btn-start-call {
+    background-color: var(--purple-main);
+    color: white;
+    border: 1px solid var(--purple-main);
+}
+
+.btn-start-call:hover {
+    background-color: #553c9a;
+}
+
+/* CONFIRMAR (Verde sólido, usado quando PENDENTE) */
+.btn-confirm {
+    background-color: var(--green-main);
+    color: white;
+    border: 1px solid var(--green-main);
+}
+
+.btn-confirm:hover {
+    background-color: #38a169;
+}
+
+/* CONTATAR (Botão neutro com borda, como na imagem) */
+.btn-contact {
+    background-color: white;
+    color: #4a5568;
+    border: 1px solid #a0aec0; 
+}
+
+.btn-contact:hover {
+    background-color: #f7fafc;
+    border-color: #718096;
+}
+
+/* MENU DE 3 PONTOS (DROPDOWN) */
+.consulta-menu-wrapper {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    cursor: pointer;
+}
+
+.consulta-menu {
+    width: 1.25rem;
+    height: 1.25rem;
+    color: #a0aec0;
+}
+
+.vertical-menu-dropdown {
+    position: absolute;
+    top: 100%; 
+    right: 0;
+    z-index: 20; 
+    background-color: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    min-width: 180px;
+    padding: 0.5rem 0;
+    margin-top: 0.5rem; 
+    display: flex;
+    flex-direction: column;
+}
+
+.menu-option {
+    background: none;
+    border: none;
+    text-align: left;
+    padding: 0.5rem 1rem;
+    width: 100%;
+    cursor: pointer;
+    font-size: 0.9rem;
+    color: var(--gray-dark);
+    transition: background-color 0.2s;
+}
+
+.menu-option:hover {
+    background-color: #f7fafc;
+}
+
+.menu-danger {
+    color: #e53e3e; 
+}
+
+.menu-danger:hover {
+    background-color: #fee2e2;
+}
+
+/* --------------------------------
+ * ESTADO DE CARREGAMENTO
+ * --------------------------------
+ */
+
+.loading-state {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 10rem;
+    flex-direction: column;
+}
+
+.loading-icon {
+    width: 2rem;
+    height: 2rem;
+    color: var(--purple-main);
+    margin-bottom: 0.5rem;
+}
+
+.icon-spin {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.loading-text {
+    font-size: 1rem;
+    color: #718096;
+}
+
+/* --------------------------------
+ * BASE (agenda-base)
+ * --------------------------------
+ */
+
+.agenda-base {
+    margin-top: 2.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid #e2e8f0;
+    text-align: center;
+    font-size: 0.875rem;
+    color: #a0aec0;
+}

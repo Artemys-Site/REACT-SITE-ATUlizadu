@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import './Header.css';
-import Vetorizado from '../assets/Vetorizado.svg';
+import logo from '../assets/logo.svg';
 import iconeNotificacao from '../assets/iconeNotificacao.png';
 import perfilLogado from '../assets/perfilLogado.png';
 
@@ -26,8 +26,22 @@ const Header = ({ isLoggedIn: propIsLoggedIn }) => {
   const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const dropdownRef = useRef(null);
   const profilePicRef = useRef(null);
+  const notificationRef = useRef(null);
+  const notificationIconRef = useRef(null);
+
+  // Dados de Notificação Falsos para demonstração
+  const DUMMY_NOTIFICATIONS = [
+    { id: 1, message: 'Nova consulta agendada para hoje.', time: '5 minutos atrás', unread: true },
+    { id: 2, message: 'Profissional confirmou disponibilidade.', time: '1 hora atrás', unread: true },
+    { id: 3, message: 'Relatório mensal disponível.', time: '2 dias atrás', unread: false },
+    { id: 4, message: 'Lembrete: Reunião de equipe amanhã.', time: '1 semana atrás', unread: false },
+  ];
+
+  const [notificationsData, setNotificationsData] = useState(DUMMY_NOTIFICATIONS);
+  const unreadCount = notificationsData.filter(n => n.unread).length;
   
   // Verificação simples de tipo de usuário
   const isTutor = user?.accountType === 'tutor' || user?.tipo === 'Tutor';
@@ -51,14 +65,26 @@ const Header = ({ isLoggedIn: propIsLoggedIn }) => {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (
+      const isClickOutsideProfile = 
         isDropdownOpen &&
         dropdownRef.current &&
         profilePicRef.current &&
         !dropdownRef.current.contains(event.target) &&
-        !profilePicRef.current.contains(event.target)
-      ) {
+        !profilePicRef.current.contains(event.target);
+        
+      if (isClickOutsideProfile) {
         setIsDropdownOpen(false);
+      }
+
+      const isClickOutsideNotification = 
+        isNotificationOpen &&
+        notificationRef.current &&
+        notificationIconRef.current &&
+        !notificationRef.current.contains(event.target) &&
+        !notificationIconRef.current.contains(event.target);
+        
+      if (isClickOutsideNotification) {
+        setIsNotificationOpen(false);
       }
     };
 
@@ -66,7 +92,7 @@ const Header = ({ isLoggedIn: propIsLoggedIn }) => {
     return () => {
       document.removeEventListener('click', handleClickOutside);
     };
-  }, [isDropdownOpen]);
+  }, [isDropdownOpen, isNotificationOpen]);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -78,7 +104,24 @@ const Header = ({ isLoggedIn: propIsLoggedIn }) => {
 
   const toggleDropdown = (e) => {
     e.stopPropagation();
+    if (!isDropdownOpen) setIsNotificationOpen(false);
     setIsDropdownOpen(!isDropdownOpen);
+  };
+
+  const toggleNotification = (e) => {
+    e.stopPropagation();
+    if (!isNotificationOpen) setIsDropdownOpen(false);
+    setIsNotificationOpen(!isNotificationOpen);
+
+    // Marca todas como lidas ao abrir o painel
+    if (!isNotificationOpen) {
+      setNotificationsData(notificationsData.map(n => ({ ...n, unread: false })));
+    }
+  };
+
+  const handleClearNotifications = () => {
+    setNotificationsData([]);
+    setIsNotificationOpen(false);
   };
 
   const isActive = (path) => {
@@ -93,7 +136,7 @@ const Header = ({ isLoggedIn: propIsLoggedIn }) => {
       <nav className="navbar">
         <div className="nav-logo">
           <Link to={shouldShowLoggedInHeader && isClinica ? '/painel-clinica' : shouldShowLoggedInHeader ? '/home-logado' : '/'}>
-            <img src={Vetorizado} alt="Logo Artemys" />
+            <img src={logo} alt="Logo Artemys" />
           </Link>
           <div className="nav-logo-text">
             <span className="brand-name">ARTEMYS</span>
@@ -203,9 +246,51 @@ const Header = ({ isLoggedIn: propIsLoggedIn }) => {
         ) : (
           <div className="nav-user-actions">
             {isClinica ? (
-              <Link to="/configuracoes-sistema" className="action-icon action-icon-config">
-                <i className="bi bi-gear"></i>
-              </Link>
+              <>
+                <Link to="/configuracoes-sistema" className="action-icon action-icon-config">
+                  <i className="bi bi-gear"></i>
+                </Link>
+                <div className="action-icon-container">
+                  <img 
+                    ref={notificationIconRef}
+                    src={iconeNotificacao} 
+                    alt="Notificações" 
+                    className="action-icon-img"
+                    onClick={toggleNotification}
+                  />
+                  {unreadCount > 0 && (
+                    <span className="notification-badge">{unreadCount}</span>
+                  )}
+
+                  {/* Painel de Notificações */}
+                  <div 
+                    ref={notificationRef}
+                    className={`notification-panel ${isNotificationOpen ? 'show' : ''}`}
+                  >
+                    <h3>Notificações ({notificationsData.length})</h3>
+                    <div className="notification-list">
+                      {notificationsData.map(notification => (
+                        <div key={notification.id} className={`notification-item ${notification.unread ? 'unread' : ''}`}>
+                          <p>{notification.message}</p>
+                          <span className="notification-time">{notification.time}</span>
+                        </div>
+                      ))}
+                      {notificationsData.length === 0 && (
+                        <p className="no-notifications">Nenhuma notificação nova.</p>
+                      )}
+                    </div>
+                    
+                    {notificationsData.length > 0 && (
+                      <button 
+                        className="clear-notifications-btn"
+                        onClick={handleClearNotifications}
+                      >
+                        Limpar Notificações
+                      </button>
+                    )}
+                  </div>
+                </div>
+              </>
             ) : (
               <div className="action-icon">
                 <img src={iconeNotificacao} alt="Notificações" />

@@ -1,0 +1,495 @@
+/* ==================================================================== */
+/* --- 1. CONFIGURAÇÕES GLOBAIS E VARIÁVEIS --- */
+/* ==================================================================== */
+:root {
+    /* Cores Principais */
+    --purple-main: #6b46c1;      /* Roxo principal */
+    --orange-main: #f56565;      /* Laranja/Vermelho */
+    --green-main: #48bb78;       /* Verde Sucesso */
+    
+    /* Fundo e Texto */
+    --bg-main: #f3f4f6;          /* Fundo principal (light gray) */
+    --bg-card: #ffffff;          /* Fundo do card */
+    --text-primary: #1f2937;     /* Títulos e Valores (Dark Gray) */
+    --text-secondary: #4a5568;   /* Subtítulos e Legendas (Medium Gray) */
+    --text-muted: #a0aec0;       /* Detalhes (Light Gray) */
+    --border-color: #e5e7eb;     /* Cor da borda */
+    
+    /* Sombras e Espaçamento */
+    --shadow-base: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+}
+
+/* Cores auxiliares para a legenda do gráfico de barras */
+.bg-purple-color { background-color: var(--purple-main); }
+.bg-orange-color { background-color: var(--orange-main); }
+
+/* Reset básico e tipografia */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* ==================================================================== */
+/* --- 2. LAYOUT GERAL E TÍTULOS --- */
+/* ==================================================================== */
+
+.main-app-container {
+    margin-top: 5rem;
+    min-height: calc(100vh - 200px);
+    width: 100%;
+}
+
+.content-padding-wrapper {
+    padding: var(--spacing-xl);
+    max-width: 1400px;
+    margin: 0 auto;
+}
+@media (min-width: 640px) {
+    .content-padding-wrapper {
+        padding: var(--spacing-lg);
+    }
+}
+
+.page-header {
+    margin-bottom: var(--spacing-xl);
+}
+
+.page-title {
+    font-size: 2.625rem;
+    font-weight: 700;
+    margin-bottom: 5px;
+    color: var(--text-primary);
+}
+
+.page-subtitle {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-xl);
+    text-transform: uppercase;
+}
+
+/* ==================================================================== */
+/* --- 3. LAYOUT GRID (SECTIONS) --- */
+/* ==================================================================== */
+.section-spacing {
+    margin-bottom: var(--spacing-xl);
+}
+
+/* Grid de 1 Coluna (Largura Total: Bar Chart e Horizontal Bar) */
+.grid-1-col {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--spacing-lg);
+}
+
+/* Grid de 2 Colunas (Gráficos Lado a Lado: Doughnut Charts) */
+.grid-2-cols {
+    display: grid;
+    grid-template-columns: 1fr; /* 1 coluna no mobile */
+    gap: var(--spacing-lg);
+}
+@media (min-width: 768px) { /* Ativa 2 colunas em tablets e desktops */
+    .grid-2-cols {
+        grid-template-columns: repeat(2, 1fr); 
+    }
+}
+
+/* Grid de 3 Colunas (Cards de Resumo) */
+.grid-3-cols { 
+    display: grid;
+    grid-template-columns: 1fr; 
+    gap: var(--spacing-md);
+}
+@media (min-width: 640px) {
+    .grid-3-cols {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+@media (min-width: 1024px) {
+    .grid-3-cols {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+
+/* ==================================================================== */
+/* --- 4. CARDS DE RESUMO --- */
+/* ==================================================================== */
+.card-resumo {
+    background-color: var(--bg-card);
+    padding: var(--spacing-lg) var(--spacing-md);
+    border-radius: 0.5rem; 
+    box-shadow: var(--shadow-base); 
+    border-top: 5px solid; 
+}
+
+/* Cores da Borda Superior */
+.card-color-purple { border-color: var(--purple-main); }
+.card-color-orange { border-color: var(--orange-main); }
+.card-color-green { border-color: var(--green-main); }
+
+.card-header-flex {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.card-title {
+    font-size: 0.75rem; 
+    font-weight: 500;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+}
+
+.card-icon-box {
+    padding: var(--spacing-sm);
+    border-radius: 0.5rem; 
+    color: var(--bg-card); 
+}
+
+/* Cores do Fundo do Ícone */
+.icon-bg-purple { background-color: var(--purple-main); }
+.icon-bg-orange { background-color: var(--orange-main); }
+.icon-bg-green { background-color: var(--green-main); }
+
+.card-icon {
+    width: 1.8rem; 
+    height: 1.8rem;
+}
+
+.card-value {
+    margin-top: var(--spacing-sm); 
+    font-size: 1.5rem; 
+    font-weight: 700; 
+    color: var(--text-primary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.card-footer-flex {
+    display: flex;
+    align-items: center;
+    margin-top: var(--spacing-sm);
+    flex-wrap: wrap; 
+}
+
+.card-trend {
+    font-size: 0.95rem; 
+    font-weight: 600; 
+    margin-right: var(--spacing-sm);
+    flex-shrink: 0;
+}
+.trend-up { color: var(--green-main); }
+.trend-down { color: var(--orange-main); } 
+
+.card-trend-detail {
+    font-size: 0.95rem; 
+    color: var(--text-muted); 
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
+/* ==================================================================== */
+/* --- 5. ESTILOS BASE PARA GRÁFICOS --- */
+/* ==================================================================== */
+.chart-box {
+    background-color: var(--bg-card);
+    padding: var(--spacing-lg); 
+    border-radius: 0.75rem; 
+    box-shadow: var(--shadow-base);
+    border: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    min-height: 350px; 
+}
+
+.chart-title {
+    font-size: 1rem; 
+    font-weight: 700; 
+    color: var(--text-primary); 
+    text-transform: uppercase;
+    margin: 0 0 0.25rem 0;
+}
+
+.chart-subtitle {
+    font-size: 0.875rem; 
+    color: var(--text-secondary); 
+    margin-bottom: var(--spacing-md); 
+    text-transform: uppercase;
+}
+.chart-subtitle-small {
+    font-size: 0.95rem; 
+    color: var(--text-secondary); 
+    margin-bottom: var(--spacing-md); 
+    text-transform: uppercase;
+}
+
+
+/* ==================================================================== */
+/* --- 6. BAR CHART (Consultas por Dia) --- */
+/* ==================================================================== */
+.chart-bar-base {
+    position: relative;
+}
+.bar-chart-area {
+    position: relative;
+    height: 200px; 
+    flex-grow: 1;
+    padding-right: 0.5rem; 
+    padding-bottom: 1.5rem; 
+    margin-left: 1.5rem; 
+}
+
+.bar-chart-y-axis {
+    position: absolute;
+    inset: 0;
+    right: auto;
+    width: 2rem; 
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: space-between;
+    height: 100%;
+    padding-right: 0.5rem;
+}
+
+.y-axis-line {
+    position: relative;
+    border-top: 1px dashed var(--border-color); 
+    height: 20%; 
+}
+.y-axis-line:last-child {
+    border-top: none; 
+}
+
+.y-axis-label {
+    position: absolute;
+    left: -2.5rem; 
+    top: -8px; 
+    font-size: 0.75rem; 
+    color: var(--text-muted); 
+}
+
+.bar-chart-bars-container {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-around;
+    height: 100%;
+    padding-left: 0.25rem; 
+    padding-right: 0.5rem; 
+}
+
+.bar-chart-bar-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    height: 100%;
+    width: 15px; 
+}
+
+.bar-chart-stack {
+    width: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.bar-segment {
+    width: 100%;
+}
+
+.bar-online {
+    background-color: var(--purple-main); 
+    border-radius: 0.1rem 0.1rem 0 0; 
+}
+.bar-presencial {
+    background-color: var(--orange-main); 
+    border-radius: 0.1rem 0.1rem 0 0;
+}
+
+.bar-label {
+    font-size: 0.75rem; 
+    color: var(--gray-text); 
+    margin-top: 0.5rem; 
+    font-weight: 500;
+}
+
+.bar-chart-legend {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-lg); 
+    margin-top: var(--spacing-sm); 
+    padding-top: var(--spacing-sm); 
+    border-top: 1px solid var(--border-color);
+}
+
+.legend-item-inline {
+    display: flex;
+    align-items: center;
+    font-size: 0.75rem; 
+    color: var(--gray-text); 
+}
+
+
+/* ==================================================================== */
+/* --- 7. DOUGHNUT CHART (Gráfico de Rosca) --- */
+/* ==================================================================== */
+.chart-doughnut-base {
+    min-height: 350px; 
+}
+
+.doughnut-content-flex {
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    justify-content: center; 
+    flex-grow: 1;
+}
+
+@media (min-width: 1024px) {
+    .doughnut-content-flex {
+        flex-direction: row;
+        align-items: center;
+        padding-top: 0;
+    }
+}
+
+.doughnut-svg-container {
+    width: 100%;
+    max-width: 200px;
+    height: 200px;
+    margin-bottom: var(--spacing-lg); 
+    position: relative;
+    flex-shrink: 0;
+}
+@media (min-width: 1024px) {
+    .doughnut-svg-container {
+        margin-bottom: 0;
+        margin-right: var(--spacing-xl); 
+    }
+}
+
+/* ESTILO DO TEXTO AO REDOR DA ROSCA (Posicionamento externo no JSX garante Z-index) */
+.doughnut-label-text {
+    /* Ajuste crítico para o SVG 100x100 para caber fora do raio 65 */
+    font-size: 4px; 
+    font-weight: 700;
+}
+
+.doughnut-legend-grid {
+    flex-grow: 1;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 0.5rem var(--spacing-lg); 
+    width: 100%;
+    max-width: 400px; 
+    justify-content: start;
+    margin: 0 auto;
+    padding-top: var(--spacing-sm);
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    font-size: 0.8rem; 
+}
+
+.legend-color-box {
+    height: 0.6rem; 
+    width: 0.6rem; 
+    border-radius: 9999px; 
+    margin-right: var(--spacing-sm); 
+    flex-shrink: 0;
+}
+
+.legend-text {
+    color: var(--text-secondary); 
+    white-space: nowrap;
+    font-weight: 500;
+}
+
+
+/* ==================================================================== */
+/* --- 8. TOP PROCEDIMENTOS (Horizontal Bar Chart) --- */
+/* ==================================================================== */
+.chart-horizontal-bar-base {
+    width: 100%;
+}
+
+
+.chart-title.flex-shrink-0{
+    color: #6b46c1;
+    font-size: 18px;
+}
+
+
+.chart-title{
+    color: #6b46c1;
+    font-size: 18px;
+}
+
+.horizontal-bar-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem; 
+    margin-bottom: var(--spacing-md);
+}
+
+.horizontal-bar-item {
+    display: flex;
+    align-items: center;
+}
+
+/* Melhora a legibilidade do Rótulo do Procedimento */
+.horizontal-bar-label {
+    font-size: 0.9rem; 
+    font-weight: 600; 
+    color: var(--text-primary); 
+    width: 180px; 
+    text-align: right;
+    padding-right: 1.5rem; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 100px;
+    flex-shrink: 0;
+}
+
+.horizontal-bar-track {
+    flex-grow: 1;
+    background-color: var(--border-color); 
+    border-radius: 9999px; 
+    height: 1.1rem; 
+    position: relative;
+    overflow: hidden;
+}
+
+.horizontal-bar-fill {
+    height: 100%;
+    border-radius: 9999px;
+    transition: width 0.7s ease-out;
+}
+
+/* Alinha o Eixo X com o início das barras */
+.horizontal-bar-x-axis {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0.5rem;
+    margin-left: 180px; 
+    padding-right: 0.5rem; 
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    border-top: 1px solid var(--border-color);
+    padding-top: 0.5rem;
+}
