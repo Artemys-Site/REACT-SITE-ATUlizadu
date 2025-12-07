@@ -1,7 +1,5 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
-import Header from "../components/Header";   // ← ADICIONADO
-import Footer from "../components/Footer";   // ← ADICIONADO
 import "./AmbulanciaConfiguracaoSeguranca.css";
 
 export default function AmbulanciaConfiguracaoSeguranca() {
@@ -19,17 +17,26 @@ export default function AmbulanciaConfiguracaoSeguranca() {
     }));
   };
 
+  const handleSave = (e) => {
+    e.preventDefault();
+    // TODO: Implementar salvamento das configurações
+    // Aqui você pode adicionar a lógica de salvamento quando o backend estiver pronto
+  };
+
+  const handleCancel = (e) => {
+    e.preventDefault();
+    // TODO: Implementar cancelamento/voltar
+  };
+
   return (
     <>
-      <Header />
-
       <div className="config-container">
 
         <h2 className="title">CONFIGURAÇÕES DO SISTEMA</h2>
         <p className="subtitle">Gerencie a segurança da sua conta</p>
 
         {/* Botão superior */}
-        <button className="save-top-btn">SALVAR ALTERAÇÕES</button>
+        <button className="save-top-btn" onClick={handleSave}>SALVAR ALTERAÇÕES</button>
 
         {/* Navegação interna */}
         <div className="settings-nav">
@@ -105,14 +112,12 @@ export default function AmbulanciaConfiguracaoSeguranca() {
           </div>
 
           <div className="buttons-bottom">
-            <button className="cancel-btn">Cancelar</button>
-            <button className="save-btn">Salvar Alterações</button>
+            <button className="cancel-btn" onClick={handleCancel}>Cancelar</button>
+            <button className="save-btn" onClick={handleSave}>Salvar Alterações</button>
           </div>
         </div>
 
       </div>
-
-      <Footer />
     </>
   );
 }

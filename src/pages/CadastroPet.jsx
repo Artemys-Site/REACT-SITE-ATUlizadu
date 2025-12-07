@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import './CadastroPet.css';
 import artySegurandogato from '../assets/artySegurandogato.webp';
 import iconeCoracao from '../assets/iconeCoracao.png';
 
 const CadastroPet = () => {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [formData, setFormData] = useState({
     nome: '',
     diaNascimento: '',
@@ -78,11 +80,25 @@ const CadastroPet = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Aqui você pode adicionar lógica para salvar o pet
-    console.log('Dados do pet:', formData);
-    navigate('/perfil');
+    
+    if (!user || user.accountType !== 'tutor') {
+      alert('Você precisa estar logado como tutor para cadastrar um pet.');
+      navigate('/login');
+      return;
+    }
+    
+    try {
+      // Formatar data de nascimento
+      const dia = formData.diaNascimento.padStart(2, '0');
+      const mes = formData.mesNascimento.padStart(2, '0');
+      const ano = formData.anoNascimento;
+      const dataNascimento = `${ano}-${mes}-${dia}`;
+      
+      // TODO: Integração com backend será implementada
+      alert('Pet cadastrado com sucesso!');
+      navigate('/perfil');
   };
 
   return (

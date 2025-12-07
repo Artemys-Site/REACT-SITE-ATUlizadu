@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "./painelambulancia.css";
 
 export default function PainelAmbulancia() {
@@ -8,8 +9,16 @@ export default function PainelAmbulancia() {
       <div className="painel-container" style={{ marginTop: '80px' }}>
 
         <main className="main">
-          <h1 className="main-title">PAINEL DE AMBULÂNCIA</h1>
-          <p className="main-desc">Resumo rápido das operações e status das ambulâncias</p>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+            <div>
+              <h1 className="main-title">PAINEL DE AMBULÂNCIA</h1>
+              <p className="main-desc">Resumo rápido das operações e status das ambulâncias</p>
+            </div>
+            <Link to="/cadastro-ambulancia" className="btn-cadastrar-ambulancia">
+              <i className="bi bi-plus-circle"></i>
+              CADASTRAR AMBULÂNCIA
+            </Link>
+          </div>
 
           {/* CARDS */}
           <div className="cards">

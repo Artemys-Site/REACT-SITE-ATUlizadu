@@ -1,16 +1,16 @@
-.cadastro-veterinario-page {
+.cadastro-empresa-page {
     padding: 40px 20px 60px;
     background-color: #F5F5F5;
     margin-top: 90px;
     min-height: calc(100vh - 90px);
 }
 
-.cadastro-veterinario-container {
+.cadastro-empresa-container {
     max-width: 1200px;
     margin: 0 auto;
 }
 
-.cadastro-veterinario-content {
+.cadastro-empresa-content {
     display: grid;
     grid-template-columns: 300px 1fr;
     gap: 40px;
@@ -18,7 +18,7 @@
     position: relative;
 }
 
-.veterinario-mascot {
+.empresa-mascot {
     position: sticky;
     top: 120px;
     z-index: 1;
@@ -34,7 +34,7 @@
     object-fit: contain;
 }
 
-.veterinario-form-wrapper {
+.empresa-form-wrapper {
     flex: 1;
     background-color: #FFFFFF;
     padding: 40px;
@@ -42,7 +42,7 @@
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 
-.veterinario-titulo {
+.empresa-titulo {
     font-size: 36px;
     font-weight: 700;
     color: #7A2FF5;
@@ -51,19 +51,19 @@
     letter-spacing: 1px;
 }
 
-.veterinario-form {
+.empresa-form {
     display: flex;
     flex-direction: column;
     gap: 25px;
 }
 
-.form-group-veterinario {
+.form-group-empresa {
     display: flex;
     flex-direction: column;
     gap: 8px;
 }
 
-.form-group-veterinario label {
+.form-group-empresa label {
     font-size: 14px;
     font-weight: 600;
     color: #3B2561;
@@ -71,8 +71,8 @@
     font-family: Arial, sans-serif;
 }
 
-.form-group-veterinario input,
-.form-group-veterinario select {
+.form-group-empresa input,
+.form-group-empresa select {
     width: 100%;
     padding: 12px;
     border: 2px solid #E6DFFF;
@@ -85,41 +85,37 @@
     transition: all 0.3s ease;
 }
 
-.form-group-veterinario input:focus,
-.form-group-veterinario select:focus {
+.form-group-empresa input:focus,
+.form-group-empresa select:focus {
     outline: none;
     border-color: #7A2FF5;
     box-shadow: 0 0 0 3px rgba(122, 47, 245, 0.1);
 }
 
-.form-group-veterinario input::placeholder {
+.form-group-empresa input::placeholder {
     color: #999;
 }
 
-.form-row-veterinario {
+.form-row-empresa {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: 1fr 1fr;
     gap: 20px;
 }
 
-.form-row-veterinario.two-columns {
-    grid-template-columns: 1fr 1fr;
-}
-
-.input-with-button {
+.input-with-upload {
     display: flex;
     gap: 10px;
     align-items: flex-end;
 }
 
-.input-with-button input {
+.input-with-upload input {
     flex: 1;
 }
 
-.btn-upload {
-    background-color: #7A2FF5;
-    color: #FFFFFF;
-    border: none;
+.btn-upload-empresa {
+    background-color: #FFFFFF;
+    color: #7A2FF5;
+    border: 2px solid #7A2FF5;
     border-radius: 8px;
     padding: 12px 20px;
     font-size: 13px;
@@ -134,59 +130,46 @@
     font-family: Arial, sans-serif;
 }
 
-.btn-upload:hover {
-    background-color: #6A4C9C;
+.btn-upload-empresa:hover {
+    background-color: #F5F5F5;
     transform: translateY(-2px);
 }
 
-.btn-upload i {
+.btn-upload-empresa i {
     font-size: 16px;
 }
 
-.radio-group-veterinario {
+.form-section-empresa {
     display: flex;
+    flex-direction: column;
     gap: 15px;
-    flex-wrap: wrap;
+    padding: 20px;
+    background-color: #F5F5F5;
+    border-radius: 8px;
+    margin-top: 10px;
 }
 
-.radio-option-veterinario {
+.section-header-empresa {
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 12px;
-    background-color: #FFFFFF;
-    border: 2px solid #E6DFFF;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-family: Arial, sans-serif;
 }
 
-.radio-option-veterinario:hover {
-    border-color: #7A2FF5;
-    background-color: #F5F5F5;
-}
-
-.radio-option-veterinario input[type="radio"] {
-    width: 18px;
-    height: 18px;
-    cursor: pointer;
-    accent-color: #7A2FF5;
-}
-
-.radio-option-veterinario input[type="radio"]:checked + span {
+.section-header-empresa i {
     color: #7A2FF5;
-    font-weight: 600;
+    font-size: 18px;
 }
 
-.radio-option-veterinario span {
+.section-header-empresa label {
     font-size: 14px;
+    font-weight: 600;
     color: #3B2561;
     text-transform: uppercase;
-    font-weight: 500;
+    font-family: Arial, sans-serif;
+    margin: 0;
 }
 
-.veterinario-form-actions {
+.empresa-form-actions {
     display: flex;
     justify-content: flex-end;
     gap: 20px;
@@ -195,7 +178,7 @@
     border-top: 1px solid #E6DFFF;
 }
 
-.btn-proximo-veterinario {
+.btn-proximo-empresa {
     background-color: #7A2FF5;
     color: #FFFFFF;
     border: none;
@@ -210,13 +193,13 @@
     box-shadow: 0 4px 15px rgba(122, 47, 245, 0.3);
 }
 
-.btn-proximo-veterinario:hover {
+.btn-proximo-empresa:hover {
     background-color: #6A4C9C;
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(122, 47, 245, 0.4);
 }
 
-.btn-ja-tem-conta-veterinario {
+.btn-ja-tem-conta-empresa {
     background-color: #FFFFFF;
     color: #7A2FF5;
     border: 2px solid #7A2FF5;
@@ -234,75 +217,67 @@
     font-family: Arial, sans-serif;
 }
 
-.btn-ja-tem-conta-veterinario:hover {
+.btn-ja-tem-conta-empresa:hover {
     background-color: #F5F5F5;
     transform: translateY(-2px);
 }
 
 @media (max-width: 1024px) {
-    .cadastro-veterinario-content {
+    .cadastro-empresa-content {
         grid-template-columns: 250px 1fr;
         gap: 30px;
     }
 
-    .veterinario-mascot {
+    .empresa-mascot {
         position: relative;
         top: 0;
-    }
-
-    .form-row-veterinario {
-        grid-template-columns: 1fr 1fr;
     }
 }
 
 @media (max-width: 768px) {
-    .cadastro-veterinario-page {
+    .cadastro-empresa-page {
         margin-top: 70px;
         padding: 30px 15px 40px;
     }
 
-    .cadastro-veterinario-content {
+    .cadastro-empresa-content {
         grid-template-columns: 1fr;
         gap: 30px;
     }
 
-    .veterinario-mascot {
+    .empresa-mascot {
         display: none;
     }
 
-    .veterinario-form-wrapper {
+    .empresa-form-wrapper {
         padding: 25px;
     }
 
-    .veterinario-titulo {
+    .empresa-titulo {
         font-size: 28px;
     }
 
-    .form-row-veterinario {
+    .form-row-empresa {
         grid-template-columns: 1fr;
     }
 
-    .input-with-button {
+    .input-with-upload {
         flex-direction: column;
         align-items: stretch;
     }
 
-    .btn-upload {
+    .btn-upload-empresa {
         width: 100%;
         justify-content: center;
     }
 
-    .radio-group-veterinario {
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    .veterinario-form-actions {
+    .empresa-form-actions {
         flex-direction: column;
     }
 
-    .btn-proximo-veterinario,
-    .btn-ja-tem-conta-veterinario {
+    .btn-proximo-empresa,
+    .btn-ja-tem-conta-empresa {
         width: 100%;
     }
 }
+

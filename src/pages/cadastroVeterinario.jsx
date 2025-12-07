@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './cadastroVeterinario.css';
-import mascoteCadastro from '../assets/imagemArty.png';
+import artySegurandogato from '../assets/artySegurandogato.webp';
 
 const CadastroVeterinario = () => {
   const navigate = useNavigate();
@@ -31,13 +31,32 @@ const CadastroVeterinario = () => {
     const { name, value } = e.target;
     
     if (name === 'rgCpf') {
+      // Formata como CPF ou CNPJ dependendo do tamanho
+      const cleaned = value.replace(/\D/g, '');
+      let formatted = '';
+      if (cleaned.length <= 11) {
+        formatted = cleaned.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4').slice(0, 14);
+      } else {
+        formatted = cleaned.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, '$1.$2.$3/$4-$5').slice(0, 18);
+      }
+      setFormData(prev => ({ ...prev, [name]: formatted }));
+    } else if (name === 'cnpj') {
       const formatted = value.replace(/\D/g, '').replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, '$1.$2.$3/$4-$5').slice(0, 18);
       setFormData(prev => ({ ...prev, [name]: formatted }));
     } else if (name === 'cep') {
       const formatted = value.replace(/\D/g, '').replace(/(\d{5})(\d)/, '$1-$2').slice(0, 9);
       setFormData(prev => ({ ...prev, [name]: formatted }));
-    } else if (name === 'celular' || name === 'telefone') {
+    } else if (name === 'celular') {
       const formatted = value.replace(/\D/g, '').replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3').slice(0, 15);
+      setFormData(prev => ({ ...prev, [name]: formatted }));
+    } else if (name === 'telefone') {
+      const cleaned = value.replace(/\D/g, '');
+      let formatted = '';
+      if (cleaned.length <= 10) {
+        formatted = cleaned.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3').slice(0, 14);
+      } else {
+        formatted = cleaned.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3').slice(0, 15);
+      }
       setFormData(prev => ({ ...prev, [name]: formatted }));
     } else {
       setFormData(prev => ({ ...prev, [name]: value }));
@@ -51,12 +70,27 @@ const CadastroVeterinario = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Aqui você adicionaria a lógica de cadastro
-    console.log('Dados do veterinário:', formData);
-    alert('Cadastro iniciado com sucesso!');
-    // Redirecionar para próxima etapa ou página de sucesso
+    
+    try {
+      // Formatar data de nascimento
+      const dia = formData.nascimentoDia.padStart(2, '0');
+      const mes = formData.nascimentoMes.padStart(2, '0');
+      const ano = formData.nascimentoAno;
+      const dataNascimento = `${ano}-${mes}-${dia}`;
+      
+      // Remover formatação dos campos
+      const rgCpfLimpo = formData.rgCpf.replace(/\D/g, '');
+      const cepLimpo = formData.cep.replace(/\D/g, '');
+      const celularLimpo = formData.celular.replace(/\D/g, '');
+      const telefoneLimpo = formData.telefone ? formData.telefone.replace(/\D/g, '') : '';
+      const cnpjLimpo = formData.cnpj ? formData.cnpj.replace(/\D/g, '') : '';
+      
+      // TODO: Integração com backend será implementada
+      alert('Cadastro realizado com sucesso!');
+      sessionStorage.removeItem('cadastro_ambulancia_fluxo');
+      navigate('/login');
   };
 
   return (
@@ -65,7 +99,7 @@ const CadastroVeterinario = () => {
         <div className="cadastro-veterinario-container">
           <div className="cadastro-veterinario-content">
             <div className="veterinario-mascot">
-              <img src={mascoteCadastro} alt="Mascote" className="mascot-image" />
+              <img src={artySegurandogato} alt="Mascote" className="mascot-image" />
             </div>
 
             <div className="veterinario-form-wrapper">
@@ -86,87 +120,98 @@ const CadastroVeterinario = () => {
                 </div>
 
                 <div className="form-row-veterinario">
-                    <label className="label-title">Data de Nascimento</label>
-                    <div className="dob-container">
-                        <input
-                        type="text"
-                        maxLength="2"
-                        placeholder="Dia"
-                        name="nascimentoDia"
-                        value={formData.nascimentoDia}
-                        onChange={handleInputChange}
-                        required
-                        />
-                        <input
-                        type="text"
-                        maxLength="2"
-                        placeholder="Mês"
-                        name="nascimentoMes"
-                        value={formData.nascimentoMes}
-                        onChange={handleInputChange}
-                        required
-                        />
-                        <input
-                        type="text"
-                        maxLength="4"
-                        placeholder="Ano"
-                        name="nascimentoAno"
-                        value={formData.nascimentoAno}
-                        onChange={handleInputChange}
-                        required
-                        />
-                        </div>
-                    </div>
-
-
-                <div className="form-row-veterinario">
-                    <label className="label-title">Gênero</label>
-                    <div className="genero-container">
-                        <label className="genero-option">
-                            <input
-                            type="radio"
-                            name="genero"
-                            value="Masculino"
-                            checked={formData.genero === "Masculino"}
-                            onChange={handleInputChange}
-                            /> Masculino
-                            </label>
-                            <label className="genero-option">
-                                <input
-                                type="radio"
-                                name="genero"
-                                value="Feminino"
-                                checked={formData.genero === "Feminino"}
-                                onChange={handleInputChange}
-                                /> Feminino
-                                </label>
-                                <label className="genero-option">
-                                    <input
-                                    type="radio"
-                                    name="genero"
-                                    value="Outro"
-                                    checked={formData.genero === "Outro"}
-                                    onChange={handleInputChange}
-                                    />
-                                     Outro
-                                     </label>
-                                    </div>
-                                </div>
+                  <div className="form-group-veterinario">
+                    <label htmlFor="nascimentoDia">DATA DE NASCIMENTO (DIA) *</label>
+                    <input
+                      type="text"
+                      id="nascimentoDia"
+                      name="nascimentoDia"
+                      placeholder="DD"
+                      maxLength="2"
+                      value={formData.nascimentoDia}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </div>
+                  <div className="form-group-veterinario">
+                    <label htmlFor="nascimentoMes">MÊS *</label>
+                    <input
+                      type="text"
+                      id="nascimentoMes"
+                      name="nascimentoMes"
+                      placeholder="MM"
+                      maxLength="2"
+                      value={formData.nascimentoMes}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </div>
+                  <div className="form-group-veterinario">
+                    <label htmlFor="nascimentoAno">ANO *</label>
+                    <input
+                      type="text"
+                      id="nascimentoAno"
+                      name="nascimentoAno"
+                      placeholder="AAAA"
+                      maxLength="4"
+                      value={formData.nascimentoAno}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </div>
+                </div>
 
                 <div className="form-group-veterinario">
-                  <label htmlFor="rgCpf"> RG/CPF*</label>
+                  <label>GÊNERO *</label>
+                  <div className="radio-group-veterinario">
+                    <label className="radio-option-veterinario">
+                      <input
+                        type="radio"
+                        name="genero"
+                        value="Masculino"
+                        checked={formData.genero === "Masculino"}
+                        onChange={handleInputChange}
+                        required
+                      />
+                      <span>MASCULINO</span>
+                    </label>
+                    <label className="radio-option-veterinario">
+                      <input
+                        type="radio"
+                        name="genero"
+                        value="Feminino"
+                        checked={formData.genero === "Feminino"}
+                        onChange={handleInputChange}
+                      />
+                      <span>FEMININO</span>
+                    </label>
+                    <label className="radio-option-veterinario">
+                      <input
+                        type="radio"
+                        name="genero"
+                        value="Outro"
+                        checked={formData.genero === "Outro"}
+                        onChange={handleInputChange}
+                      />
+                      <span>OUTRO</span>
+                    </label>
+                  </div>
+                </div>
+
+                <div className="form-group-veterinario">
+                  <label htmlFor="rgCpf">RG/CPF *</label>
                   <div className="input-with-button">
-                  <input
-                    type="text"
-                    id="rgCpf"
-                    name="rgCpf"
-                    placeholder="000.000.000-00"
-                    maxLength="11"
-                    value={formData.rgCpf}
-                    onChange={handleInputChange}
-                    required
-                  />
-                  <label className="btn-upload">
+                    <input
+                      type="text"
+                      id="rgCpf"
+                      name="rgCpf"
+                      placeholder="000.000.000-00"
+                      maxLength="18"
+                      value={formData.rgCpf}
+                      onChange={handleInputChange}
+                      required
+                    />
+                    <label className="btn-upload">
                       <i className="bi bi-arrow-up-circle-fill"></i>
                       FOTO DO DOCUMENTO
                       <input
@@ -176,7 +221,7 @@ const CadastroVeterinario = () => {
                         style={{ display: 'none' }}
                       />
                     </label>
-                </div>
+                  </div>
                 </div>
 
                 <div className="form-group-veterinario">
@@ -204,7 +249,7 @@ const CadastroVeterinario = () => {
                   </div>
                 </div>
 
-                 <div className="form-veterinario">
+                <div className="form-row-veterinario two-columns">
                   <div className="form-group-veterinario">
                     <label htmlFor="celular">CELULAR *</label>
                     <input
@@ -218,19 +263,20 @@ const CadastroVeterinario = () => {
                     />
                   </div>
                   <div className="form-group-veterinario">
-                    <label htmlFor="telefone">TELEFONE*</label>
+                    <label htmlFor="telefone">TELEFONE</label>
                     <input
                       type="text"
                       id="telefone"
                       name="telefone"
-                      placeholder="0000-0000"
+                      placeholder="(00) 0000-0000"
                       value={formData.telefone}
                       onChange={handleInputChange}
                     />
                   </div>
                 </div>
+
                 <div className="form-group-veterinario">
-                  <label htmlFor="cnpj">CNPJ (Opicional)</label>
+                  <label htmlFor="cnpj">CNPJ (OPCIONAL)</label>
                   <input
                     type="text"
                     id="cnpj"
@@ -239,25 +285,23 @@ const CadastroVeterinario = () => {
                     maxLength="18"
                     value={formData.cnpj}
                     onChange={handleInputChange}
-                    required
                   />
                 </div>
-                
 
                 <div className="form-group-veterinario">
-                  <label htmlFor="endereco">ENDEREÇO *</label>
+                  <label htmlFor="rruaAvenida">RUA/AVENIDA *</label>
                   <input
                     type="text"
-                    id="endereco"
-                    name="endereco"
-                    placeholder="DIGITE O ENDEREÇO"
-                    value={formData.endereco}
+                    id="rruaAvenida"
+                    name="rruaAvenida"
+                    placeholder="DIGITE A RUA OU AVENIDA"
+                    value={formData.rruaAvenida}
                     onChange={handleInputChange}
                     required
                   />
                 </div>
 
-                <div className="form-veterinario">
+                <div className="form-row-veterinario two-columns">
                   <div className="form-group-veterinario">
                     <label htmlFor="cep">CEP *</label>
                     <input
@@ -271,51 +315,47 @@ const CadastroVeterinario = () => {
                       required
                     />
                   </div>
-
                   <div className="form-group-veterinario">
-                    <label htmlFor="numero">NUMERO *</label>
+                    <label htmlFor="numero">NÚMERO *</label>
                     <input
                       type="text"
                       id="numero"
                       name="numero"
-                      placeholder="0000000"
-                      maxLength="7"
+                      placeholder="DIGITE O NÚMERO"
                       value={formData.numero}
-                      onChange={handleInputChange}
-                      required
-                    />
-                  </div>
-                  </div>
-
-                   <div className="form-veterinario">
-                   <div className="form-group-veterinario">
-                    <label htmlFor="complemento">Complemento *</label>
-                    <input
-                      type="text"
-                      id="complemento"
-                      name="complemento"
-                      placeholder="DIGITE O BAIRRO"
-                      value={formData.complemento}
-                      onChange={handleInputChange}
-                      required
-                    />
-                  </div>
-
-                  <div className="form-group-veterinario">
-                    <label htmlFor="bairro">BAIRRO *</label>
-                    <input
-                      type="text"
-                      id="bairro"
-                      name="bairro"
-                      placeholder="DIGITE O BAIRRO"
-                      value={formData.bairro}
                       onChange={handleInputChange}
                       required
                     />
                   </div>
                 </div>
 
-                <div className="form-veterinario">
+                <div className="form-group-veterinario">
+                  <label htmlFor="complemento">COMPLEMENTO *</label>
+                  <input
+                    type="text"
+                    id="complemento"
+                    name="complemento"
+                    placeholder="DIGITE O COMPLEMENTO"
+                    value={formData.complemento}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </div>
+
+                <div className="form-group-veterinario">
+                  <label htmlFor="bairro">BAIRRO *</label>
+                  <input
+                    type="text"
+                    id="bairro"
+                    name="bairro"
+                    placeholder="DIGITE O BAIRRO"
+                    value={formData.bairro}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </div>
+
+                <div className="form-row-veterinario two-columns">
                   <div className="form-group-veterinario">
                     <label htmlFor="cidade">CIDADE *</label>
                     <input
@@ -371,11 +411,11 @@ const CadastroVeterinario = () => {
 
 
                 <div className="veterinario-form-actions">
-                  <button type="submit" className="btn-proximo">
-                    PROXIMO
+                  <button type="submit" className="btn-proximo-veterinario">
+                    PRÓXIMO
                   </button>
-                  <Link to="/login" className="btn-ja-tem-conta">
-                    JA TEM CONTA?
+                  <Link to="/login" className="btn-ja-tem-conta-veterinario">
+                    JÁ TEM CONTA?
                   </Link>
                 </div>
               </form>

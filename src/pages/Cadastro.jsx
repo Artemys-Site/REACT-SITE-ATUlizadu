@@ -16,6 +16,10 @@ const Cadastro = () => {
         navigate('/cadastro-tutor');
       } else if (accountType === 'clinica') {
         navigate('/cadastro-clinica');
+      } else if (accountType === 'ambulancia') {
+        navigate('/cadastro-ambulancia');
+      } else if (accountType === 'veterinario') {
+        navigate('/cadastro-veterinario');
       } else {
         navigate(`/cadastro/${accountType}`);
       }

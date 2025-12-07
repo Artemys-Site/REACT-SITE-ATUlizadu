@@ -1,7 +1,5 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
-import Header from "../components/Header";   // ← ADICIONADO
-import Footer from "../components/Footer";   // ← ADICIONADO
 import "./AmbulanciaConfiguracaoNotificacoes.css";
 
 export default function AmbulanciaConfiguracaoNotificacao() {
@@ -18,8 +16,6 @@ export default function AmbulanciaConfiguracaoNotificacao() {
 
   return (
     <>
-      <Header />
-
       <div className="config-container">
 
         {/* Título */}
@@ -93,8 +89,6 @@ export default function AmbulanciaConfiguracaoNotificacao() {
           </div>
         </div>
       </div>
-
-      <Footer />
     </>
   );
 }

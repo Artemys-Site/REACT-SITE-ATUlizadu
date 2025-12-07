@@ -1,6 +1,6 @@
 //SIM PRR EU PEDI PRA IA COMENTAR O CODIGO PQ TAVA FODA DE ENTENDER
 
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import './Artigos.css';
 import Book from '../assets/Book.png';
 import draMarina from '../assets/draMarina.png';
@@ -9,28 +9,8 @@ import iconeCapelo from '../assets/iconeCapelo.png';
 import iconeVoltar from '../assets/iconeVoltar.png';
 
 const Artigos = () => {
-  const location = useLocation();
-  const isArtigosPage = location.pathname === '/artigos';
-  const isGuiasPage = location.pathname === '/guias-primeiros-socorros';
-  
   return (
     <section className="artigos-page">
-      {/* Botões de navegação ARTIGOS / GUIAS */}
-      <div className="artigos-navegacao">
-        <Link 
-          to="/artigos" 
-          className={`nav-botao ${isArtigosPage ? 'nav-botao-ativo' : ''}`}
-        >
-          ARTIGOS
-        </Link>
-        <Link 
-          to="/guias-primeiros-socorros" 
-          className={`nav-botao ${isGuiasPage ? 'nav-botao-ativo' : ''}`}
-        >
-          GUIAS DE PRIMEIROS SOCORROS
-        </Link>
-      </div>
-      
       <div className="artigos-container">
         {/* Retângulo roxo principal à esquerda */}
         <div className="artigo-retangulo-esquerdo">

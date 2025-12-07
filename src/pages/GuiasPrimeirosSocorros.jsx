@@ -1,4 +1,4 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import './Artigos.css';
 import ImagemEngasgo from '../assets/ImagemEngasgo.png';
 import imagemQueimadura from '../assets/imagemQueimadura.jpg';
@@ -10,9 +10,6 @@ import iconeGato from '../assets/iconeGato.png';
 import iconePatapreta from '../assets/iconePatapreta.png';
 
 const GuiasPrimeirosSocorros = () => {
-  const location = useLocation();
-  const isArtigosPage = location.pathname === '/artigos';
-  const isGuiasPage = location.pathname === '/guias-primeiros-socorros';
 
   const guias = [
     {
@@ -55,22 +52,6 @@ const GuiasPrimeirosSocorros = () => {
 
   return (
     <section className="artigos-page">
-      {/* Botões de navegação ARTIGOS / GUIAS */}
-      <div className="artigos-navegacao">
-        <Link 
-          to="/artigos" 
-          className={`nav-botao ${isArtigosPage ? 'nav-botao-ativo' : ''}`}
-        >
-          ARTIGOS
-        </Link>
-        <Link 
-          to="/guias-primeiros-socorros" 
-          className={`nav-botao ${isGuiasPage ? 'nav-botao-ativo' : ''}`}
-        >
-          GUIAS DE PRIMEIROS SOCORROS
-        </Link>
-      </div>
-
       <div className="guias-container">
         <h1 className="guias-titulo">GUIAS DE PRIMEIROS SOCORROS</h1>
         <p className="guias-subtitulo">APRENDA A AGIR COM SEGURANÇA E CARINHO</p>

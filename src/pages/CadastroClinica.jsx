@@ -72,9 +72,9 @@ const CadastroClinica = () => {
       // Ou se o backend gerenciar a sessão de cadastro:
       // navigate('/cadastro-responsavel-tecnico');
       
-      // Placeholder: remover quando backend estiver pronto
+      // TODO: Implementar chamada à API de cadastro da clínica quando backend estiver pronto
       console.log('Dados da clínica:', formData);
-      alert('Cadastro será implementado pelo backend');
+      // Navega para o cadastro do responsável técnico (parte do mesmo fluxo de cadastro)
       navigate('/cadastro-responsavel-tecnico');
     } catch (error) {
       console.error('Erro no cadastro:', error);

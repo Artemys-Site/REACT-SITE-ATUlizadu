@@ -25,10 +25,6 @@ export const AuthProvider = ({ children }) => {
   // }, []);
 
   const login = (userData) => {
-    // TODO: Substituir por chamada à API de login
-    // const response = await api.login(email, password, accountType);
-    // const userData = response.data;
-    
     // Normalizar dados do usuário recebidos do backend
     const normalizedUserData = {
       ...userData,
@@ -47,19 +43,16 @@ export const AuthProvider = ({ children }) => {
     setIsLoggedIn(true);
     setUser(normalizedUserData);
     
-    // TODO: Salvar token de autenticação recebido do backend
-    // localStorage.setItem('auth_token', response.token);
+    // Token já foi salvo pelo authService
   };
 
   const logout = () => {
-    // TODO: Fazer chamada à API para invalidar token
-    // await api.logout();
-    
     setIsLoggedIn(false);
     setUser(null);
     
-    // TODO: Remover token de autenticação
-    // localStorage.removeItem('auth_token');
+    // Remover token de autenticação
+    localStorage.removeItem('auth_token');
+    localStorage.removeItem('user_data');
   };
 
   return (
