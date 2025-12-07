@@ -26,24 +26,74 @@ const Login = () => {
     setIsLoading(true);
     
     try {
+      const requestBody = {
+        email: email.trim(),
+        password: password,
+        accountType: accountType
+      };
+      
+      console.log('🔐 Iniciando login...', { 
+        email: requestBody.email, 
+        accountType: requestBody.accountType,
+        hasPassword: !!requestBody.password
+      });
+      
       const response = await fetch('/api/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Accept': 'application/json'
         },
-        body: JSON.stringify({
-          email: email,
-          password: password,
-          accountType: accountType
-        })
+        body: JSON.stringify(requestBody)
       });
 
+      console.log('📡 Resposta recebida:', {
+        status: response.status,
+        statusText: response.statusText,
+        ok: response.ok,
+        headers: Object.fromEntries(response.headers.entries())
+      });
+
+      // Verificar se a resposta é JSON antes de tentar fazer parse
+      const contentType = response.headers.get('content-type');
+      const isJson = contentType && contentType.includes('application/json');
+
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Erro no login');
+        let errorMessage = `Erro no login (${response.status})`;
+        
+        try {
+          if (isJson) {
+            const errorData = await response.json();
+            errorMessage = errorData.message || errorData.error || errorMessage;
+          } else {
+            // Se não for JSON, ler como texto
+            const errorText = await response.text();
+            console.error('❌ Erro do servidor (não-JSON):', errorText);
+            
+            // Tentar extrair mensagem de erro útil
+            if (errorText.includes('Erro')) {
+              errorMessage = errorText.substring(0, 200); // Limitar tamanho
+            } else {
+              errorMessage = `Erro interno do servidor (${response.status}). Tente novamente mais tarde.`;
+            }
+          }
+        } catch (parseError) {
+          console.error('❌ Erro ao processar resposta de erro:', parseError);
+          errorMessage = `Erro no servidor (${response.status}). Tente novamente.`;
+        }
+        
+        throw new Error(errorMessage);
+      }
+
+      // Verificar se a resposta de sucesso é JSON
+      if (!isJson) {
+        const textResponse = await response.text();
+        console.error('⚠️ Resposta de sucesso não é JSON:', textResponse);
+        throw new Error('Resposta inválida do servidor. Tente novamente.');
       }
 
       const data = await response.json();
+      console.log('✅ Login bem-sucedido:', { success: data.success, hasToken: !!data.token });
       
       if (data.success) {
         // Limpar dados do usuário anterior antes de salvar os novos
