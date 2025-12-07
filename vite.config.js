@@ -7,9 +7,9 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://localhost:5019',
+        target: 'https://apiartemys20251205182055-ffh8dzf7auf2hrdp.centralus-01.azurewebsites.net',
         changeOrigin: true,
-        secure: false,
+        secure: true,
       }
     }
   }

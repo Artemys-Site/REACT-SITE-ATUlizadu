@@ -7,6 +7,7 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [accountType, setAccountType] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { login } = useAuth();
 
@@ -22,25 +23,88 @@ const Login = () => {
       return;
     }
     
-    // TODO: Integração com backend será implementada
-    // Por enquanto, apenas simula login
-    const mockUser = {
-      id: 1,
-      email: email,
-      accountType: accountType
-    };
+    setIsLoading(true);
     
-    login(mockUser);
-    
-    // Redirecionar baseado no tipo de conta
-    if (accountType === 'clinica') {
-      navigate('/painel-clinica');
-    } else if (accountType === 'ambulancia') {
-      navigate('/painel-ambulancia');
-    } else if (accountType === 'veterinario') {
-      navigate('/painel-veterinario');
-    } else {
-      navigate('/painel-tutor');
+    try {
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: email,
+          password: password,
+          accountType: accountType
+        })
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Erro no login');
+      }
+
+      const data = await response.json();
+      
+      if (data.success) {
+        // Limpar dados do usuário anterior antes de salvar os novos
+        localStorage.removeItem('userFoto');
+        
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('user', JSON.stringify(data.user));
+        
+        // Salvar userId para o Header poder verificar
+        const userId = data.user.idTutor || data.user.id;
+        if (userId) {
+          localStorage.setItem('userId', userId.toString());
+        }
+        
+        // Processar e salvar foto se existir na resposta
+        if (data.user.foto || data.user.fotoTutor || data.user.fotoClinica || data.user.fotoVeterinario || data.user.fotoAmbulancia) {
+          let fotoParaSalvar = data.user.foto || data.user.fotoTutor || data.user.fotoClinica || data.user.fotoVeterinario || data.user.fotoAmbulancia;
+          
+          // Se a foto é base64 puro, adicionar prefixo
+          if (fotoParaSalvar && !fotoParaSalvar.startsWith('data:') && !fotoParaSalvar.startsWith('http')) {
+            const base64String = fotoParaSalvar.replace(/\s/g, '');
+            const base64Regex = /^[A-Za-z0-9+/=]+$/;
+            if (base64String.length > 500 && base64Regex.test(base64String)) {
+              fotoParaSalvar = `data:image/jpeg;base64,${base64String}`;
+            }
+          }
+          
+          if (fotoParaSalvar) {
+            localStorage.setItem('userFoto', fotoParaSalvar);
+          }
+        }
+        
+        login(data.user);
+        
+        // Disparar evento para o Header atualizar a foto
+        const fotoSalva = localStorage.getItem('userFoto');
+        window.dispatchEvent(new CustomEvent('userLogin', { 
+          detail: { userId: userId, foto: fotoSalva } 
+        }));
+        
+        switch (data.user.accountType) {
+          case 'clinica':
+            navigate('/painel-clinica');
+            break;
+          case 'ambulancia':
+            navigate('/rastreamento-ambulancia');
+            break;
+          case 'veterinario':
+            navigate('/painel-veterinario');
+            break;
+          case 'tutor':
+          default:
+            navigate('/');
+            break;
+        }
+      }
+    } catch (error) {
+      console.error('Erro no login:', error);
+      alert(error.message || 'Erro ao fazer login. Tente novamente.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -95,6 +159,7 @@ const Login = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder=""
                 required 
+                disabled={isLoading}
               />
             </div>
             
@@ -108,6 +173,7 @@ const Login = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder=""
                 required 
+                disabled={isLoading}
               />
             </div>
             
@@ -115,7 +181,13 @@ const Login = () => {
               <a href="/recuperar-senha" className="forgot-link">ESQUECEU A SENHA?</a>
             </div>
             
-            <button type="submit" className="login-button">ENTRAR</button>
+            <button 
+              type="submit" 
+              className="login-button"
+              disabled={isLoading}
+            >
+              {isLoading ? 'ENTRANDO...' : 'ENTRAR'}
+            </button>
           </form>
           
           <div className="register-section">

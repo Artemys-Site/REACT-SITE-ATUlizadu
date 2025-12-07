@@ -43,6 +43,14 @@ const Header = ({ isLoggedIn: propIsLoggedIn }) => {
   const [notificationsData, setNotificationsData] = useState(DUMMY_NOTIFICATIONS);
   const unreadCount = notificationsData.filter(n => n.unread).length;
   
+  // Estado para foto do perfil
+  const [profilePhoto, setProfilePhoto] = useState(() => {
+    // Buscar foto do localStorage ou do contexto
+    const fotoFromStorage = localStorage.getItem('userFoto');
+    const fotoFromUser = user?.foto;
+    return fotoFromStorage || fotoFromUser || perfilLogado;
+  });
+  
   // Verificação simples de tipo de usuário
   const isTutor = user?.accountType === 'tutor' || user?.tipo === 'Tutor';
   // Verificar se é clínica pelo usuário ou pela rota
@@ -62,6 +70,53 @@ const Header = ({ isLoggedIn: propIsLoggedIn }) => {
   useEffect(() => {
     setIsMenuOpen(false);
   }, [location]);
+
+  // Atualizar foto do perfil quando houver mudanças
+  useEffect(() => {
+    // Buscar foto inicial do localStorage ou contexto
+    const fotoFromStorage = localStorage.getItem('userFoto');
+    const fotoFromUser = user?.foto;
+    if (fotoFromStorage || fotoFromUser) {
+      setProfilePhoto(fotoFromStorage || fotoFromUser);
+    }
+
+    // Escutar eventos de atualização de usuário
+    const handleUserUpdate = (event) => {
+      const foto = event.detail?.foto;
+      if (foto) {
+        setProfilePhoto(foto);
+        localStorage.setItem('userFoto', foto);
+      }
+    };
+
+    // Escutar evento de login
+    const handleUserLogin = (event) => {
+      // Quando o usuário faz login, buscar foto do evento ou do localStorage
+      const fotoFromEvent = event.detail?.foto;
+      const fotoFromStorage = localStorage.getItem('userFoto');
+      const fotoToUse = fotoFromEvent || fotoFromStorage;
+      if (fotoToUse) {
+        setProfilePhoto(fotoToUse);
+      }
+    };
+
+    // Escutar mudanças no localStorage (quando a foto é atualizada em outra aba)
+    const handleStorageChange = (e) => {
+      if (e.key === 'userFoto' && e.newValue) {
+        setProfilePhoto(e.newValue);
+      }
+    };
+
+    window.addEventListener('userUpdated', handleUserUpdate);
+    window.addEventListener('userLogin', handleUserLogin);
+    window.addEventListener('storage', handleStorageChange);
+
+    return () => {
+      window.removeEventListener('userUpdated', handleUserUpdate);
+      window.removeEventListener('userLogin', handleUserLogin);
+      window.removeEventListener('storage', handleStorageChange);
+    };
+  }, [user]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -299,11 +354,15 @@ const Header = ({ isLoggedIn: propIsLoggedIn }) => {
             <div className="profile-container">
               <img
                 ref={profilePicRef}
-                src={perfilLogado}
+                src={profilePhoto}
                 alt="Perfil"
                 className="profile-pic"
                 id="profile-pic-btn"
                 onClick={toggleDropdown}
+                onError={(e) => {
+                  // Se a imagem falhar ao carregar, usar a imagem padrão
+                  e.target.src = perfilLogado;
+                }}
               />
               <div 
                 ref={dropdownRef}

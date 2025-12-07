@@ -8,6 +8,10 @@ import iconeCoracao from '../assets/iconeCoracao.png';
 const CadastroPet = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState(null);
+  const [fotoFile, setFotoFile] = useState(null);
+  const [fotoPreview, setFotoPreview] = useState(null);
   const [formData, setFormData] = useState({
     nome: '',
     diaNascimento: '',
@@ -80,18 +84,161 @@ const CadastroPet = () => {
     }
   };
 
+  const handleFotoChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      // Validar tipo de arquivo
+      if (!file.type.startsWith('image/')) {
+        alert('Por favor, selecione apenas arquivos de imagem.');
+        return;
+      }
+      
+      // Validar tamanho (máximo 5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        alert('A imagem deve ter no máximo 5MB.');
+        return;
+      }
+
+      setFotoFile(file);
+      
+      // Criar preview e converter para base64
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64String = reader.result;
+        setFotoPreview(base64String);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    if (!user || user.accountType !== 'tutor') {
-      alert('Você precisa estar logado como tutor para cadastrar um pet.');
-      navigate('/login');
-      return;
+    setIsSubmitting(true);
+    setError(null);
+
+    try {
+      // Obter token e ID do tutor
+      const token = localStorage.getItem('token');
+      const tutorId = user?.idTutor || user?.id || localStorage.getItem('userId');
+
+      if (!token || !tutorId) {
+        throw new Error('Você precisa estar logado para cadastrar um pet. Faça login novamente.');
+      }
+
+      // Construir data de nascimento (DateOnly - formato YYYY-MM-DD)
+      let dnPet = null;
+      console.log('=== PROCESSANDO DATA DE NASCIMENTO ===');
+      console.log('diaNascimento:', formData.diaNascimento);
+      console.log('mesNascimento:', formData.mesNascimento);
+      console.log('anoNascimento:', formData.anoNascimento);
+      
+      if (formData.diaNascimento && formData.mesNascimento && formData.anoNascimento) {
+        const dia = parseInt(formData.diaNascimento);
+        const mes = parseInt(formData.mesNascimento);
+        const ano = parseInt(formData.anoNascimento);
+        
+        console.log('Valores parseados - dia:', dia, 'mes:', mes, 'ano:', ano);
+        
+        if (dia && mes && ano && dia > 0 && dia <= 31 && mes > 0 && mes <= 12 && ano > 1900) {
+          // DateOnly requer formato YYYY-MM-DD
+          dnPet = `${ano}-${mes.toString().padStart(2, '0')}-${dia.toString().padStart(2, '0')}`;
+          console.log('✅ Data formatada:', dnPet);
+        } else {
+          console.warn('⚠️ Valores inválidos para data:', { dia, mes, ano });
+        }
+      } else {
+        console.warn('⚠️ Campos de data não preenchidos completamente');
+      }
+
+      // Converter castração de string para boolean
+      const casPet = formData.castracao === 'sim' ? true : false;
+
+      // Converter peso para decimal
+      const peqPet = formData.peso ? parseFloat(formData.peso) : null;
+
+      // Processar foto - remover prefixo data:image/...;base64, se existir
+      let fotoBase64 = null;
+      if (fotoPreview) {
+        if (fotoPreview.includes(',')) {
+          // Remover prefixo data:image/...;base64,
+          fotoBase64 = fotoPreview.split(',')[1];
+        } else {
+          // Já é base64 puro
+          fotoBase64 = fotoPreview;
+        }
+      }
+
+      // Preparar dados para enviar ao backend
+      const petData = {
+        NPet: formData.nome || '',
+        EspPet: formData.especie || '',
+        RacaPet: formData.raca || '',
+        DnPetString: dnPet, // String no formato YYYY-MM-DD (será convertido para DateOnly no backend)
+        CmPet: formData.microchip || '',
+        SexoPet: formData.sexo === 'macho' ? 'Macho' : 'Fêmea',
+        CasPet: casPet,
+        PortePet: formData.porte === 'pequeno' ? 'Pequeno' : 
+                 formData.porte === 'medio' ? 'Médio' : 'Grande',
+        PeqPet: peqPet,
+        CorPet: formData.cor || '',
+        CpePet: formData.condicoesPreexistentes?.join(', ') || '',
+        MaPet: formData.medicacoesAtuais?.join(', ') || '',
+        FotoPet: fotoBase64, // Base64 puro (sem prefixo)
+        FkTutorId: parseInt(tutorId)
+      };
+
+      console.log('Enviando dados do pet:', { ...petData, FotoPet: fotoPreview ? '[Base64]' : null });
+
+      // Fazer requisição POST para criar o pet
+      const response = await fetch('/api/Pets', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(petData)
+      });
+
+      // Verificar se a requisição foi bem-sucedida (201 Created)
+      if (response.status === 201) {
+        // Pet foi criado com sucesso
+        // Tentar ler a resposta, mas não falhar se houver erro de serialização
+        try {
+          const createdPet = await response.json();
+          console.log('Pet cadastrado com sucesso:', createdPet);
+        } catch (jsonError) {
+          // Se houver erro ao ler o JSON (pode ser problema de serialização no backend),
+          // mas o status 201 indica que o pet foi criado, então continuamos
+          console.warn('Pet criado, mas houve erro ao ler a resposta:', jsonError);
+        }
+
+        // Redirecionar para o perfil após sucesso
+        setIsSubmitting(false);
+        alert('Pet cadastrado com sucesso!');
+        // Usar replace para forçar recarregamento e adicionar timestamp para garantir atualização
+        navigate('/perfil', { replace: true, state: { refresh: true, timestamp: Date.now() } });
+        return;
+      }
+
+      // Se não for 201, tratar como erro
+      if (!response.ok) {
+        const errorData = await response.text();
+        let errorMessage = `Erro ao cadastrar pet: ${response.status}`;
+        
+        try {
+          const errorJson = JSON.parse(errorData);
+          errorMessage = errorJson.message || errorMessage;
+        } catch {
+          errorMessage = errorData || errorMessage;
+        }
+        
+        throw new Error(errorMessage);
+      }
+    } catch (err) {
+      console.error('Erro ao cadastrar pet:', err);
+      setError(err.message || 'Erro ao cadastrar pet. Tente novamente.');
+      setIsSubmitting(false);
     }
-    
-    // TODO: Integração com backend será implementada
-    alert('Pet cadastrado com sucesso!');
-    navigate('/perfil');
   };
 
   return (
@@ -305,6 +452,32 @@ const CadastroPet = () => {
                     onChange={handleInputChange}
                   />
                 </div>
+
+                <div className="form-group">
+                  <label htmlFor="foto-pet">Foto do Pet (Opcional)</label>
+                  <input
+                    type="file"
+                    id="foto-pet"
+                    accept="image/*"
+                    onChange={handleFotoChange}
+                    style={{ padding: '8px' }}
+                    disabled={isSubmitting}
+                  />
+                  {fotoPreview && (
+                    <div style={{ marginTop: '10px' }}>
+                      <img 
+                        src={fotoPreview} 
+                        alt="Preview" 
+                        style={{ 
+                          maxWidth: '150px', 
+                          maxHeight: '150px', 
+                          borderRadius: '8px',
+                          objectFit: 'cover'
+                        }} 
+                      />
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
 
@@ -411,8 +584,28 @@ const CadastroPet = () => {
               <label htmlFor="consentimento">Eu autorizo o uso de dados para personalização de atendimento</label>
             </div>
 
+            {error && (
+              <div style={{ 
+                color: '#DC2626', 
+                backgroundColor: '#FEE2E2', 
+                padding: '12px', 
+                borderRadius: '8px', 
+                marginBottom: '20px',
+                textAlign: 'center'
+              }}>
+                {error}
+              </div>
+            )}
+
             <div className="form-actions">
-              <button type="submit" className="btn-finalizar">FINALIZAR</button>
+              <button 
+                type="submit" 
+                className="btn-finalizar"
+                disabled={isSubmitting}
+                style={{ opacity: isSubmitting ? 0.6 : 1, cursor: isSubmitting ? 'not-allowed' : 'pointer' }}
+              >
+                {isSubmitting ? 'CADASTRANDO...' : 'FINALIZAR'}
+              </button>
               <Link to="/perfil" className="btn-voltar-cadastro">VOLTAR</Link>
             </div>
           </form>

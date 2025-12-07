@@ -1,74 +1,201 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import './CadastroTutor.css';
 import artySegurandogato from '../assets/artySegurandogato.webp';
 
 const CadastroTutor = () => {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+
   const [formData, setFormData] = useState({
-    nomeCompleto: '',
+    // Dados da tabela Tutor
+    ncTutor: '',
+    dnTutor: '',
+    gTutor: '',
+    cpfTutor: '',
+    fcpfTutor: null,
+    emailTutor: '',
+    senhaTutor: '',
+    
+    // Campos auxiliares para o formulário
+    confirmacaoEmail: '',
+    confirmacaoSenha: '',
     diaNascimento: '',
     mesNascimento: '',
     anoNascimento: '',
-    genero: '',
-    cpf: '',
-    fotoDocumento: null,
-    celular: '',
-    telefone: '',
-    ruaAvenida: '',
-    cep: '',
-    numero: '',
-    complemento: '',
-    bairro: '',
-    cidade: '',
-    estado: '',
-    email: '',
-    confirmacaoEmail: '',
-    senha: '',
-    confirmacaoSenha: ''
+
+    // Dados da tabela endTutor
+    fkEndTutorEndTutorPkNavigation: {
+      cepTutor: '',
+      ruaTutor: '',
+      numeroRuaTutor: '',
+      bairroTutor: '',
+      cidadeTutor: '',
+      estadoTutor: '',
+      complemento: ''
+    },
+
+    // Dados da tabela numCTutor
+    fkNumCtutorNumCtutorPkNavigation: {
+      numCtutor1: ''
+    },
+
+    // Dados da tabela numTTutor
+    fkNumTtutorNumTtutorPkNavigation: {
+      numTtutor1: ''
+    }
   });
+
+  const handleFileChange = (e) => {
+    setFormData(prevData => ({
+      ...prevData,
+      fcpfTutor: e.target.files[0]
+    }));
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     
-    if (name === 'cpf') {
-      const formatted = value.replace(/\D/g, '').replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4').slice(0, 14);
-      setFormData(prev => ({ ...prev, [name]: formatted }));
-    } else if (name === 'cep') {
-      const formatted = value.replace(/\D/g, '').replace(/(\d{5})(\d)/, '$1-$2').slice(0, 9);
-      setFormData(prev => ({ ...prev, [name]: formatted }));
-    } else if (name === 'celular' || name === 'telefone') {
-      const formatted = value.replace(/\D/g, '').replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3').slice(0, 15);
-      setFormData(prev => ({ ...prev, [name]: formatted }));
-    } else {
-      setFormData(prev => ({ ...prev, [name]: value }));
-    }
-  };
+    let formattedValue = value;
 
-  const handleFileChange = (e, fieldName) => {
-    const file = e.target.files[0];
-    if (file) {
-      setFormData(prev => ({ ...prev, [fieldName]: file }));
+    // SEMPRE remove letras primeiro
+    const numbersOnly = value.replace(/\D/g, '');
+
+    // Aplica formatações específicas
+    switch (name) {
+      case 'cpfTutor':
+        formattedValue = numbersOnly.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4').slice(0, 14);
+        break;
+      
+      case 'endTutor.cepTutor':
+        formattedValue = numbersOnly.replace(/(\d{5})(\d)/, '$1-$2').slice(0, 9);
+        break;
+      
+      case 'numCTutor.numCtutor1':
+      case 'numTTutor.numTtutor1':
+        if (numbersOnly.length === 11) {
+          formattedValue = numbersOnly.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+        } else if (numbersOnly.length === 10) {
+          formattedValue = numbersOnly.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3');
+        } else {
+          formattedValue = numbersOnly;
+        }
+        break;
+      
+      case 'diaNascimento':
+      case 'mesNascimento': 
+      case 'anoNascimento':
+      case 'endTutor.numeroRuaTutor':
+        formattedValue = numbersOnly; // Só números
+        break;
+      
+      default:
+        formattedValue = value; // Mantém original para outros campos
+    }
+
+    // Resto do código (atualização do state) permanece igual...
+    if (name.startsWith('endTutor.')) {
+      const field = name.split('.')[1];
+      setFormData(prevData => ({
+        ...prevData,
+        fkEndTutorEndTutorPkNavigation: {
+          ...prevData.fkEndTutorEndTutorPkNavigation,
+          [field]: formattedValue
+        }
+      }));
+    }
+    else if (name.startsWith('numCTutor.')) {
+      const field = name.split('.')[1];
+      setFormData(prevData => ({
+        ...prevData,
+        fkNumCtutorNumCtutorPkNavigation: {
+          ...prevData.fkNumCtutorNumCtutorPkNavigation,
+          [field]: formattedValue
+        }
+      }));
+    }
+    else if (name.startsWith('numTTutor.')) {
+      const field = name.split('.')[1];
+      setFormData(prevData => ({
+        ...prevData,
+        fkNumTtutorNumTtutorPkNavigation: {
+          ...prevData.fkNumTtutorNumTtutorPkNavigation,
+          [field]: formattedValue
+        }
+      }));
+    }
+    else {
+      setFormData(prevData => ({
+        ...prevData,
+        [name]: formattedValue
+      }));
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+    setIsLoading(true);
+
     // Validações
-    if (formData.email !== formData.confirmacaoEmail) {
-      alert('Os emails não coincidem!');
+    if (formData.emailTutor !== formData.confirmacaoEmail) {
+      alert('Erro: O campo E-mail e Confirmação de E-mail não coincidem.');
+      setIsLoading(false);
       return;
     }
-    
-    if (formData.senha !== formData.confirmacaoSenha) {
-      alert('As senhas não coincidem!');
+    if (formData.senhaTutor !== formData.confirmacaoSenha) {
+      alert('Erro: O campo Senha e Confirmação de Senha não coincidem.');
+      setIsLoading(false);
       return;
     }
-    
-    // TODO: Integração com backend será implementada
-    alert('Cadastro realizado com sucesso!');
-    navigate('/login');
+
+    // Formatar data de nascimento
+    const dnTutor = `${formData.anoNascimento}-${formData.mesNascimento.padStart(2, '0')}-${formData.diaNascimento.padStart(2, '0')}`;
+
+    // Preparar dados para a API
+    const tutorData = {
+      ncTutor: formData.ncTutor,
+      dnTutor: dnTutor,
+      gTutor: formData.gTutor,
+      cpfTutor: formData.cpfTutor.replace(/\D/g, ''),
+      fcpfTutor: formData.fcpfTutor ? "caminho/temporario" : null,
+      emailTutor: formData.emailTutor,
+      senhaTutor: formData.senhaTutor,
+      
+      fkEndTutorEndTutorPkNavigation: {
+        cepTutor: formData.fkEndTutorEndTutorPkNavigation.cepTutor.replace(/\D/g, ''),
+        ruaTutor: formData.fkEndTutorEndTutorPkNavigation.ruaTutor,
+        numeroRuaTutor: formData.fkEndTutorEndTutorPkNavigation.numeroRuaTutor,
+        bairroTutor: formData.fkEndTutorEndTutorPkNavigation.bairroTutor,
+        cidadeTutor: formData.fkEndTutorEndTutorPkNavigation.cidadeTutor,
+        estadoTutor: formData.fkEndTutorEndTutorPkNavigation.estadoTutor
+        // Nota: compTutor não é enviado no cadastro inicial pois a coluna não existe no banco
+        // O complemento pode ser adicionado posteriormente via edição do perfil
+      },
+      
+      fkNumCtutorNumCtutorPkNavigation: {
+        numCtutor1: formData.fkNumCtutorNumCtutorPkNavigation.numCtutor1.replace(/\D/g, '')
+      },
+      
+      fkNumTtutorNumTtutorPkNavigation: formData.fkNumTtutorNumTtutorPkNavigation.numTtutor1 ? {
+        numTtutor1: formData.fkNumTtutorNumTtutorPkNavigation.numTtutor1.replace(/\D/g, '')
+      } : null
+    };
+
+    try {
+      const response = await axios.post('/api/Tutors', tutorData);
+
+      if (response.status === 201) {
+        alert('Tutor cadastrado com sucesso!');
+        const novoTutorId = response.data.idTutor;
+        navigate(`/cadastro-pet?tutorId=${novoTutorId}`);
+      }
+    } catch (error) {
+      console.error('Erro ao cadastrar Tutor:', error.response ? error.response.data : error.message);
+      alert('Erro no cadastro. Verifique os dados e o console do navegador.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -84,16 +211,18 @@ const CadastroTutor = () => {
               <h1 className="tutor-titulo">CADASTRO DO TUTOR</h1>
               
               <form onSubmit={handleSubmit} className="tutor-form">
+                {/* Nome Completo */}
                 <div className="form-group-tutor">
-                  <label htmlFor="nome-completo">NOME COMPLETO *</label>
+                  <label htmlFor="ncTutor">NOME COMPLETO *</label>
                   <input
                     type="text"
-                    id="nome-completo"
-                    name="nomeCompleto"
+                    id="ncTutor"
+                    name="ncTutor"
                     placeholder="DIGITE SEU NOME COMPLETO"
-                    value={formData.nomeCompleto}
+                    value={formData.ncTutor}
                     onChange={handleInputChange}
                     required
+                    disabled={isLoading}
                   />
                 </div>
 
@@ -112,6 +241,7 @@ const CadastroTutor = () => {
                         value={formData.diaNascimento}
                         onChange={handleInputChange}
                         required
+                        disabled={isLoading}
                       />
                     </div>
                     <div className="form-group-tutor">
@@ -123,6 +253,7 @@ const CadastroTutor = () => {
                         value={formData.mesNascimento}
                         onChange={handleInputChange}
                         required
+                        disabled={isLoading}
                       />
                     </div>
                     <div className="form-group-tutor">
@@ -134,6 +265,7 @@ const CadastroTutor = () => {
                         value={formData.anoNascimento}
                         onChange={handleInputChange}
                         required
+                        disabled={isLoading}
                       />
                     </div>
                   </div>
@@ -148,48 +280,53 @@ const CadastroTutor = () => {
                     <label className="radio-label">
                       <input
                         type="radio"
-                        name="genero"
-                        value="masculino"
-                        checked={formData.genero === 'masculino'}
+                        name="gTutor"
+                        value="Masculino"
+                        checked={formData.gTutor === 'Masculino'}
                         onChange={handleInputChange}
                         required
+                        disabled={isLoading}
                       />
                       <span>O MASCULINO</span>
                     </label>
                     <label className="radio-label">
                       <input
                         type="radio"
-                        name="genero"
-                        value="feminino"
-                        checked={formData.genero === 'feminino'}
+                        name="gTutor"
+                        value="Feminino"
+                        checked={formData.gTutor === 'Feminino'}
                         onChange={handleInputChange}
+                        disabled={isLoading}
                       />
                       <span>O FEMININO</span>
                     </label>
                     <label className="radio-label">
                       <input
                         type="radio"
-                        name="genero"
-                        value="outro"
-                        checked={formData.genero === 'outro'}
+                        name="gTutor"
+                        value="Outro"
+                        checked={formData.gTutor === 'Outro'}
                         onChange={handleInputChange}
+                        disabled={isLoading}
                       />
                       <span>O OUTRO</span>
                     </label>
                   </div>
                 </div>
 
+                {/* CPF */}
                 <div className="form-group-tutor">
-                  <label htmlFor="cpf">CPF *</label>
+                  <label htmlFor="cpfTutor">CPF *</label>
                   <div className="input-with-button">
                     <input
                       type="text"
-                      id="cpf"
-                      name="cpf"
+                      id="cpfTutor"
+                      name="cpfTutor"
                       placeholder="000.000.000-00"
-                      value={formData.cpf}
+                      value={formData.cpfTutor}
                       onChange={handleInputChange}
                       required
+                      disabled={isLoading}
                     />
                     <label className="btn-upload">
                       <i className="bi bi-arrow-up-circle-fill"></i>
@@ -197,189 +334,210 @@ const CadastroTutor = () => {
                       <input
                         type="file"
                         accept="image/*"
-                        onChange={(e) => handleFileChange(e, 'fotoDocumento')}
+                        onChange={handleFileChange}
                         style={{ display: 'none' }}
+                        disabled={isLoading}
                       />
                     </label>
                   </div>
                 </div>
 
+                {/* Contatos */}
                 <div className="form-row-tutor two-columns">
                   <div className="form-group-tutor">
-                    <label htmlFor="celular">CELULAR *</label>
+                    <label htmlFor="numCtutor1">CELULAR *</label>
                     <input
                       type="text"
-                      id="celular"
-                      name="celular"
+                      id="numCtutor1"
+                      name="numCTutor.numCtutor1"
                       placeholder="(00) 00000-0000"
-                      value={formData.celular}
+                      value={formData.fkNumCtutorNumCtutorPkNavigation.numCtutor1}
                       onChange={handleInputChange}
                       required
+                      disabled={isLoading}
                     />
                   </div>
                   <div className="form-group-tutor">
-                    <label htmlFor="telefone">TELEFONE (OPICIONAL)</label>
+                    <label htmlFor="numTtutor1">TELEFONE (OPCIONAL)</label>
                     <input
                       type="text"
-                      id="telefone"
-                      name="telefone"
+                      id="numTtutor1"
+                      name="numTTutor.numTtutor1"
                       placeholder="(00) 0000-0000"
-                      value={formData.telefone}
+                      value={formData.fkNumTtutorNumTtutorPkNavigation.numTtutor1}
                       onChange={handleInputChange}
+                      disabled={isLoading}
                     />
                   </div>
                 </div>
 
+                {/* Endereço */}
                 <div className="form-group-tutor">
-                  <label htmlFor="rua-avenida">RUA/AVENIDA *</label>
+                  <label htmlFor="ruaTutor">RUA/AVENIDA *</label>
                   <input
                     type="text"
-                    id="rua-avenida"
-                    name="ruaAvenida"
+                    id="ruaTutor"
+                    name="endTutor.ruaTutor"
                     placeholder="DIGITE A RUA OU AVENIDA"
-                    value={formData.ruaAvenida}
+                    value={formData.fkEndTutorEndTutorPkNavigation.ruaTutor}
                     onChange={handleInputChange}
                     required
+                    disabled={isLoading}
                   />
                 </div>
 
                 <div className="form-row-tutor two-columns">
                   <div className="form-group-tutor">
-                    <label htmlFor="cep">CEP *</label>
+                    <label htmlFor="cepTutor">CEP *</label>
                     <input
                       type="text"
-                      id="cep"
-                      name="cep"
+                      id="cepTutor"
+                      name="endTutor.cepTutor"
                       placeholder="00000-000"
                       maxLength="9"
-                      value={formData.cep}
+                      value={formData.fkEndTutorEndTutorPkNavigation.cepTutor}
                       onChange={handleInputChange}
                       required
+                      disabled={isLoading}
                     />
                   </div>
                   <div className="form-group-tutor">
-                    <label htmlFor="numero">NÚMERO *</label>
+                    <label htmlFor="numeroRuaTutor">NÚMERO *</label>
                     <input
                       type="text"
-                      id="numero"
-                      name="numero"
+                      id="numeroRuaTutor"
+                      name="endTutor.numeroRuaTutor"
                       placeholder="000"
-                      value={formData.numero}
+                      value={formData.fkEndTutorEndTutorPkNavigation.numeroRuaTutor}
                       onChange={handleInputChange}
                       required
+                      disabled={isLoading}
                     />
                   </div>
                 </div>
 
                 <div className="form-group-tutor">
-                  <label htmlFor="complemento">COMPLEMENTO (EX: APTO 101,BLOCO B, CASA 2)</label>
+                  <label htmlFor="complemento">COMPLEMENTO (EX: APTO 101, BLOCO B, CASA 2)</label>
                   <input
                     type="text"
                     id="complemento"
-                    name="complemento"
+                    name="endTutor.complemento"
                     placeholder="DIGITE O COMPLEMENTO"
-                    value={formData.complemento}
+                    value={formData.fkEndTutorEndTutorPkNavigation.complemento}
                     onChange={handleInputChange}
+                    disabled={isLoading}
                   />
                 </div>
 
                 <div className="form-group-tutor">
-                  <label htmlFor="bairro">BAIRRO *</label>
+                  <label htmlFor="bairroTutor">BAIRRO *</label>
                   <input
                     type="text"
-                    id="bairro"
-                    name="bairro"
+                    id="bairroTutor"
+                    name="endTutor.bairroTutor"
                     placeholder="DIGITE O BAIRRO"
-                    value={formData.bairro}
+                    value={formData.fkEndTutorEndTutorPkNavigation.bairroTutor}
                     onChange={handleInputChange}
                     required
+                    disabled={isLoading}
                   />
                 </div>
 
                 <div className="form-row-tutor two-columns">
                   <div className="form-group-tutor">
-                    <label htmlFor="cidade">CIDADE *</label>
+                    <label htmlFor="cidadeTutor">CIDADE *</label>
                     <input
                       type="text"
-                      id="cidade"
-                      name="cidade"
+                      id="cidadeTutor"
+                      name="endTutor.cidadeTutor"
                       placeholder="DIGITE A CIDADE"
-                      value={formData.cidade}
+                      value={formData.fkEndTutorEndTutorPkNavigation.cidadeTutor}
                       onChange={handleInputChange}
                       required
+                      disabled={isLoading}
                     />
                   </div>
                   <div className="form-group-tutor">
-                    <label htmlFor="estado">ESTADO (UF) *</label>
+                    <label htmlFor="estadoTutor">ESTADO (UF) *</label>
                     <input
                       type="text"
-                      id="estado"
-                      name="estado"
+                      id="estadoTutor"
+                      name="endTutor.estadoTutor"
                       placeholder="UF"
                       maxLength="2"
-                      value={formData.estado}
+                      value={formData.fkEndTutorEndTutorPkNavigation.estadoTutor}
                       onChange={handleInputChange}
                       required
+                      disabled={isLoading}
                     />
                   </div>
                 </div>
 
+                {/* Email e Senha */}
                 <div className="form-group-tutor">
-                  <label htmlFor="email">EMAIL *</label>
+                  <label htmlFor="emailTutor">EMAIL *</label>
                   <input
                     type="email"
-                    id="email"
-                    name="email"
+                    id="emailTutor"
+                    name="emailTutor"
                     placeholder="DIGITE SEU EMAIL"
-                    value={formData.email}
+                    value={formData.emailTutor}
                     onChange={handleInputChange}
                     required
+                    disabled={isLoading}
                   />
                 </div>
 
                 <div className="form-group-tutor">
-                  <label htmlFor="confirmacao-email">CONFIRMAÇÃO DE EMAIL *</label>
+                  <label htmlFor="confirmacaoEmail">CONFIRMAÇÃO DE EMAIL *</label>
                   <input
                     type="email"
-                    id="confirmacao-email"
+                    id="confirmacaoEmail"
                     name="confirmacaoEmail"
                     placeholder="CONFIRME SEU EMAIL"
                     value={formData.confirmacaoEmail}
                     onChange={handleInputChange}
                     required
+                    disabled={isLoading}
                   />
                 </div>
 
                 <div className="form-row-tutor two-columns">
                   <div className="form-group-tutor">
-                    <label htmlFor="senha">SENHA *</label>
+                    <label htmlFor="senhaTutor">SENHA *</label>
                     <input
                       type="password"
-                      id="senha"
-                      name="senha"
+                      id="senhaTutor"
+                      name="senhaTutor"
                       placeholder="DIGITE SUA SENHA"
-                      value={formData.senha}
+                      value={formData.senhaTutor}
                       onChange={handleInputChange}
                       required
+                      disabled={isLoading}
                     />
                   </div>
                   <div className="form-group-tutor">
-                    <label htmlFor="confirmacao-senha">CONFIRMAÇÃO DE SENHA *</label>
+                    <label htmlFor="confirmacaoSenha">CONFIRMAÇÃO DE SENHA *</label>
                     <input
                       type="password"
-                      id="confirmacao-senha"
+                      id="confirmacaoSenha"
                       name="confirmacaoSenha"
                       placeholder="CONFIRME SUA SENHA"
                       value={formData.confirmacaoSenha}
                       onChange={handleInputChange}
                       required
+                      disabled={isLoading}
                     />
                   </div>
                 </div>
 
                 <div className="tutor-form-actions">
-                  <button type="submit" className="btn-cadastrar">
-                    CADASTRAR
+                  <button 
+                    type="submit" 
+                    className="btn-cadastrar"
+                    disabled={isLoading}
+                  >
+                    {isLoading ? 'CADASTRANDO...' : 'CADASTRAR'}
                   </button>
                   <Link to="/login" className="btn-ja-tem-conta">
                     JA TEM CONTA?
