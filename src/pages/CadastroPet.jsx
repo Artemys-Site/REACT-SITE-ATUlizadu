@@ -89,16 +89,9 @@ const CadastroPet = () => {
       return;
     }
     
-    try {
-      // Formatar data de nascimento
-      const dia = formData.diaNascimento.padStart(2, '0');
-      const mes = formData.mesNascimento.padStart(2, '0');
-      const ano = formData.anoNascimento;
-      const dataNascimento = `${ano}-${mes}-${dia}`;
-      
-      // TODO: Integração com backend será implementada
-      alert('Pet cadastrado com sucesso!');
-      navigate('/perfil');
+    // TODO: Integração com backend será implementada
+    alert('Pet cadastrado com sucesso!');
+    navigate('/perfil');
   };
 
   return (
