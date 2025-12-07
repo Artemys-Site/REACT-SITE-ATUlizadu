@@ -66,22 +66,9 @@ const CadastroTutor = () => {
       return;
     }
     
-    try {
-      // Formatar data de nascimento
-      const dia = formData.diaNascimento.padStart(2, '0');
-      const mes = formData.mesNascimento.padStart(2, '0');
-      const ano = formData.anoNascimento;
-      const dataNascimento = `${ano}-${mes}-${dia}`;
-      
-      // Remover formatação dos campos
-      const cpfLimpo = formData.cpf.replace(/\D/g, '');
-      const cepLimpo = formData.cep.replace(/\D/g, '');
-      const celularLimpo = formData.celular.replace(/\D/g, '');
-      const telefoneLimpo = formData.telefone ? formData.telefone.replace(/\D/g, '') : '';
-      
-      // TODO: Integração com backend será implementada
-      alert('Cadastro realizado com sucesso!');
-      navigate('/login');
+    // TODO: Integração com backend será implementada
+    alert('Cadastro realizado com sucesso!');
+    navigate('/login');
   };
 
   return (
