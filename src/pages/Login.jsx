@@ -22,26 +22,25 @@ const Login = () => {
       return;
     }
     
-    try {
-      // TODO: Implementar chamada à API de login
-      // const response = await api.login(email, password, accountType);
-      // const userData = response.data;
-      // login(userData);
-      
-      // Redirecionar baseado no tipo de conta retornado pelo backend
-      // if (userData.accountType === 'clinica') {
-      //   navigate('/painel-clinica');
-      // } else if (userData.accountType === 'ambulancia' || userData.accountType === 'motorista-ambulancia') {
-      //   navigate('/rastreamento-ambulancia');
-      // } else {
-      //   navigate('/');
-      // }
-      
-      // Placeholder: remover quando backend estiver pronto
-      alert('Login será implementado pelo backend');
-    } catch (error) {
-      console.error('Erro no login:', error);
-      alert('Erro ao fazer login. Tente novamente.');
+    // TODO: Integração com backend será implementada
+    // Por enquanto, apenas simula login
+    const mockUser = {
+      id: 1,
+      email: email,
+      accountType: accountType
+    };
+    
+    login(mockUser);
+    
+    // Redirecionar baseado no tipo de conta
+    if (accountType === 'clinica') {
+      navigate('/painel-clinica');
+    } else if (accountType === 'ambulancia') {
+      navigate('/painel-ambulancia');
+    } else if (accountType === 'veterinario') {
+      navigate('/painel-veterinario');
+    } else {
+      navigate('/painel-tutor');
     }
   };
 

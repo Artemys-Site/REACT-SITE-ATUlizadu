@@ -1,13 +1,10 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import Header from "../components/Header";   // ← ADICIONADO
-import Footer from "../components/Footer";   // ← ADICIONADO
 import "./AmbulanciaFinanceiro.css";
 
 export default function AmbulanciaFinanceiro() {
   return (
     <>
-      <Header />
 
       <div className="config-container">
 
@@ -135,8 +132,6 @@ export default function AmbulanciaFinanceiro() {
           <button className="save-btn">Salvar Alterações</button>
         </div>
       </div>
-
-      <Footer />
     </>
   );
 }

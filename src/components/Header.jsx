@@ -187,7 +187,7 @@ const Header = ({ isLoggedIn: propIsLoggedIn }) => {
                 </Link>
               </li>
               <li>
-                <Link to="/artigos" className={isActive('/artigos')} onClick={closeMenu}>
+                <Link to="/guias-primeiros-socorros" className={isActive('/guias-primeiros-socorros')} onClick={closeMenu}>
                   ARTIGOS
                 </Link>
               </li>
@@ -215,7 +215,7 @@ const Header = ({ isLoggedIn: propIsLoggedIn }) => {
                 </Link>
               </li>
               <li>
-                <Link to="/artigos" className={isActive('/artigos')} onClick={closeMenu}>
+                <Link to="/guias-primeiros-socorros" className={isActive('/guias-primeiros-socorros')} onClick={closeMenu}>
                   ARTIGOS
                 </Link>
               </li>

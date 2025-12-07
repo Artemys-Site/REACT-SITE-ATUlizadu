@@ -1,7 +1,5 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
-import Header from "../components/Header";   // ← ADICIONADO
-import Footer from "../components/Footer";   // ← ADICIONADO
 import "./AmbulanciaConfiguracaoVeiculo.css";
 
 export default function AmbulanciaConfiguracaoVeiculo() {
@@ -24,8 +22,6 @@ export default function AmbulanciaConfiguracaoVeiculo() {
 
   return (
     <>
-      <Header />   {/* ← AQUI O HEADER */}
-
       <div className="config-container">
 
         <h2 className="title">CONFIGURAÇÕES DO SISTEMA</h2>
@@ -137,8 +133,6 @@ export default function AmbulanciaConfiguracaoVeiculo() {
 
         </div>
       </div>
-
-      <Footer />   {/* ← AQUI O FOOTER */}
     </>
   );
 }

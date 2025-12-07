@@ -67,25 +67,21 @@ const CadastroTutor = () => {
     }
     
     try {
-      // TODO: Implementar chamada à API de cadastro
-      // const response = await api.registerTutor(formData);
-      // 
-      // Se o backend retornar dados do usuário após cadastro:
-      // const userData = response.data;
-      // login(userData);
-      // navigate('/');
-      // 
-      // Ou redirecionar para login:
-      // navigate('/login');
+      // Formatar data de nascimento
+      const dia = formData.diaNascimento.padStart(2, '0');
+      const mes = formData.mesNascimento.padStart(2, '0');
+      const ano = formData.anoNascimento;
+      const dataNascimento = `${ano}-${mes}-${dia}`;
       
-      // Placeholder: remover quando backend estiver pronto
-      console.log('Dados do tutor:', formData);
-      alert('Cadastro será implementado pelo backend');
+      // Remover formatação dos campos
+      const cpfLimpo = formData.cpf.replace(/\D/g, '');
+      const cepLimpo = formData.cep.replace(/\D/g, '');
+      const celularLimpo = formData.celular.replace(/\D/g, '');
+      const telefoneLimpo = formData.telefone ? formData.telefone.replace(/\D/g, '') : '';
+      
+      // TODO: Integração com backend será implementada
+      alert('Cadastro realizado com sucesso!');
       navigate('/login');
-    } catch (error) {
-      console.error('Erro no cadastro:', error);
-      alert('Erro ao realizar cadastro. Tente novamente.');
-    }
   };
 
   return (

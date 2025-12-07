@@ -64,29 +64,46 @@ import ChamadosFinalizados from './pages/chamadosfinalizados';
 import ChamadosPendentes from './pages/chamadospendentes';
 import Historico from './pages/historico';
 import PainelAmbulancia from './pages/painelambulancia';
+import CadastroAmbulancia from './pages/CadastroAmbulancia';
+import CadastroMotorista from './pages/CadastroMotorista';
+import CadastroEmpresa from './pages/CadastroEmpresa';
+import CadastroAuxiliar from './pages/CadastroAuxiliar';
+import CadastroAuxiliarTecnica from './pages/CadastroAuxiliarTecnica';
 import './App.css';
 
 function AppContent() {
   const { isLoggedIn } = useAuth();
   const location = useLocation();
   
-  // Verifica se está em uma rota do veterinário
+  // Verifica se está em uma rota de cadastro (públicas - sempre mostram header normal)
+  const isCadastroRoute = location.pathname === '/cadastro' ||
+                          location.pathname === '/cadastro-tutor' ||
+                          location.pathname === '/cadastro-clinica' ||
+                          location.pathname === '/cadastro-responsavel-tecnico' ||
+                          location.pathname === '/cadastro-veterinario' ||
+                          location.pathname === '/cadastro-ambulancia' ||
+                          location.pathname === '/cadastro-motorista' ||
+                          location.pathname === '/cadastro-empresa' ||
+                          location.pathname === '/cadastro-auxiliar' ||
+                          location.pathname === '/cadastro-auxiliar-tecnica';
+  
+  // Verifica se está em uma rota do veterinário logado
   const isVeterinarioRoute = location.pathname.startsWith('/painel-veterinario') ||
                              location.pathname.startsWith('/pacientesVeterinario') ||
                              location.pathname.startsWith('/agendaVeterinario') ||
                              location.pathname.startsWith('/relatorioVeterinario') ||
                              location.pathname.startsWith('/configuracaoVeterinario') ||
                              location.pathname.startsWith('/artigosVeterinario') ||
-                             location.pathname.startsWith('/edicaoArtigosVeterinario') ||
-                             location.pathname === '/cadastro-veterinario';
+                             location.pathname.startsWith('/edicaoArtigosVeterinario');
 
-  // Verifica se está em uma rota de ambulância
-  const isAmbulanciaRoute = location.pathname.startsWith('/painel-ambulancia') ||
+  // Verifica se está em uma rota de ambulância logada (exclui rotas de cadastro)
+  const isAmbulanciaRoute = !isCadastroRoute && (
+                            location.pathname.startsWith('/painel-ambulancia') ||
                             location.pathname.startsWith('/chamados') ||
                             location.pathname === '/historico' ||
                             location.pathname.startsWith('/ambulancia/relatorios') ||
                             location.pathname.startsWith('/ambulancia/configuracao') ||
-                            location.pathname.startsWith('/ambulancia/perfil');
+                            location.pathname.startsWith('/ambulancia/perfil'));
 
   return (
     <div className="App">
@@ -248,6 +265,11 @@ function AppContent() {
           
           {/* ROTAS DE AMBULÂNCIA */}
           <Route path="/painel-ambulancia" element={<PainelAmbulancia />} />
+          <Route path="/cadastro-ambulancia" element={<CadastroAmbulancia />} />
+          <Route path="/cadastro-motorista" element={<CadastroMotorista />} />
+          <Route path="/cadastro-empresa" element={<CadastroEmpresa />} />
+          <Route path="/cadastro-auxiliar" element={<CadastroAuxiliar />} />
+          <Route path="/cadastro-auxiliar-tecnica" element={<CadastroAuxiliarTecnica />} />
           <Route path="/ambulancia/configuracao/notificacao" element={<AmbulanciaConfiguracaoNotificacao />} />
           <Route path="/ambulancia/configuracao/seguranca" element={<AmbulanciaConfiguracaoSeguranca />} />
           <Route path="/ambulancia/configuracao/veiculo" element={<AmbulanciaConfiguracaoVeiculo />} />

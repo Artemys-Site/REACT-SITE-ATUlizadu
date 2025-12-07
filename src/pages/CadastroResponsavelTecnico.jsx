@@ -65,8 +65,8 @@ const CadastroResponsavelTecnico = () => {
       
       // Placeholder: remover quando backend estiver pronto
       console.log('Dados do responsável técnico:', formData);
-      alert('Cadastro será implementado pelo backend');
-      navigate('/login');
+      // Navega para o cadastro do auxiliar
+      navigate('/cadastro-auxiliar');
     } catch (error) {
       console.error('Erro no cadastro:', error);
       alert('Erro ao realizar cadastro. Tente novamente.');
