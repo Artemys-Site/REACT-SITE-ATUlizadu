@@ -43,12 +43,23 @@ const Header = ({ isLoggedIn: propIsLoggedIn }) => {
   const [notificationsData, setNotificationsData] = useState(DUMMY_NOTIFICATIONS);
   const unreadCount = notificationsData.filter(n => n.unread).length;
   
-  // Estado para foto do perfil
+  // Estado para foto do perfil - inicializar com foto do localStorage ou do user
   const [profilePhoto, setProfilePhoto] = useState(() => {
     // Buscar foto do localStorage ou do contexto
     const fotoFromStorage = localStorage.getItem('userFoto');
-    const fotoFromUser = user?.foto;
-    return fotoFromStorage || fotoFromUser || perfilLogado;
+    const fotoFromUser = user?.foto || user?.fotoTutor || user?.fotoClinica || user?.fotoVeterinario || user?.fotoAmbulancia;
+    let fotoInicial = fotoFromStorage || fotoFromUser || perfilLogado;
+    
+    // Se a foto não tem prefixo data:, adicionar
+    if (fotoInicial && fotoInicial !== perfilLogado && !fotoInicial.startsWith('data:') && !fotoInicial.startsWith('http')) {
+      const base64String = fotoInicial.replace(/\s/g, '');
+      const base64Regex = /^[A-Za-z0-9+/=]+$/;
+      if (base64String.length > 0 && base64Regex.test(base64String)) {
+        fotoInicial = `data:image/jpeg;base64,${base64String}`;
+      }
+    }
+    
+    return fotoInicial;
   });
   
   // Verificação simples de tipo de usuário
@@ -71,13 +82,63 @@ const Header = ({ isLoggedIn: propIsLoggedIn }) => {
     setIsMenuOpen(false);
   }, [location]);
 
+  // Atualizar foto quando o user mudar (após login)
+  useEffect(() => {
+    if (user && isLoggedIn) {
+      console.log('🔄 Header: user mudou, buscando foto...');
+      const fotoFromStorage = localStorage.getItem('userFoto');
+      // Verificar TODOS os campos possíveis
+      const fotoFromUser = user?.foto || 
+                          user?.fotoTutor || user?.FotoTutor ||
+                          user?.fotoClinica || user?.FotoClinica ||
+                          user?.fotoVeterinario || user?.FotoVeterinario ||
+                          user?.fotoAmbulancia || user?.FotoAmbulancia ||
+                          user?.Foto || user?.FOTO;
+      let fotoToUse = fotoFromStorage || fotoFromUser;
+      
+      console.log('📸 Header: Foto encontrada:', {
+        fromStorage: !!fotoFromStorage,
+        fromUser: !!fotoFromUser,
+        final: !!fotoToUse,
+        tamanho: fotoToUse?.length || 0
+      });
+      
+      // Se a foto não tem prefixo data:, adicionar
+      if (fotoToUse && fotoToUse !== perfilLogado && !fotoToUse.startsWith('data:') && !fotoToUse.startsWith('http')) {
+        const base64String = fotoToUse.replace(/\s/g, '');
+        const base64Regex = /^[A-Za-z0-9+/=]+$/;
+        if (base64String.length > 0 && base64Regex.test(base64String)) {
+          fotoToUse = `data:image/jpeg;base64,${base64String}`;
+          console.log('✅ Header: Prefixo adicionado à foto');
+        }
+      }
+      
+      if (fotoToUse && fotoToUse !== perfilLogado && fotoToUse.length > 0) {
+        console.log('✅ Header: Definindo foto do perfil');
+        setProfilePhoto(fotoToUse);
+      } else {
+        console.log('⚠️ Header: Usando foto padrão');
+      }
+    } else if (!isLoggedIn) {
+      // Se não estiver logado, usar foto padrão
+      setProfilePhoto(perfilLogado);
+    }
+  }, [user, isLoggedIn]);
+
   // Atualizar foto do perfil quando houver mudanças
   useEffect(() => {
     // Função para atualizar a foto do perfil
     const updateProfilePhoto = () => {
+      console.log('🔄 updateProfilePhoto chamado');
       const fotoFromStorage = localStorage.getItem('userFoto');
       const fotoFromUser = user?.foto || user?.fotoTutor || user?.fotoClinica || user?.fotoVeterinario || user?.fotoAmbulancia;
       let fotoToUse = fotoFromStorage || fotoFromUser;
+      
+      console.log('📸 Foto encontrada:', {
+        fromStorage: fotoFromStorage ? 'Sim' : 'Não',
+        fromUser: fotoFromUser ? 'Sim' : 'Não',
+        final: fotoToUse ? 'Sim' : 'Não'
+      });
       
       // Se a foto do usuário não tem prefixo data:, adicionar
       if (fotoToUse && !fotoToUse.startsWith('data:') && !fotoToUse.startsWith('http') && fotoToUse.length > 0) {
@@ -86,13 +147,16 @@ const Header = ({ isLoggedIn: propIsLoggedIn }) => {
         const base64Regex = /^[A-Za-z0-9+/=]+$/;
         if (base64String.length > 0 && base64Regex.test(base64String)) {
           fotoToUse = `data:image/jpeg;base64,${base64String}`;
+          console.log('✅ Prefixo data: adicionado à foto');
         }
       }
       
       if (fotoToUse && fotoToUse !== perfilLogado && fotoToUse.length > 0) {
+        console.log('✅ Definindo foto do perfil:', fotoToUse.substring(0, 50) + '...');
         setProfilePhoto(fotoToUse);
       } else if (!fotoToUse || fotoToUse.length === 0) {
         // Se não houver foto, usar a padrão
+        console.log('⚠️ Usando foto padrão');
         setProfilePhoto(perfilLogado);
       }
     };
@@ -102,11 +166,14 @@ const Header = ({ isLoggedIn: propIsLoggedIn }) => {
 
     // Escutar eventos de atualização de usuário
     const handleUserUpdate = (event) => {
+      console.log('🔔 Evento userUpdated recebido:', event.detail);
       const foto = event.detail?.foto;
       if (foto) {
+        console.log('✅ Foto encontrada no evento userUpdated, atualizando...');
         setProfilePhoto(foto);
         localStorage.setItem('userFoto', foto);
       } else {
+        console.log('⚠️ Foto não encontrada no evento userUpdated, buscando do localStorage...');
         // Se não houver foto no evento, buscar do localStorage
         updateProfilePhoto();
       }
@@ -114,17 +181,20 @@ const Header = ({ isLoggedIn: propIsLoggedIn }) => {
 
     // Escutar evento de login
     const handleUserLogin = (event) => {
+      console.log('🔔 Evento userLogin recebido:', event.detail);
       // Quando o usuário faz login, buscar foto do evento ou do localStorage
       const fotoFromEvent = event.detail?.foto;
       if (fotoFromEvent) {
+        console.log('✅ Foto encontrada no evento, atualizando...');
         setProfilePhoto(fotoFromEvent);
         localStorage.setItem('userFoto', fotoFromEvent);
       } else {
+        console.log('⚠️ Foto não encontrada no evento, buscando do localStorage...');
         // Se não houver foto no evento, buscar do localStorage após um pequeno delay
         // para garantir que o localStorage foi atualizado
         setTimeout(() => {
           updateProfilePhoto();
-        }, 100);
+        }, 150);
       }
     };
 
@@ -148,7 +218,7 @@ const Header = ({ isLoggedIn: propIsLoggedIn }) => {
       window.removeEventListener('userLogin', handleUserLogin);
       window.removeEventListener('storage', handleStorageChange);
     };
-  }, [user, isLoggedIn]);
+  }, [user, isLoggedIn, location]); // Adicionar location para forçar atualização ao navegar
 
   useEffect(() => {
     const handleClickOutside = (event) => {

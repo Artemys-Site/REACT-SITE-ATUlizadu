@@ -155,6 +155,18 @@ const Login = () => {
 
       const data = await response.json();
       console.log('✅ Login bem-sucedido:', { success: data.success, hasToken: !!data.token });
+      console.log('📋 Dados do usuário recebidos:', {
+        userKeys: Object.keys(data.user || {}),
+        hasFoto: !!data.user?.foto,
+        hasFotoTutor: !!data.user?.fotoTutor,
+        hasFotoClinica: !!data.user?.fotoClinica,
+        hasFotoVeterinario: !!data.user?.fotoVeterinario,
+        hasFotoAmbulancia: !!data.user?.fotoAmbulancia,
+        fotoLength: data.user?.foto?.length || 0,
+        fotoTutorLength: data.user?.fotoTutor?.length || 0,
+        fotoPreview: data.user?.foto?.substring(0, 100) || 'N/A',
+        fotoTutorPreview: data.user?.fotoTutor?.substring(0, 100) || 'N/A'
+      });
       
       if (data.success) {
         // Limpar dados do usuário anterior antes de salvar os novos
@@ -170,9 +182,32 @@ const Login = () => {
         }
         
         // Processar e salvar foto se existir na resposta
+        // Verificar TODOS os campos possíveis de foto
         let fotoParaSalvar = null;
-        if (data.user.foto || data.user.fotoTutor || data.user.fotoClinica || data.user.fotoVeterinario || data.user.fotoAmbulancia) {
-          fotoParaSalvar = data.user.foto || data.user.fotoTutor || data.user.fotoClinica || data.user.fotoVeterinario || data.user.fotoAmbulancia;
+        const fotoFields = [
+          data.user.foto,
+          data.user.fotoTutor,
+          data.user.FotoTutor,
+          data.user.fotoClinica,
+          data.user.FotoClinica,
+          data.user.fotoVeterinario,
+          data.user.FotoVeterinario,
+          data.user.fotoAmbulancia,
+          data.user.FotoAmbulancia,
+          data.user.Foto,
+          data.user.FOTO
+        ];
+        
+        // Encontrar a primeira foto não vazia
+        for (const foto of fotoFields) {
+          if (foto && foto !== null && foto !== undefined && foto !== '' && foto !== 'null' && foto.trim() !== '') {
+            fotoParaSalvar = foto;
+            console.log('✅ Foto encontrada em um dos campos:', foto.substring(0, 50) + '...');
+            break;
+          }
+        }
+        
+        if (fotoParaSalvar) {
           
           // Se a foto é base64 puro, adicionar prefixo
           if (fotoParaSalvar && !fotoParaSalvar.startsWith('data:') && !fotoParaSalvar.startsWith('http')) {
@@ -194,14 +229,42 @@ const Login = () => {
             }
           }
           
+          console.log('📸 Processando foto encontrada, tamanho:', fotoParaSalvar.length);
+          
+          // Se a foto é base64 puro, adicionar prefixo
+          if (fotoParaSalvar && !fotoParaSalvar.startsWith('data:') && !fotoParaSalvar.startsWith('http')) {
+            const base64String = fotoParaSalvar.replace(/\s/g, '');
+            const base64Regex = /^[A-Za-z0-9+/=]+$/;
+            // Aceitar qualquer base64 válido
+            if (base64String.length > 0 && base64Regex.test(base64String)) {
+              fotoParaSalvar = `data:image/jpeg;base64,${base64String}`;
+              console.log('✅ Prefixo data:image/jpeg;base64, adicionado');
+            } else {
+              console.warn('⚠️ Foto não é base64 válido, tentando usar como está');
+              // Tentar usar como está se parecer ser uma URL ou caminho
+              if (fotoParaSalvar.startsWith('/') || fotoParaSalvar.startsWith('http')) {
+                console.log('✅ Foto parece ser URL/caminho, mantendo como está');
+              } else {
+                // Tentar adicionar prefixo mesmo assim
+                fotoParaSalvar = `data:image/jpeg;base64,${base64String}`;
+                console.log('⚠️ Tentando adicionar prefixo mesmo assim');
+              }
+            }
+          } else if (fotoParaSalvar.startsWith('data:')) {
+            console.log('✅ Foto já tem prefixo data:');
+          } else if (fotoParaSalvar.startsWith('http')) {
+            console.log('✅ Foto é uma URL');
+          }
+          
           if (fotoParaSalvar) {
             localStorage.setItem('userFoto', fotoParaSalvar);
             // Incluir a foto no objeto user para o contexto
             data.user.foto = fotoParaSalvar;
-            console.log('✅ Foto processada e salva no localStorage');
+            console.log('✅ Foto processada e salva no localStorage, tamanho final:', fotoParaSalvar.length);
           }
         } else {
           console.log('⚠️ Nenhuma foto encontrada na resposta do login');
+          console.log('🔍 Verificando todos os campos do objeto user:', Object.keys(data.user || {}));
         }
         
         // Incluir a foto do localStorage no objeto user se não veio na resposta
@@ -212,16 +275,109 @@ const Login = () => {
           }
         }
         
+        // Se não encontrou foto na resposta do login, buscar dados completos do usuário
+        if (!fotoParaSalvar && userId) {
+          console.log('🔍 Foto não encontrada no login, buscando dados completos do usuário...');
+          try {
+            const accountType = data.user.accountType || 'tutor';
+            let userDataUrl = '';
+            
+            if (accountType === 'tutor') {
+              userDataUrl = `/api/Tutors/id/${userId}`;
+            } else if (accountType === 'clinica') {
+              userDataUrl = `/api/Clinicas/${userId}`;
+            } else if (accountType === 'veterinario') {
+              userDataUrl = `/api/Veterinarios/${userId}`;
+            } else if (accountType === 'ambulancia') {
+              userDataUrl = `/api/Ambulancias/${userId}`;
+            }
+            
+            if (userDataUrl) {
+              const userDataResponse = await fetch(userDataUrl, {
+                headers: {
+                  'Authorization': `Bearer ${data.token}`,
+                  'Content-Type': 'application/json'
+                }
+              });
+              
+              if (userDataResponse.ok) {
+                const userDataComplete = await userDataResponse.json();
+                console.log('✅ Dados completos do usuário recebidos:', {
+                  userKeys: Object.keys(userDataComplete || {}),
+                  hasFoto: !!userDataComplete?.foto,
+                  hasFotoTutor: !!userDataComplete?.fotoTutor,
+                  fotoLength: userDataComplete?.foto?.length || 0
+                });
+                
+                // Buscar foto nos dados completos
+                const fotoCompleta = userDataComplete?.foto || 
+                                    userDataComplete?.fotoTutor || 
+                                    userDataComplete?.FotoTutor ||
+                                    userDataComplete?.fotoClinica || 
+                                    userDataComplete?.FotoClinica ||
+                                    userDataComplete?.fotoVeterinario || 
+                                    userDataComplete?.FotoVeterinario ||
+                                    userDataComplete?.fotoAmbulancia || 
+                                    userDataComplete?.FotoAmbulancia;
+                
+                if (fotoCompleta && fotoCompleta !== null && fotoCompleta !== undefined && fotoCompleta !== '' && fotoCompleta !== 'null' && fotoCompleta.trim() !== '') {
+                  fotoParaSalvar = fotoCompleta;
+                  console.log('✅ Foto encontrada nos dados completos!');
+                  
+                  // Processar foto se necessário
+                  if (fotoParaSalvar && !fotoParaSalvar.startsWith('data:') && !fotoParaSalvar.startsWith('http')) {
+                    const base64String = fotoParaSalvar.replace(/\s/g, '');
+                    const base64Regex = /^[A-Za-z0-9+/=]+$/;
+                    if (base64String.length > 0 && base64Regex.test(base64String)) {
+                      fotoParaSalvar = `data:image/jpeg;base64,${base64String}`;
+                    }
+                  }
+                  
+                  // Atualizar objeto user com a foto
+                  data.user.foto = fotoParaSalvar;
+                  localStorage.setItem('userFoto', fotoParaSalvar);
+                  localStorage.setItem('user', JSON.stringify(data.user));
+                }
+              }
+            }
+          } catch (error) {
+            console.error('⚠️ Erro ao buscar dados completos do usuário:', error);
+          }
+        }
+        
+        // Garantir que a foto está no objeto user antes de fazer login
+        if (fotoParaSalvar) {
+          data.user.foto = fotoParaSalvar;
+        }
+        
+        // Fazer login primeiro
         login(data.user);
         
-        // Disparar evento para o Header atualizar a foto
+        // Disparar evento para o Header atualizar a foto imediatamente
         // Usar um pequeno delay para garantir que o localStorage foi atualizado
         setTimeout(() => {
           const fotoSalva = localStorage.getItem('userFoto');
+          const fotoFinal = fotoSalva || fotoParaSalvar || data.user.foto;
+          
+          console.log('📸 Disparando evento userLogin com foto:', fotoFinal ? 'Foto presente' : 'Sem foto');
+          
           window.dispatchEvent(new CustomEvent('userLogin', { 
-            detail: { userId: userId, foto: fotoSalva } 
+            detail: { 
+              userId: userId,
+              user: data.user,
+              foto: fotoFinal
+            } 
           }));
-        }, 50);
+          
+          // Forçar atualização do Header também via evento userUpdated
+          if (fotoFinal) {
+            window.dispatchEvent(new CustomEvent('userUpdated', { 
+              detail: { 
+                foto: fotoFinal
+              } 
+            }));
+          }
+        }, 100);
         
         switch (data.user.accountType) {
           case 'clinica':
