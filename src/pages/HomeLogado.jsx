@@ -225,7 +225,7 @@ const HomeLogado = () => {
               </div>
               <p className="tituloGuia">Rotina de Cuidado e Prevenção</p>
               <p className="descricaoGuia">Missing, Alimentação, Vacinas e Check-ups sem Mistérios</p>
-              <Link to="/artigos" className="btn-saiba-mais">Saiba Mais</Link>
+              <Link to="/guias-primeiros-socorros" className="btn-saiba-mais">Saiba Mais</Link>
             </div>
           </div>
 
@@ -240,7 +240,7 @@ const HomeLogado = () => {
               </div>
               <p className="tituloGuia">Como agir em engasgos e intoxicações</p>
               <p className="descricaoGuia">Passo a Passo Para Situação de Emergência Até Chegar ao Atendimento</p>
-              <Link to="/artigos" className="btn-saiba-mais">Saiba Mais</Link>
+              <Link to="/artigos?guia=1" className="btn-saiba-mais">Saiba Mais</Link>
             </div>
           </div>
 
@@ -255,11 +255,11 @@ const HomeLogado = () => {
               </div>
               <p className="tituloGuia">Como tratar a febre do seu pet</p>
               <p className="descricaoGuia">Passo a Passo Para Tratar Seu Pet em Casos de Febre</p>
-              <Link to="/artigos" className="btn-saiba-mais">Saiba Mais</Link>
+              <Link to="/artigos?guia=4" className="btn-saiba-mais">Saiba Mais</Link>
             </div>
           </div>
         </div>
-        <Link to="/artigos" className="btn-ver-mais">Ver Todos os Guias</Link>
+        <Link to="/guias-primeiros-socorros" className="btn-ver-mais">Ver Todos os Guias</Link>
       </section>
 
       <section className="parcerias">

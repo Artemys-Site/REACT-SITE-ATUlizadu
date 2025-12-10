@@ -1,8 +1,20 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import './ServicosPlus.css';
 import drAnaPaula from '../assets/drAnaPaula.png';
 
 const ServicosPlus = () => {
+  const navigate = useNavigate();
+  const { isLoggedIn } = useAuth();
+  
+  const handleAgendarConsulta = () => {
+    if (!isLoggedIn) {
+      alert('Você precisa estar logado para agendar uma consulta. Redirecionando para a página de login...');
+      navigate('/login');
+      return;
+    }
+    navigate('/agendar-servico');
+  };
   return (
     <>
       <section className="section-back-link">
@@ -103,7 +115,7 @@ const ServicosPlus = () => {
       <div className="cta-bar">
         <button className="btn btn-phone">Ligar: (11) 98765-4321</button>
         <button className="btn btn-website">ana.silvavet.com</button>
-        <button className="btn btn-agenda">Agendar Consulta</button>
+        <button className="btn btn-agenda" onClick={handleAgendarConsulta}>Agendar Consulta</button>
       </div>
     </>
   );

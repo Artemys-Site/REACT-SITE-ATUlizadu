@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import './ChatIA.css';
 import imagemArty from '../assets/imagemArty.png';
-import perfilLogado from '../assets/perfilLogado.png';
+import perfilLogado from '../assets/perfilLogado.svg';
 import { generateAIResponse } from '../api/chatbotAI';
 
 const ChatIA = ({ onClose }) => {

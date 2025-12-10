@@ -7,7 +7,7 @@ import fotoMila from '../assets/fotoMila.jpg';
 import iconePerfilAvalia from '../assets/iconePerfilAvalia.png';
 import iconeCalendarioPreto from '../assets/iconeCalendarioPreto.png';
 import iconeNotificacao from '../assets/iconeNotificacao.png';
-import perfilLogado from '../assets/perfilLogado.png';
+import perfilLogado from '../assets/perfilLogado.svg';
 import iconeConfirmar from '../assets/iconeConfirmar.png';
 
 const Perfil = () => {
@@ -38,6 +38,28 @@ const Perfil = () => {
   const [petFotoPreview, setPetFotoPreview] = useState(null);
   const [isSavingPet, setIsSavingPet] = useState(false);
   const [isDeletingPet, setIsDeletingPet] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deletePassword, setDeletePassword] = useState('');
+  const [deletePasswordError, setDeletePasswordError] = useState('');
+  const [vacinasPet, setVacinasPet] = useState([]);
+  const [loadingVacinas, setLoadingVacinas] = useState(false);
+  const [showVacinaModal, setShowVacinaModal] = useState(false);
+  const [editingVacina, setEditingVacina] = useState(null);
+  const [vacinaForm, setVacinaForm] = useState({ TipoVacina: '', DoseVacina: '' });
+  const [savingVacina, setSavingVacina] = useState(false);
+  
+  // Tipos de vacina disponíveis
+  const tiposVacina = [
+    { value: 'V8', label: 'V8' },
+    { value: 'V10', label: 'V10' },
+    { value: 'V11', label: 'V11' },
+    { value: 'V12', label: 'V12' },
+    { value: 'Raiva', label: 'Raiva' },
+    { value: 'Gripe', label: 'Gripe Canina' },
+    { value: 'Giardia', label: 'Giardia' },
+    { value: 'Leishmaniose', label: 'Leishmaniose' },
+    { value: 'Outra', label: 'Outra' }
+  ];
 
   const [notificacoes, setNotificacoes] = useState({
     emailAgendamento: true,
@@ -606,19 +628,22 @@ const Perfil = () => {
     }
   };
 
-  // Excluir conta
-  const handleDeleteAccount = async () => {
-    const confirmMessage = 'Tem certeza que deseja excluir sua conta?\n\nEsta ação não pode ser desfeita e todos os seus dados serão permanentemente removidos.';
-    if (!window.confirm(confirmMessage)) {
-      return;
-    }
+  // Abrir modal de exclusão de conta
+  const handleDeleteAccount = () => {
+    setShowDeleteModal(true);
+    setDeletePassword('');
+    setDeletePasswordError('');
+  };
 
-    const secondConfirm = window.confirm('ATENÇÃO: Esta é sua última chance de cancelar. Deseja realmente excluir sua conta permanentemente?');
-    if (!secondConfirm) {
+  // Confirmar exclusão de conta com senha
+  const handleConfirmDeleteAccount = async () => {
+    if (!deletePassword || deletePassword.trim() === '') {
+      setDeletePasswordError('Por favor, digite sua senha para confirmar a exclusão.');
       return;
     }
 
     setIsDeleting(true);
+    setDeletePasswordError('');
 
     try {
       const token = localStorage.getItem('token');
@@ -626,6 +651,80 @@ const Perfil = () => {
 
       if (!token || !userId) {
         throw new Error('Não foi possível identificar sua conta. Faça login novamente.');
+      }
+
+      // Verificar senha ANTES de excluir qualquer coisa
+      const storedUser = localStorage.getItem('user');
+      let userEmail = null;
+      
+      if (storedUser) {
+        const parsedUser = JSON.parse(storedUser);
+        userEmail = parsedUser.email || parsedUser.emailTutor || parsedUser.emailClinica || parsedUser.emailVeterinario || parsedUser.emailAmbulancia;
+        
+        if (userEmail) {
+          try {
+            const verifyPasswordResponse = await fetch('/api/auth/login', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                email: userEmail,
+                password: deletePassword,
+                accountType: isTutor ? 'tutor' : isClinica ? 'clinica' : isVeterinario ? 'veterinario' : 'ambulancia'
+              })
+            });
+
+            if (!verifyPasswordResponse.ok) {
+              setDeletePasswordError('Senha incorreta. Por favor, tente novamente.');
+              setIsDeleting(false);
+              return;
+            }
+          } catch (verifyError) {
+            console.error('Erro ao verificar senha:', verifyError);
+            setDeletePasswordError('Erro ao verificar senha. Tente novamente.');
+            setIsDeleting(false);
+            return;
+          }
+        } else {
+          setDeletePasswordError('Não foi possível identificar seu email. Faça login novamente.');
+          setIsDeleting(false);
+          return;
+        }
+      } else {
+        setDeletePasswordError('Não foi possível identificar sua conta. Faça login novamente.');
+        setIsDeleting(false);
+        return;
+      }
+
+      // Se for tutor, excluir todos os pets ANTES de excluir a conta
+      if (isTutor && userData.pets && Array.isArray(userData.pets) && userData.pets.length > 0) {
+        console.log(`Excluindo ${userData.pets.length} pet(s) do tutor antes de excluir a conta...`);
+        for (const pet of userData.pets) {
+          const petId = pet.IdPet || pet.idPet || pet.id;
+          if (petId) {
+            try {
+              const petDeleteResponse = await fetch(`/api/Pets/${petId}`, {
+                method: 'DELETE',
+                headers: {
+                  'Authorization': `Bearer ${token}`,
+                  'Content-Type': 'application/json'
+                }
+              });
+
+              if (!petDeleteResponse.ok && petDeleteResponse.status !== 404) {
+                console.warn(`Erro ao excluir pet ${petId}:`, petDeleteResponse.status);
+                // Continua mesmo se um pet falhar
+              } else {
+                console.log(`Pet ${petId} excluído com sucesso`);
+              }
+            } catch (petError) {
+              console.warn(`Erro ao excluir pet ${petId}:`, petError);
+              // Continua excluindo outros pets mesmo se um falhar
+            }
+          }
+        }
+        console.log('Todos os pets foram processados.');
       }
 
       // Determinar endpoint baseado no tipo de conta
@@ -665,21 +764,57 @@ const Perfil = () => {
       localStorage.removeItem('userFoto');
 
       logout();
-      alert('Sua conta foi excluída com sucesso.');
+      setShowDeleteModal(false);
+      alert('Sua conta e todos os dados associados foram excluídos com sucesso.');
       window.location.href = '/';
     } catch (error) {
       console.error('Erro ao excluir conta:', error);
-      alert(error.message || 'Erro ao excluir conta. Tente novamente.');
+      setDeletePasswordError(error.message || 'Erro ao excluir conta. Tente novamente.');
       setIsDeleting(false);
     }
   };
 
   // Funções do Modal do Pet
   const handleAbrirModalPet = (pet) => {
+    // Abrir o modal imediatamente
     setModalPet(pet);
     setIsEditingPet(false);
     setPetEditData(null);
     setPetFotoPreview(null);
+    setVacinasPet([]);
+    setLoadingVacinas(false);
+    
+    // Buscar vacinas do pet em background (não bloqueia a abertura do modal)
+    const petId = pet.IdPet || pet.idPet || pet.id;
+    if (petId) {
+      setLoadingVacinas(true);
+      // Usar setTimeout para não bloquear a renderização do modal
+      setTimeout(async () => {
+        try {
+          const token = localStorage.getItem('token');
+          const response = await fetch(`/api/Vacinas/pet/${petId}`, {
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json'
+            }
+          });
+          
+          if (response.ok) {
+            const vacinas = await response.json();
+            setVacinasPet(vacinas || []);
+            console.log('Vacinas carregadas:', vacinas);
+          } else {
+            console.error('Erro ao buscar vacinas:', response.status);
+            setVacinasPet([]);
+          }
+        } catch (error) {
+          console.error('Erro ao buscar vacinas do pet:', error);
+          setVacinasPet([]);
+        } finally {
+          setLoadingVacinas(false);
+        }
+      }, 100);
+    }
   };
 
   const handleFecharModalPet = () => {
@@ -687,6 +822,158 @@ const Perfil = () => {
     setIsEditingPet(false);
     setPetEditData(null);
     setPetFotoPreview(null);
+    setVacinasPet([]);
+    setShowVacinaModal(false);
+    setEditingVacina(null);
+    setVacinaForm({ TipoVacina: '', DoseVacina: '' });
+  };
+
+  // Funções para gerenciar vacinas
+  const recarregarVacinas = async (petId) => {
+    if (!petId) return;
+    
+    setLoadingVacinas(true);
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`/api/Vacinas/pet/${petId}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      
+      if (response.ok) {
+        const vacinas = await response.json();
+        setVacinasPet(vacinas || []);
+      }
+    } catch (error) {
+      console.error('Erro ao recarregar vacinas:', error);
+    } finally {
+      setLoadingVacinas(false);
+    }
+  };
+
+  const handleAbrirModalVacina = () => {
+    setEditingVacina(null);
+    setVacinaForm({ TipoVacina: '', DoseVacina: '' });
+    setShowVacinaModal(true);
+  };
+
+  const handleFecharModalVacina = () => {
+    setShowVacinaModal(false);
+    setEditingVacina(null);
+    setVacinaForm({ TipoVacina: '', DoseVacina: '' });
+  };
+
+  const handleEditarVacina = (vacina) => {
+    setEditingVacina(vacina);
+    setVacinaForm({
+      TipoVacina: vacina.TipoVacina || vacina.tipoVacina || '',
+      DoseVacina: vacina.DoseVacina || vacina.doseVacina || ''
+    });
+    setShowVacinaModal(true);
+  };
+
+  const handleSalvarVacina = async () => {
+    if (!vacinaForm.TipoVacina.trim() || !vacinaForm.DoseVacina.trim()) {
+      alert('Por favor, preencha todos os campos obrigatórios.');
+      return;
+    }
+
+    setSavingVacina(true);
+    try {
+      const token = localStorage.getItem('token');
+      const petId = modalPet?.IdPet || modalPet?.idPet || modalPet?.id;
+
+      if (!petId) {
+        alert('Erro: Pet não identificado.');
+        return;
+      }
+
+      if (editingVacina) {
+        // Editar vacina existente
+        const vacinaId = editingVacina.IdVacina || editingVacina.idVacina;
+        const response = await fetch(`/api/Vacinas/${vacinaId}`, {
+          method: 'PUT',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            TipoVacina: vacinaForm.TipoVacina,
+            DoseVacina: vacinaForm.DoseVacina
+          })
+        });
+
+        if (response.ok) {
+          await recarregarVacinas(petId);
+          handleFecharModalVacina();
+          alert('Vacina atualizada com sucesso!');
+        } else {
+          const error = await response.json().catch(() => ({ message: 'Erro desconhecido' }));
+          alert(`Erro ao atualizar vacina: ${error.message || 'Erro desconhecido'}`);
+        }
+      } else {
+        // Criar nova vacina
+        const response = await fetch('/api/Vacinas', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            TipoVacina: vacinaForm.TipoVacina,
+            DoseVacina: vacinaForm.DoseVacina,
+            FkPetId: petId
+          })
+        });
+
+        if (response.ok) {
+          await recarregarVacinas(petId);
+          handleFecharModalVacina();
+          alert('Vacina cadastrada com sucesso!');
+        } else {
+          const error = await response.json().catch(() => ({ message: 'Erro desconhecido' }));
+          alert(`Erro ao cadastrar vacina: ${error.message || 'Erro desconhecido'}`);
+        }
+      }
+    } catch (error) {
+      console.error('Erro ao salvar vacina:', error);
+      alert('Erro ao salvar vacina. Tente novamente.');
+    } finally {
+      setSavingVacina(false);
+    }
+  };
+
+  const handleExcluirVacina = async (vacina) => {
+    if (!window.confirm(`Tem certeza que deseja excluir a vacina ${vacina.TipoVacina || vacina.tipoVacina}?`)) {
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem('token');
+      const vacinaId = vacina.IdVacina || vacina.idVacina;
+      const petId = modalPet?.IdPet || modalPet?.idPet || modalPet?.id;
+
+      const response = await fetch(`/api/Vacinas/${vacinaId}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (response.ok || response.status === 204) {
+        await recarregarVacinas(petId);
+        alert('Vacina excluída com sucesso!');
+      } else {
+        const error = await response.json().catch(() => ({ message: 'Erro desconhecido' }));
+        alert(`Erro ao excluir vacina: ${error.message || 'Erro desconhecido'}`);
+      }
+    } catch (error) {
+      console.error('Erro ao excluir vacina:', error);
+      alert('Erro ao excluir vacina. Tente novamente.');
+    }
   };
 
   const handleIniciarEdicaoPet = () => {
@@ -1537,6 +1824,38 @@ const Perfil = () => {
                 )}
               </div>
             )}
+
+            {/* Botão de Excluir Conta - Apenas na aba Perfil */}
+            <div style={{ 
+              marginTop: '40px', 
+              paddingTop: '40px', 
+              borderTop: '2px solid #E5E7EB',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center'
+            }}>
+              <button
+                onClick={handleDeleteAccount}
+                disabled={isDeleting}
+                style={{
+                  backgroundColor: isDeleting ? '#9CA3AF' : '#DC2626',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '8px',
+                  padding: '12px 24px',
+                  fontSize: '14px',
+                  fontWeight: '600',
+                  cursor: isDeleting ? 'not-allowed' : 'pointer',
+                  textTransform: 'uppercase',
+                  transition: 'background-color 0.3s ease',
+                  fontFamily: "'Ysabeau SC', sans-serif",
+                  opacity: isDeleting ? 0.6 : 1
+                }}
+              >
+                <i className="bi bi-trash-fill" style={{ marginRight: '8px' }}></i>
+                {isDeleting ? 'Excluindo...' : 'Excluir Conta'}
+              </button>
+            </div>
           </div>
         )}
 
@@ -1554,7 +1873,28 @@ const Perfil = () => {
         {activeTab === 'pagamento' && isTutor && (
           <div id="pagamento-content" className="config-content active">
             <h2 className="pagamento-titulo">MÉTODOS DE PAGAMENTO</h2>
-            <p>Métodos de pagamento serão implementados em breve.</p>
+            <div style={{ marginTop: '24px' }}>
+              <button
+                onClick={() => navigate('/metodo-pagamento')}
+                style={{
+                  backgroundColor: '#7A2FF5',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '8px',
+                  padding: '12px 24px',
+                  fontSize: '14px',
+                  fontWeight: '600',
+                  cursor: 'pointer',
+                  textTransform: 'uppercase',
+                  transition: 'background-color 0.3s',
+                  fontFamily: "'Ysabeau SC', sans-serif"
+                }}
+                onMouseEnter={(e) => e.target.style.backgroundColor = '#6A4C9C'}
+                onMouseLeave={(e) => e.target.style.backgroundColor = '#7A2FF5'}
+              >
+                + Adicionar Método de Pagamento
+              </button>
+            </div>
           </div>
         )}
 
@@ -1612,37 +1952,6 @@ const Perfil = () => {
               </div>
         )}
 
-        {/* Botão de Excluir Conta */}
-        <div style={{ 
-          marginTop: '40px', 
-          paddingTop: '40px', 
-          borderTop: '2px solid #E5E7EB',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center'
-        }}>
-          <button
-            onClick={handleDeleteAccount}
-            disabled={isDeleting}
-            style={{
-              backgroundColor: isDeleting ? '#9CA3AF' : '#DC2626',
-              color: 'white',
-              border: 'none',
-              borderRadius: '8px',
-              padding: '12px 24px',
-              fontSize: '14px',
-              fontWeight: '600',
-              cursor: isDeleting ? 'not-allowed' : 'pointer',
-              textTransform: 'uppercase',
-              transition: 'background-color 0.3s ease',
-              fontFamily: "'Ysabeau SC', sans-serif",
-              opacity: isDeleting ? 0.6 : 1
-            }}
-          >
-            <i className="bi bi-trash-fill" style={{ marginRight: '8px' }}></i>
-            {isDeleting ? 'Excluindo...' : 'Excluir Conta'}
-          </button>
-                </div>
       </div>
 
       {/* Modal de Detalhes do Pet */}
@@ -1879,6 +2188,133 @@ const Perfil = () => {
                       </div>
                     </div>
                   )}
+
+                  {/* Seção de Vacinações */}
+                  <div style={{ marginBottom: '24px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                      <strong style={{ color: '#6B7280', fontSize: '12px', textTransform: 'uppercase', display: 'block' }}>Vacinações</strong>
+                      <button
+                        onClick={handleAbrirModalVacina}
+                        style={{
+                          backgroundColor: '#7A2FF5',
+                          color: 'white',
+                          border: 'none',
+                          borderRadius: '6px',
+                          padding: '6px 12px',
+                          fontSize: '12px',
+                          fontWeight: '600',
+                          cursor: 'pointer',
+                          textTransform: 'uppercase',
+                          transition: 'background-color 0.2s'
+                        }}
+                        onMouseEnter={(e) => e.target.style.backgroundColor = '#6B1FE0'}
+                        onMouseLeave={(e) => e.target.style.backgroundColor = '#7A2FF5'}
+                      >
+                        + Adicionar Vacina
+                      </button>
+                    </div>
+                    {(() => {
+                      if (loadingVacinas === true) {
+                        return (
+                          <div style={{ 
+                            backgroundColor: '#F9FAFB', 
+                            padding: '12px', 
+                            borderRadius: '8px',
+                            fontSize: '14px',
+                            color: '#6B7280',
+                            textAlign: 'center'
+                          }}>
+                            Carregando vacinações...
+                          </div>
+                        );
+                      }
+                      
+                      if (Array.isArray(vacinasPet) && vacinasPet.length > 0) {
+                        return (
+                          <div style={{ 
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: '8px'
+                          }}>
+                            {vacinasPet.map((vacina, index) => (
+                              <div 
+                                key={vacina?.IdVacina || vacina?.idVacina || index}
+                                style={{ 
+                                  backgroundColor: '#F9FAFB', 
+                                  padding: '12px', 
+                                  borderRadius: '8px',
+                                  fontSize: '14px',
+                                  color: '#1F2937',
+                                  borderLeft: '4px solid #7A2FF5',
+                                  display: 'flex',
+                                  justifyContent: 'space-between',
+                                  alignItems: 'center'
+                                }}
+                              >
+                                <div style={{ flex: 1 }}>
+                                  <div style={{ fontWeight: '600', marginBottom: '4px' }}>
+                                    {vacina?.TipoVacina || vacina?.tipoVacina || 'Vacina'}
+                                  </div>
+                                  <div style={{ color: '#6B7280', fontSize: '13px' }}>
+                                    {vacina?.DoseVacina || vacina?.doseVacina || 'Dose não informada'}
+                                  </div>
+                                </div>
+                                <div style={{ display: 'flex', gap: '8px', marginLeft: '12px' }}>
+                                  <button
+                                    onClick={() => handleEditarVacina(vacina)}
+                                    style={{
+                                      backgroundColor: '#3B82F6',
+                                      color: 'white',
+                                      border: 'none',
+                                      borderRadius: '4px',
+                                      padding: '4px 8px',
+                                      fontSize: '11px',
+                                      cursor: 'pointer',
+                                      fontWeight: '600'
+                                    }}
+                                    onMouseEnter={(e) => e.target.style.backgroundColor = '#2563EB'}
+                                    onMouseLeave={(e) => e.target.style.backgroundColor = '#3B82F6'}
+                                  >
+                                    Editar
+                                  </button>
+                                  <button
+                                    onClick={() => handleExcluirVacina(vacina)}
+                                    style={{
+                                      backgroundColor: '#DC2626',
+                                      color: 'white',
+                                      border: 'none',
+                                      borderRadius: '4px',
+                                      padding: '4px 8px',
+                                      fontSize: '11px',
+                                      cursor: 'pointer',
+                                      fontWeight: '600'
+                                    }}
+                                    onMouseEnter={(e) => e.target.style.backgroundColor = '#B91C1C'}
+                                    onMouseLeave={(e) => e.target.style.backgroundColor = '#DC2626'}
+                                  >
+                                    Excluir
+                                  </button>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        );
+                      }
+                      
+                      return (
+                        <div style={{ 
+                          backgroundColor: '#F9FAFB', 
+                          padding: '12px', 
+                          borderRadius: '8px',
+                          fontSize: '14px',
+                          color: '#6B7280',
+                          fontStyle: 'italic'
+                        }}>
+                          Nenhuma vacinação registrada
+                        </div>
+                      );
+                    })()}
+                  </div>
 
                   <div style={{ 
                     display: 'flex', 
@@ -2406,6 +2842,369 @@ const Perfil = () => {
                   </div>
                 </>
               )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal de Confirmação de Exclusão de Conta */}
+      {showDeleteModal && (
+        <div 
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.7)',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            zIndex: 10000,
+            padding: '20px'
+          }}
+          onClick={() => {
+            if (!isDeleting) {
+              setShowDeleteModal(false);
+              setDeletePassword('');
+              setDeletePasswordError('');
+            }
+          }}
+        >
+          <div 
+            style={{
+              backgroundColor: 'white',
+              borderRadius: '16px',
+              width: '100%',
+              maxWidth: '500px',
+              position: 'relative',
+              boxShadow: '0 10px 40px rgba(0, 0, 0, 0.3)',
+              padding: '24px'
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              marginBottom: '24px'
+            }}>
+              <h2 style={{ fontSize: '24px', fontWeight: 'bold', margin: 0, color: '#1F2937' }}>
+                Confirmar Exclusão de Conta
+              </h2>
+              <button
+                onClick={() => {
+                  if (!isDeleting) {
+                    setShowDeleteModal(false);
+                    setDeletePassword('');
+                    setDeletePasswordError('');
+                  }
+                }}
+                disabled={isDeleting}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  color: '#6B7280',
+                  fontSize: '28px',
+                  cursor: isDeleting ? 'not-allowed' : 'pointer',
+                  padding: '0',
+                  width: '32px',
+                  height: '32px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  borderRadius: '4px',
+                  transition: 'background-color 0.2s'
+                }}
+                onMouseEnter={(e) => {
+                  if (!isDeleting) {
+                    e.target.style.backgroundColor = '#F3F4F6';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.backgroundColor = 'transparent';
+                }}
+              >
+                ×
+              </button>
+            </div>
+
+            <div style={{ marginBottom: '24px' }}>
+              <p style={{ fontSize: '16px', color: '#374151', margin: '0 0 16px 0', lineHeight: '1.6' }}>
+                Esta ação é <strong>irreversível</strong>. Todos os seus dados serão permanentemente excluídos, incluindo:
+              </p>
+              <ul style={{ 
+                fontSize: '14px', 
+                color: '#6B7280', 
+                margin: '0 0 16px 0', 
+                paddingLeft: '20px',
+                lineHeight: '1.8'
+              }}>
+                <li>Seus dados pessoais</li>
+                {isTutor && userData.pets && userData.pets.length > 0 && (
+                  <li>Todos os seus {userData.pets.length} pet(s) cadastrado(s)</li>
+                )}
+                <li>Histórico de agendamentos</li>
+                <li>Configurações e preferências</li>
+              </ul>
+              <p style={{ 
+                fontSize: '14px', 
+                color: '#DC2626', 
+                margin: '0 0 16px 0', 
+                fontWeight: '600' 
+              }}>
+                ⚠️ Esta ação não pode ser desfeita!
+              </p>
+            </div>
+
+            <div style={{ marginBottom: '24px' }}>
+              <label style={{ 
+                display: 'block', 
+                marginBottom: '8px', 
+                fontSize: '14px', 
+                fontWeight: '600', 
+                color: '#374151' 
+              }}>
+                Digite sua senha para confirmar:
+              </label>
+              <input
+                type="password"
+                value={deletePassword}
+                onChange={(e) => {
+                  setDeletePassword(e.target.value);
+                  setDeletePasswordError('');
+                }}
+                disabled={isDeleting}
+                placeholder="Digite sua senha"
+                style={{
+                  width: '100%',
+                  padding: '12px',
+                  borderRadius: '8px',
+                  border: deletePasswordError ? '2px solid #DC2626' : '1px solid #D1D5DB',
+                  fontSize: '16px',
+                  outline: 'none',
+                  transition: 'border-color 0.2s'
+                }}
+                onFocus={(e) => {
+                  if (!deletePasswordError) {
+                    e.target.style.borderColor = '#7A2FF5';
+                  }
+                }}
+                onBlur={(e) => {
+                  if (!deletePasswordError) {
+                    e.target.style.borderColor = '#D1D5DB';
+                  }
+                }}
+              />
+              {deletePasswordError && (
+                <p style={{ 
+                  color: '#DC2626', 
+                  fontSize: '14px', 
+                  margin: '8px 0 0 0' 
+                }}>
+                  {deletePasswordError}
+                </p>
+              )}
+            </div>
+
+            <div style={{ 
+              display: 'flex', 
+              gap: '12px', 
+              justifyContent: 'flex-end'
+            }}>
+              <button
+                onClick={() => {
+                  if (!isDeleting) {
+                    setShowDeleteModal(false);
+                    setDeletePassword('');
+                    setDeletePasswordError('');
+                  }
+                }}
+                disabled={isDeleting}
+                style={{
+                  backgroundColor: '#F3F4F6',
+                  color: '#374151',
+                  border: 'none',
+                  borderRadius: '8px',
+                  padding: '12px 24px',
+                  fontSize: '14px',
+                  fontWeight: '600',
+                  cursor: isDeleting ? 'not-allowed' : 'pointer',
+                  textTransform: 'uppercase',
+                  transition: 'background-color 0.3s',
+                  fontFamily: "'Ysabeau SC', sans-serif"
+                }}
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={handleConfirmDeleteAccount}
+                disabled={isDeleting || !deletePassword}
+                style={{
+                  backgroundColor: isDeleting || !deletePassword ? '#9CA3AF' : '#DC2626',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '8px',
+                  padding: '12px 24px',
+                  fontSize: '14px',
+                  fontWeight: '600',
+                  cursor: isDeleting || !deletePassword ? 'not-allowed' : 'pointer',
+                  textTransform: 'uppercase',
+                  transition: 'background-color 0.3s',
+                  fontFamily: "'Ysabeau SC', sans-serif",
+                  opacity: isDeleting || !deletePassword ? 0.6 : 1
+                }}
+              >
+                {isDeleting ? 'Excluindo...' : 'Confirmar Exclusão'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal de Gerenciamento de Vacina */}
+      {showVacinaModal && modalPet && (
+        <div 
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.7)',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            zIndex: 10001,
+            padding: '20px'
+          }}
+          onClick={(e) => {
+            if (e.target === e.currentTarget) {
+              handleFecharModalVacina();
+            }
+          }}
+        >
+          <div 
+            style={{
+              backgroundColor: 'white',
+              borderRadius: '16px',
+              width: '100%',
+              maxWidth: '500px',
+              padding: '24px',
+              position: 'relative',
+              boxShadow: '0 10px 40px rgba(0, 0, 0, 0.3)'
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
+              <h3 style={{ margin: 0, fontSize: '20px', fontWeight: 'bold', color: '#1F2937' }}>
+                {editingVacina ? 'Editar Vacina' : 'Adicionar Vacina'}
+              </h3>
+              <button
+                onClick={handleFecharModalVacina}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  color: '#6B7280',
+                  fontSize: '24px',
+                  cursor: 'pointer',
+                  padding: '0',
+                  width: '32px',
+                  height: '32px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  borderRadius: '4px',
+                  transition: 'background-color 0.2s'
+                }}
+                onMouseEnter={(e) => e.target.style.backgroundColor = '#F3F4F6'}
+                onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
+              >
+                ×
+              </button>
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              <div>
+                <label style={{ display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: '600', color: '#374151' }}>
+                  Tipo de Vacina *
+                </label>
+                <select
+                  value={vacinaForm.TipoVacina}
+                  onChange={(e) => setVacinaForm(prev => ({ ...prev, TipoVacina: e.target.value }))}
+                  style={{
+                    width: '100%',
+                    padding: '10px',
+                    borderRadius: '8px',
+                    border: '1px solid #D1D5DB',
+                    fontSize: '14px',
+                    backgroundColor: 'white'
+                  }}
+                >
+                  <option value="">Selecione o tipo</option>
+                  {tiposVacina.map(tipo => (
+                    <option key={tipo.value} value={tipo.value}>
+                      {tipo.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label style={{ display: 'block', marginBottom: '8px', fontSize: '14px', fontWeight: '600', color: '#374151' }}>
+                  Dose *
+                </label>
+                <input
+                  type="text"
+                  value={vacinaForm.DoseVacina}
+                  onChange={(e) => setVacinaForm(prev => ({ ...prev, DoseVacina: e.target.value }))}
+                  placeholder="Ex: 1ª dose, 2ª dose, reforço"
+                  style={{
+                    width: '100%',
+                    padding: '10px',
+                    borderRadius: '8px',
+                    border: '1px solid #D1D5DB',
+                    fontSize: '14px'
+                  }}
+                />
+              </div>
+
+              <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', marginTop: '8px' }}>
+                <button
+                  onClick={handleFecharModalVacina}
+                  disabled={savingVacina}
+                  style={{
+                    backgroundColor: '#F3F4F6',
+                    color: '#374151',
+                    border: 'none',
+                    borderRadius: '8px',
+                    padding: '10px 20px',
+                    fontSize: '14px',
+                    fontWeight: '600',
+                    cursor: savingVacina ? 'not-allowed' : 'pointer',
+                    opacity: savingVacina ? 0.5 : 1
+                  }}
+                >
+                  Cancelar
+                </button>
+                <button
+                  onClick={handleSalvarVacina}
+                  disabled={savingVacina || !vacinaForm.TipoVacina.trim() || !vacinaForm.DoseVacina.trim()}
+                  style={{
+                    backgroundColor: savingVacina || !vacinaForm.TipoVacina.trim() || !vacinaForm.DoseVacina.trim() ? '#9CA3AF' : '#7A2FF5',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '8px',
+                    padding: '10px 20px',
+                    fontSize: '14px',
+                    fontWeight: '600',
+                    cursor: savingVacina || !vacinaForm.TipoVacina.trim() || !vacinaForm.DoseVacina.trim() ? 'not-allowed' : 'pointer',
+                    transition: 'background-color 0.2s'
+                  }}
+                >
+                  {savingVacina ? 'Salvando...' : editingVacina ? 'Atualizar' : 'Adicionar'}
+                </button>
+              </div>
             </div>
           </div>
         </div>

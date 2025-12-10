@@ -25,9 +25,14 @@ export const AuthProvider = ({ children }) => {
   // }, []);
 
   const login = (userData) => {
+    // Buscar foto do localStorage se não estiver no userData
+    const fotoFromStorage = localStorage.getItem('userFoto');
+    const fotoFromUser = userData.foto || userData.fotoTutor || userData.fotoClinica || userData.fotoVeterinario || userData.fotoAmbulancia;
+    
     // Normalizar dados do usuário recebidos do backend
     const normalizedUserData = {
       ...userData,
+      foto: fotoFromUser || fotoFromStorage || null,
       accountType: userData.accountType || 
                    (userData.tipo === 'Tutor' ? 'tutor' : 
                     userData.tipo === 'Clínica' ? 'clinica' : 

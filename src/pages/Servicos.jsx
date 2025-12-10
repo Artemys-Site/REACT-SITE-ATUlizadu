@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import './Servicos.css';
 import iconSearch from '../assets/iconSearch.png';
 import iconLocation from '../assets/iconLocation.png';
@@ -16,9 +17,28 @@ import draMarina from '../assets/draMarina.png';
 
 const Servicos = () => {
   const navigate = useNavigate();
+  const { isLoggedIn } = useAuth();
   const [filtroAba, setFiltroAba] = useState('todos');
   const [buscaTexto, setBuscaTexto] = useState('');
   const [buscaLocal, setBuscaLocal] = useState('');
+  
+  const handleContatar = (servico) => {
+    if (!isLoggedIn) {
+      alert('Você precisa estar logado para contatar um veterinário. Redirecionando para a página de login...');
+      navigate('/login');
+      return;
+    }
+    navigate('/agendar-servico', { state: { profissional: servico } });
+  };
+  
+  const handleAssinarServico = () => {
+    if (!isLoggedIn) {
+      alert('Você precisa estar logado para assinar um serviço. Redirecionando para a página de login...');
+      navigate('/login');
+      return;
+    }
+    navigate('/planos');
+  };
 
   const textosFiltro = {
     todos: {
@@ -253,7 +273,7 @@ const Servicos = () => {
                     <div className="card-botoes">
                       <button 
                         className="btn-contato"
-                        onClick={() => navigate('/agendar-servico', { state: { profissional: servico } })}
+                        onClick={() => handleContatar(servico)}
                       >
                         <img src={iconTelefone} alt="Telefone" /> Contatar
                       </button>
@@ -271,7 +291,12 @@ const Servicos = () => {
         <div className="cta-profissional-container">
           <h2>É um profissional veterinário?</h2>
           <p>Cadastre-se e conecte-se com milhares de tutores que precisam dos seus serviços</p>
-          <button className="btn-cadastrar-veterinario">Cadastrar como Veterinário</button>
+          <button 
+            className="btn-cadastrar-veterinario"
+            onClick={() => navigate('/cadastro-veterinario')}
+          >
+            Cadastrar como Veterinário
+          </button>
         </div>
       </section>
     </>

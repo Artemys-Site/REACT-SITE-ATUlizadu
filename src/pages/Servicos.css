@@ -143,11 +143,11 @@
 }
 
 .tabs-container .tab-button {
-    background-color: transparent;
+    background-color: #FFFFFF;
     color: #6A4C9C;
     border: none;
     border-bottom: 3px solid transparent;
-    border-radius: 0;
+    border-radius: 8px 8px 0 0;
     padding: 10px 25px;
     font-size: 15px;
     font-weight: 600;
@@ -159,10 +159,12 @@
 
 .tabs-container .tab-button:hover {
     color: #3B2561;
+    background-color: #F8F6FD;
 }
 
 .tabs-container .tab-button.active {
     color: #7A2FF5;
+    background-color: #FFFFFF;
     border-bottom-color: #7A2FF5;
 }
 

@@ -5,6 +5,13 @@
     min-height: calc(100vh - 80px);
 }
 
+@media (max-width: 768px) {
+    .cadastro-pet-page {
+        margin-top: 80px;
+        padding: 20px 15px;
+    }
+}
+
 .cadastro-pet-container {
     max-width: 1200px;
     margin: 0 auto;
@@ -267,7 +274,7 @@
 
 @media (max-width: 768px) {
     .cadastro-pet-page {
-        margin-top: 70px;
+        margin-top: 80px;
         padding: 20px 15px;
     }
 

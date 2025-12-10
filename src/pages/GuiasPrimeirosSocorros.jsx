@@ -1,4 +1,5 @@
-import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import './Artigos.css';
 import ImagemEngasgo from '../assets/ImagemEngasgo.png';
 import imagemQueimadura from '../assets/imagemQueimadura.jpg';
@@ -8,8 +9,57 @@ import iconePrimeirosSocorros from '../assets/iconePrimeirosSocorros.png';
 import iconeFavpreto from '../assets/iconeFavpreto.png';
 import iconeGato from '../assets/iconeGato.png';
 import iconePatapreta from '../assets/iconePatapreta.png';
+import { adicionarFavorito, removerFavorito, isFavoritado } from '../utils/favoritos';
+import { useAuth } from '../context/AuthContext';
 
 const GuiasPrimeirosSocorros = () => {
+  const navigate = useNavigate();
+  let isLoggedIn = false;
+  try {
+    const auth = useAuth();
+    isLoggedIn = auth.isLoggedIn;
+  } catch (e) {
+    // Contexto não disponível, usuário não está logado
+    isLoggedIn = false;
+  }
+  const [favoritos, setFavoritos] = useState({});
+
+  useEffect(() => {
+    // Verificar quais guias estão favoritados
+    const guias = [
+      { id: 1, titulo: "ENGASGOS EM CÃES E GATOS: O QUE FAZER IMEDIATAMENTE" },
+      { id: 2, titulo: "QUEIMADURAS EM CÃES E GATOS: AÇÃO IMEDIATA" },
+      { id: 3, titulo: "INTOXICAÇÃO EM ANIMAIS: LISTA DE PLANTAS VENENOSAS" },
+      { id: 4, titulo: "INSOLAÇÃO EM CÃES E GATOS: COMO RECONHECER E RESFRIAR" }
+    ];
+    
+    const favoritosAtuais = {};
+    guias.forEach(guia => {
+      favoritosAtuais[guia.id] = isFavoritado(guia.id, 'guia');
+    });
+    setFavoritos(favoritosAtuais);
+  }, []);
+
+  const handleFavoritar = (guia) => {
+    // Verificar se o usuário está logado
+    if (!isLoggedIn) {
+      navigate('/login');
+      return;
+    }
+
+    const estaFavoritado = favoritos[guia.id];
+    
+    if (estaFavoritado) {
+      removerFavorito(guia.id, 'guia');
+      setFavoritos(prev => ({ ...prev, [guia.id]: false }));
+    } else {
+      adicionarFavorito({
+        ...guia,
+        tipo: 'guia'
+      });
+      setFavoritos(prev => ({ ...prev, [guia.id]: true }));
+    }
+  };
 
   const guias = [
     {
@@ -52,6 +102,21 @@ const GuiasPrimeirosSocorros = () => {
 
   return (
     <section className="artigos-page">
+      {/* Botões de navegação GUIAS / FAVORITOS */}
+      <div className="artigos-navegacao">
+        <button
+          className="nav-botao nav-botao-ativo"
+        >
+          GUIAS DE PRIMEIROS SOCORROS
+        </button>
+        <button
+          className="nav-botao"
+          onClick={() => navigate('/artigos-lista?aba=favoritos')}
+        >
+          FAVORITOS {Object.keys(favoritos).filter(k => favoritos[k]).length > 0 && `(${Object.keys(favoritos).filter(k => favoritos[k]).length})`}
+        </button>
+      </div>
+
       <div className="guias-container">
         <h1 className="guias-titulo">GUIAS DE PRIMEIROS SOCORROS</h1>
         <p className="guias-subtitulo">APRENDA A AGIR COM SEGURANÇA E CARINHO</p>
@@ -95,11 +160,14 @@ const GuiasPrimeirosSocorros = () => {
                 <h2 className="guia-titulo">{guia.titulo}</h2>
                 <p className="guia-descricao">{guia.descricao}</p>
                 <div className="guia-botoes">
-                  <button className="btn-adicionar-lista">
+                  <button 
+                    className={`btn-adicionar-lista ${favoritos[guia.id] ? 'favoritado' : ''}`}
+                    onClick={() => handleFavoritar(guia)}
+                  >
                     <img src={iconeFavpreto} alt="Favoritar" />
-                    + LISTA
+                    {favoritos[guia.id] ? 'REMOVER' : '+ LISTA'}
                   </button>
-                  <Link to="/artigos" className="btn-ler-guia">LER</Link>
+                  <Link to={`/artigos?guia=${guia.id}`} className="btn-ler-guia" state={{ guiaId: guia.id }}>LER</Link>
                 </div>
               </div>
               <div className="guia-card-imagem">

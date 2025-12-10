@@ -726,6 +726,79 @@
     object-fit: cover;
 }
 
+/* Estilos para lista de artigos */
+.artigos-lista-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.artigos-lista-titulo {
+    font-size: 36px;
+    font-weight: 700;
+    color: #7A2FF5;
+    margin-bottom: 10px;
+    font-family: 'Ysabeau SC', sans-serif;
+    text-transform: uppercase;
+}
+
+.artigos-lista-subtitulo {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 30px;
+    font-family: Arial, sans-serif;
+}
+
+.artigos-lista-vazia {
+    text-align: center;
+    padding: 60px 20px;
+    color: #666;
+    font-family: Arial, sans-serif;
+}
+
+.artigos-lista-vazia p {
+    margin: 10px 0;
+    font-size: 16px;
+}
+
+.btn-ver-todos-guias {
+    display: inline-block;
+    padding: 12px 30px;
+    background-color: #7A2FF5;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    font-family: 'Ysabeau SC', sans-serif;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease;
+    margin-bottom: 30px;
+}
+
+.btn-ver-todos-guias:hover {
+    background-color: #6A4C9C;
+}
+
+.btn-adicionar-lista.favoritado {
+    background-color: #7A2FF5;
+    color: #FFFFFF;
+}
+
+.btn-adicionar-lista.favoritado:hover {
+    background-color: #6A4C9C;
+}
+
+.btn-salvar-conteudo.favoritado {
+    background-color: #7A2FF5;
+    color: #FFFFFF;
+}
+
+.btn-salvar-conteudo.favoritado:hover {
+    background-color: #6A4C9C;
+}
+
 /* Responsividade para guias */
 @media (max-width: 768px) {
     .guia-card {
@@ -744,5 +817,14 @@
     .filtro-botao {
         width: 100%;
         justify-content: center;
+    }
+
+    .artigos-navegacao {
+        flex-direction: column;
+    }
+
+    .nav-botao {
+        width: 100%;
+        text-align: center;
     }
 }

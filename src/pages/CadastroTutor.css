@@ -5,6 +5,13 @@
     min-height: calc(100vh - 90px);
 }
 
+@media (max-width: 768px) {
+    .cadastro-tutor-page {
+        margin-top: 80px;
+        padding: 20px 15px 40px;
+    }
+}
+
 .cadastro-tutor-container {
     max-width: 1200px;
     margin: 0 auto;

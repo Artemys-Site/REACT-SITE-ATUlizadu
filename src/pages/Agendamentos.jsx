@@ -14,6 +14,8 @@ import Book from '../assets/Book.png';
 
 const Agendamentos = () => {
   const [activeTab, setActiveTab] = useState('proximos');
+  const [modalDetalhes, setModalDetalhes] = useState(null);
+  const [modalExcluir, setModalExcluir] = useState(null);
 
   const agendamentos = {
     proximos: [
@@ -170,11 +172,17 @@ const Agendamentos = () => {
                         <span>Entrar</span>
                       </button>
                     )}
-                    <button className="btn-detalhes">
+                    <button 
+                      className="btn-detalhes"
+                      onClick={() => setModalDetalhes(agendamento)}
+                    >
                       <img src={Book} alt="Detalhes" />
                       <span>Detalhes</span>
                     </button>
-                    <button className="btn-menu-options">
+                    <button 
+                      className="btn-menu-options"
+                      onClick={() => setModalExcluir(agendamento)}
+                    >
                       <span></span>
                       <span></span>
                       <span></span>
@@ -186,6 +194,226 @@ const Agendamentos = () => {
           ))}
         </div>
       </div>
+
+      {/* Modal de Detalhes da Consulta */}
+      {modalDetalhes && (
+        <div 
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.7)',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            zIndex: 10000,
+            padding: '20px'
+          }}
+          onClick={() => setModalDetalhes(null)}
+        >
+          <div 
+            style={{
+              backgroundColor: 'white',
+              borderRadius: '16px',
+              width: '100%',
+              maxWidth: '600px',
+              maxHeight: '90vh',
+              overflow: 'auto',
+              position: 'relative',
+              boxShadow: '0 10px 40px rgba(0, 0, 0, 0.3)'
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div style={{
+              backgroundColor: '#7A2FF5',
+              padding: '24px',
+              borderRadius: '16px 16px 0 0',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              position: 'sticky',
+              top: 0,
+              zIndex: 1
+            }}>
+              <h2 style={{ color: 'white', margin: 0, fontSize: '24px', fontWeight: 'bold' }}>
+                DETALHES DA CONSULTA
+              </h2>
+              <button
+                onClick={() => setModalDetalhes(null)}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  color: 'white',
+                  fontSize: '28px',
+                  cursor: 'pointer',
+                  padding: '0',
+                  width: '32px',
+                  height: '32px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  borderRadius: '4px',
+                  transition: 'background-color 0.2s'
+                }}
+                onMouseEnter={(e) => e.target.style.backgroundColor = 'rgba(255, 255, 255, 0.2)'}
+                onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
+              >
+                ×
+              </button>
+            </div>
+
+            <div style={{ padding: '24px' }}>
+              <div style={{ marginBottom: '24px' }}>
+                <h3 style={{ fontSize: '20px', margin: '0 0 8px 0', color: '#1F2937' }}>
+                  {modalDetalhes.veterinario}
+                </h3>
+                <p style={{ fontSize: '16px', color: '#6B7280', margin: 0 }}>
+                  {modalDetalhes.especialidade}
+                </p>
+              </div>
+
+              <div style={{ 
+                display: 'grid', 
+                gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', 
+                gap: '16px',
+                marginBottom: '24px'
+              }}>
+                <div>
+                  <strong style={{ color: '#6B7280', fontSize: '12px', textTransform: 'uppercase', display: 'block', marginBottom: '4px' }}>Data</strong>
+                  <p style={{ margin: 0, fontSize: '16px', color: '#1F2937' }}>{modalDetalhes.data}</p>
+                </div>
+                <div>
+                  <strong style={{ color: '#6B7280', fontSize: '12px', textTransform: 'uppercase', display: 'block', marginBottom: '4px' }}>Horário</strong>
+                  <p style={{ margin: 0, fontSize: '16px', color: '#1F2937' }}>{modalDetalhes.hora}</p>
+                </div>
+                <div>
+                  <strong style={{ color: '#6B7280', fontSize: '12px', textTransform: 'uppercase', display: 'block', marginBottom: '4px' }}>Pet</strong>
+                  <p style={{ margin: 0, fontSize: '16px', color: '#1F2937' }}>{modalDetalhes.pet}</p>
+                </div>
+                <div>
+                  <strong style={{ color: '#6B7280', fontSize: '12px', textTransform: 'uppercase', display: 'block', marginBottom: '4px' }}>Tipo de Consulta</strong>
+                  <p style={{ margin: 0, fontSize: '16px', color: '#1F2937' }}>{modalDetalhes.tipo}</p>
+                </div>
+                <div>
+                  <strong style={{ color: '#6B7280', fontSize: '12px', textTransform: 'uppercase', display: 'block', marginBottom: '4px' }}>Valor</strong>
+                  <p style={{ margin: 0, fontSize: '16px', color: '#1F2937' }}>{modalDetalhes.preco}</p>
+                </div>
+                <div>
+                  <strong style={{ color: '#6B7280', fontSize: '12px', textTransform: 'uppercase', display: 'block', marginBottom: '4px' }}>Status</strong>
+                  <p style={{ margin: 0, fontSize: '16px', color: '#1F2937', textTransform: 'capitalize' }}>{modalDetalhes.status}</p>
+                </div>
+              </div>
+
+              <div style={{ marginBottom: '24px' }}>
+                <strong style={{ color: '#6B7280', fontSize: '12px', textTransform: 'uppercase', display: 'block', marginBottom: '8px' }}>Tags</strong>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                  {modalDetalhes.tags.map((tag, index) => (
+                    <span
+                      key={index}
+                      style={{
+                        backgroundColor: '#F8F6FD',
+                        color: '#7A2FF5',
+                        padding: '6px 12px',
+                        borderRadius: '16px',
+                        fontSize: '14px',
+                        fontWeight: '500'
+                      }}
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal de Excluir Consulta */}
+      {modalExcluir && (
+        <div 
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.7)',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            zIndex: 10000,
+            padding: '20px'
+          }}
+          onClick={() => setModalExcluir(null)}
+        >
+          <div 
+            style={{
+              backgroundColor: 'white',
+              borderRadius: '16px',
+              width: '100%',
+              maxWidth: '400px',
+              position: 'relative',
+              boxShadow: '0 10px 40px rgba(0, 0, 0, 0.3)',
+              padding: '24px'
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h2 style={{ fontSize: '20px', fontWeight: 'bold', margin: '0 0 16px 0', color: '#1F2937' }}>
+              Excluir Consulta
+            </h2>
+            <p style={{ fontSize: '16px', color: '#6B7280', margin: '0 0 24px 0' }}>
+              Tem certeza que deseja excluir a consulta com <strong>{modalExcluir.veterinario}</strong> agendada para <strong>{modalExcluir.data}</strong> às <strong>{modalExcluir.hora}</strong>?
+            </p>
+            <p style={{ fontSize: '14px', color: '#DC2626', margin: '0 0 24px 0', fontWeight: '500' }}>
+              Esta ação não pode ser desfeita.
+            </p>
+            <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end' }}>
+              <button
+                onClick={() => setModalExcluir(null)}
+                style={{
+                  backgroundColor: '#F3F4F6',
+                  color: '#374151',
+                  border: 'none',
+                  borderRadius: '8px',
+                  padding: '10px 20px',
+                  fontSize: '14px',
+                  fontWeight: '600',
+                  cursor: 'pointer',
+                  textTransform: 'uppercase',
+                  transition: 'background-color 0.3s'
+                }}
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={() => {
+                  // Aqui você pode adicionar a lógica para excluir a consulta
+                  alert('Consulta excluída com sucesso!');
+                  setModalExcluir(null);
+                  // Recarregar lista de agendamentos
+                }}
+                style={{
+                  backgroundColor: '#DC2626',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '8px',
+                  padding: '10px 20px',
+                  fontSize: '14px',
+                  fontWeight: '600',
+                  cursor: 'pointer',
+                  textTransform: 'uppercase',
+                  transition: 'background-color 0.3s'
+                }}
+              >
+                Excluir
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 };

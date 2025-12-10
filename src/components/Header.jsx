@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import './Header.css';
 import logo from '../assets/logo.svg';
 import iconeNotificacao from '../assets/iconeNotificacao.png';
-import perfilLogado from '../assets/perfilLogado.png';
+import perfilLogado from '../assets/perfilLogado.svg';
 
 const Header = ({ isLoggedIn: propIsLoggedIn }) => {
   let contextIsLoggedIn = false;
@@ -73,12 +73,32 @@ const Header = ({ isLoggedIn: propIsLoggedIn }) => {
 
   // Atualizar foto do perfil quando houver mudanças
   useEffect(() => {
-    // Buscar foto inicial do localStorage ou contexto
-    const fotoFromStorage = localStorage.getItem('userFoto');
-    const fotoFromUser = user?.foto;
-    if (fotoFromStorage || fotoFromUser) {
-      setProfilePhoto(fotoFromStorage || fotoFromUser);
-    }
+    // Função para atualizar a foto do perfil
+    const updateProfilePhoto = () => {
+      const fotoFromStorage = localStorage.getItem('userFoto');
+      const fotoFromUser = user?.foto || user?.fotoTutor || user?.fotoClinica || user?.fotoVeterinario || user?.fotoAmbulancia;
+      let fotoToUse = fotoFromStorage || fotoFromUser;
+      
+      // Se a foto do usuário não tem prefixo data:, adicionar
+      if (fotoToUse && !fotoToUse.startsWith('data:') && !fotoToUse.startsWith('http') && fotoToUse.length > 0) {
+        // Verificar se é base64 válido
+        const base64String = fotoToUse.replace(/\s/g, '');
+        const base64Regex = /^[A-Za-z0-9+/=]+$/;
+        if (base64String.length > 0 && base64Regex.test(base64String)) {
+          fotoToUse = `data:image/jpeg;base64,${base64String}`;
+        }
+      }
+      
+      if (fotoToUse && fotoToUse !== perfilLogado && fotoToUse.length > 0) {
+        setProfilePhoto(fotoToUse);
+      } else if (!fotoToUse || fotoToUse.length === 0) {
+        // Se não houver foto, usar a padrão
+        setProfilePhoto(perfilLogado);
+      }
+    };
+
+    // Atualizar imediatamente quando o componente monta ou quando user/isLoggedIn muda
+    updateProfilePhoto();
 
     // Escutar eventos de atualização de usuário
     const handleUserUpdate = (event) => {
@@ -86,6 +106,9 @@ const Header = ({ isLoggedIn: propIsLoggedIn }) => {
       if (foto) {
         setProfilePhoto(foto);
         localStorage.setItem('userFoto', foto);
+      } else {
+        // Se não houver foto no evento, buscar do localStorage
+        updateProfilePhoto();
       }
     };
 
@@ -93,17 +116,26 @@ const Header = ({ isLoggedIn: propIsLoggedIn }) => {
     const handleUserLogin = (event) => {
       // Quando o usuário faz login, buscar foto do evento ou do localStorage
       const fotoFromEvent = event.detail?.foto;
-      const fotoFromStorage = localStorage.getItem('userFoto');
-      const fotoToUse = fotoFromEvent || fotoFromStorage;
-      if (fotoToUse) {
-        setProfilePhoto(fotoToUse);
+      if (fotoFromEvent) {
+        setProfilePhoto(fotoFromEvent);
+        localStorage.setItem('userFoto', fotoFromEvent);
+      } else {
+        // Se não houver foto no evento, buscar do localStorage após um pequeno delay
+        // para garantir que o localStorage foi atualizado
+        setTimeout(() => {
+          updateProfilePhoto();
+        }, 100);
       }
     };
 
     // Escutar mudanças no localStorage (quando a foto é atualizada em outra aba)
     const handleStorageChange = (e) => {
-      if (e.key === 'userFoto' && e.newValue) {
-        setProfilePhoto(e.newValue);
+      if (e.key === 'userFoto') {
+        if (e.newValue) {
+          setProfilePhoto(e.newValue);
+        } else {
+          setProfilePhoto(perfilLogado);
+        }
       }
     };
 
@@ -116,7 +148,7 @@ const Header = ({ isLoggedIn: propIsLoggedIn }) => {
       window.removeEventListener('userLogin', handleUserLogin);
       window.removeEventListener('storage', handleStorageChange);
     };
-  }, [user]);
+  }, [user, isLoggedIn]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -302,10 +334,10 @@ const Header = ({ isLoggedIn: propIsLoggedIn }) => {
           <div className="nav-user-actions">
             {isClinica ? (
               <>
-                <Link to="/configuracoes-sistema" className="action-icon action-icon-config">
+                <Link to="/configuracoes-sistema" className="action-icon action-icon-config desktop-only">
                   <i className="bi bi-gear"></i>
                 </Link>
-                <div className="action-icon-container">
+                <div className="action-icon-container desktop-only">
                   <img 
                     ref={notificationIconRef}
                     src={iconeNotificacao} 
@@ -346,11 +378,7 @@ const Header = ({ isLoggedIn: propIsLoggedIn }) => {
                   </div>
                 </div>
               </>
-            ) : (
-              <div className="action-icon">
-                <img src={iconeNotificacao} alt="Notificações" />
-              </div>
-            )}
+            ) : null}
             <div className="profile-container">
               <img
                 ref={profilePicRef}

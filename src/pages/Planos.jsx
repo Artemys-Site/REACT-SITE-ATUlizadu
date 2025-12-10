@@ -1,4 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import './Planos.css';
 import imagemPlanos from '../assets/imagemPlanos.png';
 import check from '../assets/check.png';
@@ -6,8 +7,14 @@ import X from '../assets/X.png';
 
 const Planos = () => {
   const navigate = useNavigate();
+  const { isLoggedIn } = useAuth();
 
   const handleAssinarPlano = (planoNome, preco) => {
+    if (!isLoggedIn) {
+      alert('Você precisa estar logado para assinar um plano. Redirecionando para a página de login...');
+      navigate('/login');
+      return;
+    }
     // Redirecionar para página de finalização de pagamento
     // Você pode passar os dados do plano via state ou localStorage
     navigate('/finalizar-pagamento', {

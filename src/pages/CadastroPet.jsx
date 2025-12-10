@@ -33,7 +33,20 @@ const CadastroPet = () => {
 
   const [novaCondicao, setNovaCondicao] = useState('');
   const [novaMedicacao, setNovaMedicacao] = useState('');
-  const [novaVacinacao, setNovaVacinacao] = useState({ tipo: '', dose: '' });
+  const [novaVacinacao, setNovaVacinacao] = useState({ tipo: '', dose: '', data: '' });
+  
+  // Tipos de vacina disponíveis (ajuste conforme suas tabelas no banco)
+  const tiposVacina = [
+    { value: 'V8', label: 'V8', endpoint: 'VacinaV8' },
+    { value: 'V10', label: 'V10', endpoint: 'VacinaV10' },
+    { value: 'V11', label: 'V11', endpoint: 'VacinaV11' },
+    { value: 'V12', label: 'V12', endpoint: 'VacinaV12' },
+    { value: 'Raiva', label: 'Raiva', endpoint: 'VacinaRaiva' },
+    { value: 'Gripe', label: 'Gripe Canina', endpoint: 'VacinaGripe' },
+    { value: 'Giardia', label: 'Giardia', endpoint: 'VacinaGiardia' },
+    { value: 'Leishmaniose', label: 'Leishmaniose', endpoint: 'VacinaLeishmaniose' },
+    { value: 'Outra', label: 'Outra', endpoint: 'VacinaOutra' }
+  ];
   const [novaMedicacaoControlada, setNovaMedicacaoControlada] = useState('');
 
   const handleInputChange = (e) => {
@@ -48,40 +61,72 @@ const CadastroPet = () => {
     if (novaCondicao.trim()) {
       setFormData(prev => ({
         ...prev,
-        condicoesPreexistentes: [...prev.condicoesPreexistentes, novaCondicao]
+        condicoesPreexistentes: [...prev.condicoesPreexistentes, novaCondicao.trim()]
       }));
       setNovaCondicao('');
     }
+  };
+
+  const removerCondicao = (index) => {
+    setFormData(prev => ({
+      ...prev,
+      condicoesPreexistentes: prev.condicoesPreexistentes.filter((_, i) => i !== index)
+    }));
   };
 
   const adicionarMedicacao = () => {
     if (novaMedicacao.trim()) {
       setFormData(prev => ({
         ...prev,
-        medicacoesAtuais: [...prev.medicacoesAtuais, novaMedicacao]
+        medicacoesAtuais: [...prev.medicacoesAtuais, novaMedicacao.trim()]
       }));
       setNovaMedicacao('');
     }
   };
 
+  const removerMedicacao = (index) => {
+    setFormData(prev => ({
+      ...prev,
+      medicacoesAtuais: prev.medicacoesAtuais.filter((_, i) => i !== index)
+    }));
+  };
+
   const adicionarVacinacao = () => {
     if (novaVacinacao.tipo.trim() && novaVacinacao.dose.trim()) {
+      const tipoVacina = tiposVacina.find(t => t.value === novaVacinacao.tipo);
       setFormData(prev => ({
         ...prev,
-        vacinacoes: [...prev.vacinacoes, novaVacinacao]
+        vacinacoes: [...prev.vacinacoes, {
+          ...novaVacinacao,
+          endpoint: tipoVacina?.endpoint || 'VacinaOutra'
+        }]
       }));
-      setNovaVacinacao({ tipo: '', dose: '' });
+      setNovaVacinacao({ tipo: '', dose: '', data: '' });
     }
+  };
+
+  const removerVacinacao = (index) => {
+    setFormData(prev => ({
+      ...prev,
+      vacinacoes: prev.vacinacoes.filter((_, i) => i !== index)
+    }));
   };
 
   const adicionarMedicacaoControlada = () => {
     if (novaMedicacaoControlada.trim()) {
       setFormData(prev => ({
         ...prev,
-        medicacoesControladas: [...prev.medicacoesControladas, novaMedicacaoControlada]
+        medicacoesControladas: [...prev.medicacoesControladas, novaMedicacaoControlada.trim()]
       }));
       setNovaMedicacaoControlada('');
     }
+  };
+
+  const removerMedicacaoControlada = (index) => {
+    setFormData(prev => ({
+      ...prev,
+      medicacoesControladas: prev.medicacoesControladas.filter((_, i) => i !== index)
+    }));
   };
 
   const handleFotoChange = (e) => {
@@ -183,6 +228,8 @@ const CadastroPet = () => {
         CorPet: formData.cor || '',
         CpePet: formData.condicoesPreexistentes?.join(', ') || '',
         MaPet: formData.medicacoesAtuais?.join(', ') || '',
+        // Se houver campo para medicações controladas na tabela Pets, adicione aqui:
+        // McPet: formData.medicacoesControladas?.join(', ') || '',
         FotoPet: fotoBase64, // Base64 puro (sem prefixo)
         FkTutorId: parseInt(tutorId)
       };
@@ -202,14 +249,82 @@ const CadastroPet = () => {
       // Verificar se a requisição foi bem-sucedida (201 Created)
       if (response.status === 201) {
         // Pet foi criado com sucesso
-        // Tentar ler a resposta, mas não falhar se houver erro de serialização
+        let createdPet;
         try {
-          const createdPet = await response.json();
+          createdPet = await response.json();
           console.log('Pet cadastrado com sucesso:', createdPet);
         } catch (jsonError) {
-          // Se houver erro ao ler o JSON (pode ser problema de serialização no backend),
-          // mas o status 201 indica que o pet foi criado, então continuamos
+          // Se houver erro ao ler o JSON, tentar extrair o ID do header Location ou da resposta
           console.warn('Pet criado, mas houve erro ao ler a resposta:', jsonError);
+          // Tentar obter ID do header Location se disponível
+          const locationHeader = response.headers.get('Location');
+          if (locationHeader) {
+            const match = locationHeader.match(/\/(\d+)$/);
+            if (match) {
+              createdPet = { idPet: parseInt(match[1]) };
+            }
+          }
+        }
+
+        const petId = createdPet?.idPet || createdPet?.id;
+        
+        // Se houver vacinações, cadastrar cada uma na sua respectiva tabela
+        if (formData.vacinacoes && formData.vacinacoes.length > 0 && petId) {
+          console.log('Cadastrando vacinações...', formData.vacinacoes);
+          
+          // Agrupar vacinações por tipo/endpoint
+          const vacinacoesPorTipo = {};
+          formData.vacinacoes.forEach((vacina, index) => {
+            const endpoint = vacina.endpoint || 'VacinaOutra';
+            if (!vacinacoesPorTipo[endpoint]) {
+              vacinacoesPorTipo[endpoint] = [];
+            }
+            vacinacoesPorTipo[endpoint].push({
+              ...vacina,
+              index
+            });
+          });
+
+          // Cadastrar cada tipo de vacina na sua respectiva tabela
+          const promessasVacinas = [];
+          for (const [endpoint, vacinas] of Object.entries(vacinacoesPorTipo)) {
+            vacinas.forEach(vacina => {
+              const vacinaData = {
+                FkPetIdPetPk: petId,
+                DoseVacina: vacina.dose,
+                DataVacina: vacina.data || new Date().toISOString().split('T')[0], // Se não tiver data, usar hoje
+                // Adicione outros campos específicos da tabela aqui conforme necessário
+              };
+
+              promessasVacinas.push(
+                fetch(`/api/${endpoint}`, {
+                  method: 'POST',
+                  headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                  },
+                  body: JSON.stringify(vacinaData)
+                }).then(async (vacinaResponse) => {
+                  if (!vacinaResponse.ok) {
+                    const errorText = await vacinaResponse.text();
+                    console.error(`Erro ao cadastrar vacina ${endpoint}:`, errorText);
+                    throw new Error(`Erro ao cadastrar vacina ${vacina.tipo}`);
+                  }
+                  return vacinaResponse.json();
+                })
+              );
+            });
+          }
+
+          // Aguardar todas as vacinações serem cadastradas
+          try {
+            await Promise.all(promessasVacinas);
+            console.log('Todas as vacinações foram cadastradas com sucesso');
+          } catch (vacinaError) {
+            console.error('Erro ao cadastrar algumas vacinações:', vacinaError);
+            // Avisar o usuário, mas não falhar o cadastro do pet
+            alert('Pet cadastrado com sucesso, mas houve erro ao cadastrar algumas vacinações. Você pode adicioná-las depois no perfil.');
+          }
         }
 
         // Redirecionar para o perfil após sucesso
@@ -494,15 +609,68 @@ const CadastroPet = () => {
                     <input
                       type="text"
                       id="condicoes-preexistentes"
-                      placeholder="Condições pré-existentes"
+                      placeholder="Ex: Diabetes, Hipertensão, Asma"
                       value={novaCondicao}
                       onChange={(e) => setNovaCondicao(e.target.value)}
+                      onKeyPress={(e) => {
+                        if (e.key === 'Enter') {
+                          e.preventDefault();
+                          adicionarCondicao();
+                        }
+                      }}
                     />
                   </div>
-                  <button type="button" className="btn-adicionar-item" onClick={adicionarCondicao}>
+                  <button 
+                    type="button" 
+                    className="btn-adicionar-item" 
+                    onClick={adicionarCondicao}
+                    disabled={!novaCondicao.trim()}
+                    style={{ 
+                      opacity: !novaCondicao.trim() ? 0.5 : 1,
+                      cursor: !novaCondicao.trim() ? 'not-allowed' : 'pointer'
+                    }}
+                  >
                     +
                   </button>
                 </div>
+                {/* Lista de condições adicionadas */}
+                {formData.condicoesPreexistentes.length > 0 && (
+                  <div className="lista-itens" style={{ marginTop: '10px' }}>
+                    {formData.condicoesPreexistentes.map((condicao, index) => (
+                      <div 
+                        key={index} 
+                        className="item-lista"
+                        style={{
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                          alignItems: 'center',
+                          padding: '8px',
+                          backgroundColor: '#F8F6FD',
+                          borderRadius: '6px',
+                          marginBottom: '6px',
+                          fontSize: '14px'
+                        }}
+                      >
+                        <span>{condicao}</span>
+                        <button
+                          type="button"
+                          onClick={() => removerCondicao(index)}
+                          style={{
+                            background: '#DC2626',
+                            color: 'white',
+                            border: 'none',
+                            borderRadius: '4px',
+                            padding: '4px 8px',
+                            cursor: 'pointer',
+                            fontSize: '12px'
+                          }}
+                        >
+                          Remover
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
 
               <div className="form-group">
@@ -512,15 +680,68 @@ const CadastroPet = () => {
                     <input
                       type="text"
                       id="medicacoes-atuais"
-                      placeholder="Medicações atuais"
+                      placeholder="Ex: Prednisona 5mg, Insulina"
                       value={novaMedicacao}
                       onChange={(e) => setNovaMedicacao(e.target.value)}
+                      onKeyPress={(e) => {
+                        if (e.key === 'Enter') {
+                          e.preventDefault();
+                          adicionarMedicacao();
+                        }
+                      }}
                     />
                   </div>
-                  <button type="button" className="btn-adicionar-item" onClick={adicionarMedicacao}>
+                  <button 
+                    type="button" 
+                    className="btn-adicionar-item" 
+                    onClick={adicionarMedicacao}
+                    disabled={!novaMedicacao.trim()}
+                    style={{ 
+                      opacity: !novaMedicacao.trim() ? 0.5 : 1,
+                      cursor: !novaMedicacao.trim() ? 'not-allowed' : 'pointer'
+                    }}
+                  >
                     +
                   </button>
                 </div>
+                {/* Lista de medicações adicionadas */}
+                {formData.medicacoesAtuais.length > 0 && (
+                  <div className="lista-itens" style={{ marginTop: '10px' }}>
+                    {formData.medicacoesAtuais.map((medicacao, index) => (
+                      <div 
+                        key={index} 
+                        className="item-lista"
+                        style={{
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                          alignItems: 'center',
+                          padding: '8px',
+                          backgroundColor: '#F8F6FD',
+                          borderRadius: '6px',
+                          marginBottom: '6px',
+                          fontSize: '14px'
+                        }}
+                      >
+                        <span>{medicacao}</span>
+                        <button
+                          type="button"
+                          onClick={() => removerMedicacao(index)}
+                          style={{
+                            background: '#DC2626',
+                            color: 'white',
+                            border: 'none',
+                            borderRadius: '4px',
+                            padding: '4px 8px',
+                            cursor: 'pointer',
+                            fontSize: '12px'
+                          }}
+                        >
+                          Remover
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
 
@@ -532,33 +753,101 @@ const CadastroPet = () => {
               <div className="form-grid">
                 <div className="form-group">
                   <label htmlFor="tipo-vacinacao">Tipo</label>
-                  <input
-                    type="text"
+                  <select
                     id="tipo-vacinacao"
-                    placeholder="Tipo de vacina"
                     value={novaVacinacao.tipo}
                     onChange={(e) => setNovaVacinacao(prev => ({ ...prev, tipo: e.target.value }))}
-                  />
+                    required
+                  >
+                    <option value="">Selecione o tipo</option>
+                    {tiposVacina.map(tipo => (
+                      <option key={tipo.value} value={tipo.value}>
+                        {tipo.label}
+                      </option>
+                    ))}
+                  </select>
                 </div>
 
                 <div className="form-group">
                   <label htmlFor="dose-vacinacao">Dose</label>
-                  <div className="input-with-button">
-                    <div className="form-group" style={{ marginBottom: 0 }}>
-                      <input
-                        type="text"
-                        id="dose-vacinacao"
-                        placeholder="Dose"
-                        value={novaVacinacao.dose}
-                        onChange={(e) => setNovaVacinacao(prev => ({ ...prev, dose: e.target.value }))}
-                      />
-                    </div>
-                    <button type="button" className="btn-adicionar-item" onClick={adicionarVacinacao}>
-                      +
-                    </button>
-                  </div>
+                  <input
+                    type="text"
+                    id="dose-vacinacao"
+                    placeholder="Ex: 1ª dose, 2ª dose, reforço"
+                    value={novaVacinacao.dose}
+                    onChange={(e) => setNovaVacinacao(prev => ({ ...prev, dose: e.target.value }))}
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="data-vacinacao">Data (Opcional)</label>
+                  <input
+                    type="date"
+                    id="data-vacinacao"
+                    value={novaVacinacao.data}
+                    onChange={(e) => setNovaVacinacao(prev => ({ ...prev, data: e.target.value }))}
+                  />
+                </div>
+
+                <div className="form-group" style={{ display: 'flex', alignItems: 'flex-end' }}>
+                  <button 
+                    type="button" 
+                    className="btn-adicionar-item" 
+                    onClick={adicionarVacinacao}
+                    disabled={!novaVacinacao.tipo || !novaVacinacao.dose}
+                    style={{ 
+                      width: '100%',
+                      opacity: (!novaVacinacao.tipo || !novaVacinacao.dose) ? 0.5 : 1,
+                      cursor: (!novaVacinacao.tipo || !novaVacinacao.dose) ? 'not-allowed' : 'pointer'
+                    }}
+                  >
+                    + Adicionar Vacina
+                  </button>
                 </div>
               </div>
+
+              {/* Lista de vacinações adicionadas */}
+              {formData.vacinacoes.length > 0 && (
+                <div className="vacinacoes-lista" style={{ marginTop: '20px' }}>
+                  <h3 style={{ fontSize: '16px', marginBottom: '10px', color: '#7A2FF5' }}>
+                    Vacinações Adicionadas:
+                  </h3>
+                  {formData.vacinacoes.map((vacina, index) => (
+                    <div 
+                      key={index} 
+                      className="vacinacao-item"
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        padding: '10px',
+                        backgroundColor: '#F8F6FD',
+                        borderRadius: '8px',
+                        marginBottom: '8px'
+                      }}
+                    >
+                      <div>
+                        <strong>{vacina.tipo}</strong> - {vacina.dose}
+                        {vacina.data && <span style={{ marginLeft: '10px', color: '#666' }}>({vacina.data})</span>}
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => removerVacinacao(index)}
+                        style={{
+                          background: '#DC2626',
+                          color: 'white',
+                          border: 'none',
+                          borderRadius: '4px',
+                          padding: '5px 10px',
+                          cursor: 'pointer'
+                        }}
+                      >
+                        Remover
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
 
               <div className="form-group">
                 <label htmlFor="medicacoes-controladas">Medicações Controladas (Opcional)</label>
@@ -567,15 +856,68 @@ const CadastroPet = () => {
                     <input
                       type="text"
                       id="medicacoes-controladas"
-                      placeholder="Medicações controladas"
+                      placeholder="Ex: Morfina, Codeína, Tramadol"
                       value={novaMedicacaoControlada}
                       onChange={(e) => setNovaMedicacaoControlada(e.target.value)}
+                      onKeyPress={(e) => {
+                        if (e.key === 'Enter') {
+                          e.preventDefault();
+                          adicionarMedicacaoControlada();
+                        }
+                      }}
                     />
                   </div>
-                  <button type="button" className="btn-adicionar-item" onClick={adicionarMedicacaoControlada}>
+                  <button 
+                    type="button" 
+                    className="btn-adicionar-item" 
+                    onClick={adicionarMedicacaoControlada}
+                    disabled={!novaMedicacaoControlada.trim()}
+                    style={{ 
+                      opacity: !novaMedicacaoControlada.trim() ? 0.5 : 1,
+                      cursor: !novaMedicacaoControlada.trim() ? 'not-allowed' : 'pointer'
+                    }}
+                  >
                     +
                   </button>
                 </div>
+                {/* Lista de medicações controladas adicionadas */}
+                {formData.medicacoesControladas.length > 0 && (
+                  <div className="lista-itens" style={{ marginTop: '10px' }}>
+                    {formData.medicacoesControladas.map((medicacao, index) => (
+                      <div 
+                        key={index} 
+                        className="item-lista"
+                        style={{
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                          alignItems: 'center',
+                          padding: '8px',
+                          backgroundColor: '#F8F6FD',
+                          borderRadius: '6px',
+                          marginBottom: '6px',
+                          fontSize: '14px'
+                        }}
+                      >
+                        <span>{medicacao}</span>
+                        <button
+                          type="button"
+                          onClick={() => removerMedicacaoControlada(index)}
+                          style={{
+                            background: '#DC2626',
+                            color: 'white',
+                            border: 'none',
+                            borderRadius: '4px',
+                            padding: '4px 8px',
+                            cursor: 'pointer',
+                            fontSize: '12px'
+                          }}
+                        >
+                          Remover
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
 
