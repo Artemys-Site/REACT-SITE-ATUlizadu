@@ -45,13 +45,13 @@ const Login = () => {
       
       try {
         response = await fetch(loginUrl, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-          },
-          body: JSON.stringify(requestBody)
-        });
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(requestBody)
+      });
         
         // Se receber 401 e estiver usando proxy, tentar com URL completa
         if (response.status === 401 && loginUrl.startsWith('/api')) {
@@ -109,7 +109,7 @@ const Login = () => {
             // Tentar extrair mensagem de erro útil
             if (errorText && errorText.trim().length > 0) {
               if (errorText.includes('Erro') || errorText.includes('erro') || errorText.includes('Error')) {
-                errorMessage = errorText.substring(0, 200); // Limitar tamanho
+              errorMessage = errorText.substring(0, 200); // Limitar tamanho
               } else {
                 errorMessage = errorText.substring(0, 200);
               }
@@ -131,8 +131,8 @@ const Login = () => {
           if (response.status === 401) {
             errorMessage = 'Email ou senha incorretos. Verifique suas credenciais e tente novamente.';
           } else {
-            errorMessage = `Erro no servidor (${response.status}). Tente novamente.`;
-          }
+          errorMessage = `Erro no servidor (${response.status}). Tente novamente.`;
+        }
         }
         
         console.error('❌ Detalhes completos do erro:', {
@@ -356,12 +356,12 @@ const Login = () => {
         // Disparar evento para o Header atualizar a foto imediatamente
         // Usar um pequeno delay para garantir que o localStorage foi atualizado
         setTimeout(() => {
-          const fotoSalva = localStorage.getItem('userFoto');
+        const fotoSalva = localStorage.getItem('userFoto');
           const fotoFinal = fotoSalva || fotoParaSalvar || data.user.foto;
           
           console.log('📸 Disparando evento userLogin com foto:', fotoFinal ? 'Foto presente' : 'Sem foto');
           
-          window.dispatchEvent(new CustomEvent('userLogin', { 
+        window.dispatchEvent(new CustomEvent('userLogin', { 
             detail: { 
               userId: userId,
               user: data.user,
@@ -375,7 +375,7 @@ const Login = () => {
               detail: { 
                 foto: fotoFinal
               } 
-            }));
+        }));
           }
         }, 100);
         

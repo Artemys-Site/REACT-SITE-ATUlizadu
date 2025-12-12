@@ -130,7 +130,7 @@ const Header = ({ isLoggedIn: propIsLoggedIn }) => {
     // Função para atualizar a foto do perfil
     const updateProfilePhoto = () => {
       console.log('🔄 updateProfilePhoto chamado');
-      const fotoFromStorage = localStorage.getItem('userFoto');
+    const fotoFromStorage = localStorage.getItem('userFoto');
       const fotoFromUser = user?.foto || user?.fotoTutor || user?.fotoClinica || user?.fotoVeterinario || user?.fotoAmbulancia;
       let fotoToUse = fotoFromStorage || fotoFromUser;
       
@@ -158,7 +158,7 @@ const Header = ({ isLoggedIn: propIsLoggedIn }) => {
         // Se não houver foto, usar a padrão
         console.log('⚠️ Usando foto padrão');
         setProfilePhoto(perfilLogado);
-      }
+    }
     };
 
     // Atualizar imediatamente quando o componente monta ou quando user/isLoggedIn muda
@@ -202,7 +202,7 @@ const Header = ({ isLoggedIn: propIsLoggedIn }) => {
     const handleStorageChange = (e) => {
       if (e.key === 'userFoto') {
         if (e.newValue) {
-          setProfilePhoto(e.newValue);
+        setProfilePhoto(e.newValue);
         } else {
           setProfilePhoto(perfilLogado);
         }

@@ -275,7 +275,7 @@ const Servicos = () => {
                         className="btn-contato"
                         onClick={() => handleContatar(servico)}
                       >
-                        <img src={iconTelefone} alt="Telefone" /> Contatar
+                        <img src={iconTelefone} alt="Telefone" /> Agendar
                       </button>
                       <Link to="/servicos/ver-perfil" className="btn-ver-perfil">Ver Perfil</Link>
                     </div>

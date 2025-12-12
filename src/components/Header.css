@@ -338,6 +338,7 @@ header.main-header:has(.nav-buttons) .nav-logo img {
     height: 40px;
     border-radius: 50%;
     object-fit: cover;
+    object-position: center;
     cursor: pointer;
     border: 2px solid var(--cor-borda);
     transition: all 0.3s ease;
@@ -624,6 +625,8 @@ header.main-header:has(.nav-buttons) .nav-logo img {
         width: 45px;
         height: 45px;
         border: 2px solid #E6DFFF;
+        object-fit: cover;
+        object-position: center;
     }
 }
 

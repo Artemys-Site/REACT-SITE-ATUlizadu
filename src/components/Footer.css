@@ -5,6 +5,14 @@ footer {
     width: 100%;
     margin-top: auto;
     flex-shrink: 0;
+    margin-bottom: 0;
+    padding-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+    footer {
+        margin-top: 0;
+    }
 }
 
 .logoERedesRodape {
@@ -145,15 +153,62 @@ footer {
 }
 
 @media (max-width: 768px) {
+    footer {
+        padding: 30px 15px 20px 15px !important;
+        margin-bottom: 0 !important;
+        margin-top: 0 !important;
+        flex-shrink: 0;
+        position: relative;
+        bottom: 0;
+        height: auto;
+        max-height: none;
+    }
+    
+    footer::after,
+    footer::before {
+        display: none !important;
+        content: none !important;
+        height: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    
+    body > footer:last-child {
+        margin-bottom: 0 !important;
+        padding-bottom: 20px !important;
+    }
+    
     .logoERedesRodape {
         flex-direction: column;
         gap: 20px;
         text-align: center;
+        width: 100%;
+        margin-bottom: 25px;
     }
 
     .listaDiferenciais {
         flex-direction: column;
         gap: 15px;
+        align-items: flex-start;
+        padding: 15px 20px;
+    }
+
+    .listaDiferenciais li {
+        width: 100%;
+        justify-content: flex-start;
+        padding: 8px 0;
+    }
+
+    .diferenciais {
+        width: 100%;
+        padding: 15px 20px;
+    }
+
+    .direitosAutorias {
+        width: 100%;
+        justify-content: center;
+        text-align: center;
+        padding-top: 20px;
     }
 }
 

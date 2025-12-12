@@ -801,6 +801,26 @@
 
 /* Responsividade para guias */
 @media (max-width: 768px) {
+    .artigos-page {
+        margin-top: 100px;
+        padding-top: 20px;
+    }
+
+    .artigos-navegacao {
+        flex-direction: column;
+        margin-top: 20px;
+        padding-top: 20px;
+    }
+
+    .nav-botao {
+        width: 100%;
+        text-align: center;
+    }
+
+    .guias-container {
+        padding-top: 20px;
+    }
+
     .guia-card {
         grid-template-columns: 1fr;
     }
@@ -812,6 +832,7 @@
 
     .guias-filtros {
         flex-direction: column;
+        gap: 10px;
     }
 
     .filtro-botao {
@@ -819,12 +840,8 @@
         justify-content: center;
     }
 
-    .artigos-navegacao {
-        flex-direction: column;
-    }
-
-    .nav-botao {
-        width: 100%;
-        text-align: center;
+    .filtro-botao.ativo {
+        background-color: #7A2FF5;
+        color: #FFFFFF;
     }
 }

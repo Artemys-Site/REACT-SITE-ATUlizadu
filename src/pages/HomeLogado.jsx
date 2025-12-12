@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import './Home.css';
 import iconePatapreta from '../assets/iconePatapreta.png';
 import logo from '../assets/logo.svg';
@@ -23,6 +24,8 @@ import iconeBeneficios from '../assets/iconeBeneficios.png';
 import pataRoxa from '../assets/pataRoxa.png';
 
 const HomeLogado = () => {
+  const { isLoggedIn } = useAuth();
+  
   return (
     <>
       <section className="home">
@@ -124,7 +127,13 @@ const HomeLogado = () => {
                   <p>Consultas online com veterinários</p>
                 </li>
               </ul>
-              <Link to="/planos" className="btn-assinar btn-assinar--orange">Assinar Plano</Link>
+              {isLoggedIn ? (
+                <button className="btn-assinar btn-assinar--orange" disabled style={{ opacity: 0.6, cursor: 'not-allowed' }}>
+                  Assinar Plano
+                </button>
+              ) : (
+                <Link to="/cadastro" className="btn-assinar btn-assinar--orange">Assinar Plano</Link>
+              )}
             </div>
           </div>
 

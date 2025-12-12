@@ -612,11 +612,18 @@
 @media (max-width: 768px) {
     .perfil-profissional-page {
         margin-top: 70px;
+        padding-bottom: 40px;
+    }
+
+    .perfil-header-banner {
+        padding: 30px 15px;
+        margin-bottom: 0;
     }
 
     .perfil-header-content {
         flex-direction: column;
         text-align: center;
+        gap: 20px;
     }
 
     .perfil-foto-grande {
@@ -626,12 +633,31 @@
 
     .perfil-nome-grande {
         font-size: 24px;
+        margin-bottom: 15px;
     }
 
-    .perfil-info-rapida-grid,
+    .perfil-header-info {
+        min-height: auto;
+        width: 100%;
+    }
+
+    .btn-editar-perfil {
+        width: 100%;
+        justify-content: center;
+        margin-top: 15px;
+    }
+
+    .perfil-info-rapida-grid {
+        grid-template-columns: 1fr;
+        padding: 0 15px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
     .perfil-metricas-grid {
         grid-template-columns: 1fr;
         padding: 0 15px;
+        margin-bottom: 20px;
     }
 
     .perfil-conteudo-grid {

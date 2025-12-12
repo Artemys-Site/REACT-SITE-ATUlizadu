@@ -179,14 +179,14 @@ const Agendamentos = () => {
                       <img src={Book} alt="Detalhes" />
                       <span>Detalhes</span>
                     </button>
-                    <button 
-                      className="btn-menu-options"
-                      onClick={() => setModalExcluir(agendamento)}
-                    >
-                      <span></span>
-                      <span></span>
-                      <span></span>
-                    </button>
+                    {agendamento.status === 'agendado' && (
+                      <button 
+                        className="btn-cancelar"
+                        onClick={() => setModalExcluir(agendamento)}
+                      >
+                        Cancelar
+                      </button>
+                    )}
                   </div>
                 </div>
               </div>
@@ -362,7 +362,7 @@ const Agendamentos = () => {
             onClick={(e) => e.stopPropagation()}
           >
             <h2 style={{ fontSize: '20px', fontWeight: 'bold', margin: '0 0 16px 0', color: '#1F2937' }}>
-              Excluir Consulta
+              Cancelar Consulta
             </h2>
             <p style={{ fontSize: '16px', color: '#6B7280', margin: '0 0 24px 0' }}>
               Tem certeza que deseja excluir a consulta com <strong>{modalExcluir.veterinario}</strong> agendada para <strong>{modalExcluir.data}</strong> às <strong>{modalExcluir.hora}</strong>?
@@ -408,7 +408,7 @@ const Agendamentos = () => {
                   transition: 'background-color 0.3s'
                 }}
               >
-                Excluir
+                Cancelar
               </button>
             </div>
           </div>

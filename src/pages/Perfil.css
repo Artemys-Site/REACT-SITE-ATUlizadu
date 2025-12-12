@@ -763,6 +763,27 @@
         font-size: 12px;
     }
 
+    .perfil-card-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .perfil-info {
+        width: 100%;
+    }
+
+    .btn-editar-perfil {
+        width: 100%;
+        justify-content: center;
+        margin-top: 10px;
+    }
+
+    .perfil-nome {
+        font-size: 20px;
+        margin-bottom: 5px;
+    }
+
     .perfil-grid {
         grid-template-columns: 1fr;
     }

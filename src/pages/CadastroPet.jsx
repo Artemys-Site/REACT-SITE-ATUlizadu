@@ -770,14 +770,14 @@ const CadastroPet = () => {
 
                 <div className="form-group">
                   <label htmlFor="dose-vacinacao">Dose</label>
-                  <input
-                    type="text"
-                    id="dose-vacinacao"
+                      <input
+                        type="text"
+                        id="dose-vacinacao"
                     placeholder="Ex: 1ª dose, 2ª dose, reforço"
-                    value={novaVacinacao.dose}
-                    onChange={(e) => setNovaVacinacao(prev => ({ ...prev, dose: e.target.value }))}
-                  />
-                </div>
+                        value={novaVacinacao.dose}
+                        onChange={(e) => setNovaVacinacao(prev => ({ ...prev, dose: e.target.value }))}
+                      />
+                    </div>
 
                 <div className="form-group">
                   <label htmlFor="data-vacinacao">Data (Opcional)</label>
@@ -802,7 +802,7 @@ const CadastroPet = () => {
                     }}
                   >
                     + Adicionar Vacina
-                  </button>
+                    </button>
                 </div>
               </div>
 

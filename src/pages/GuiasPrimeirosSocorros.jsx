@@ -23,6 +23,7 @@ const GuiasPrimeirosSocorros = () => {
     isLoggedIn = false;
   }
   const [favoritos, setFavoritos] = useState({});
+  const [filtroAtivo, setFiltroAtivo] = useState('todos');
 
   useEffect(() => {
     // Verificar quais guias estão favoritados
@@ -68,6 +69,8 @@ const GuiasPrimeirosSocorros = () => {
       descricao: "PASSOS SIMPLES PARA DESOBSTRUÇÃO, QUANDO PARAR E IR AO VETERINÁRIO",
       imagem: ImagemEngasgo,
       categoria: "PRIMEIROS SOCORROS",
+      tema: "primeiros-socorros",
+      especie: "ambos",
       tempoLeitura: "LEITURA: 7 MIN",
       iconeCategoria: iconePrimeirosSocorros
     },
@@ -77,6 +80,8 @@ const GuiasPrimeirosSocorros = () => {
       descricao: "O QUE FAZER ANTES DE LEVAR AO VETERINÁRIO, COMO ALIVIAR A DOR E PREVENIR INFECÇÕES",
       imagem: imagemQueimadura,
       categoria: "PRIMEIROS SOCORROS",
+      tema: "primeiros-socorros",
+      especie: "ambos",
       tempoLeitura: "LEITURA: 5 MIN",
       iconeCategoria: iconePrimeirosSocorros
     },
@@ -86,6 +91,8 @@ const GuiasPrimeirosSocorros = () => {
       descricao: "RECONHEÇA OS SINTOMAS URGENTES, O QUE FAZER EM CASA E A IMPORTÂNCIA DO ATENDIMENTO VETERINÁRIO RÁPIDO",
       imagem: intoxicacaoAnimais,
       categoria: "PRIMEIROS SOCORROS",
+      tema: "primeiros-socorros",
+      especie: "ambos",
       tempoLeitura: "LEITURA: 8 MIN",
       iconeCategoria: iconePrimeirosSocorros
     },
@@ -95,10 +102,39 @@ const GuiasPrimeirosSocorros = () => {
       descricao: "SINAIS DE ALERTA DE HIPERTERMIA, PASSOS DE RESFRIAMENTO E QUANDO A EMERGÊNCIA É CRÍTICA",
       imagem: imagemFebre,
       categoria: "PRIMEIROS SOCORROS",
+      tema: "primeiros-socorros",
+      especie: "ambos",
       tempoLeitura: "LEITURA: 6 MIN",
       iconeCategoria: iconePrimeirosSocorros
     }
   ];
+
+  const filtrarGuias = () => {
+    if (filtroAtivo === 'todos') {
+      return guias;
+    }
+    
+    return guias.filter(guia => {
+      if (filtroAtivo === 'primeiros-socorros') {
+        return guia.tema === 'primeiros-socorros';
+      }
+      if (filtroAtivo === 'adestramento') {
+        return guia.tema === 'adestramento';
+      }
+      if (filtroAtivo === 'bem-estar') {
+        return guia.tema === 'bem-estar';
+      }
+      if (filtroAtivo === 'caes') {
+        return guia.especie === 'caes' || guia.especie === 'ambos';
+      }
+      if (filtroAtivo === 'gatos') {
+        return guia.especie === 'gatos' || guia.especie === 'ambos';
+      }
+      return true;
+    });
+  };
+
+  const guiasFiltrados = filtrarGuias();
 
   return (
     <section className="artigos-page">
@@ -123,23 +159,44 @@ const GuiasPrimeirosSocorros = () => {
 
         {/* Botões de filtro */}
         <div className="guias-filtros">
-          <button className="filtro-botao">
+          <button 
+            className={`filtro-botao ${filtroAtivo === 'todos' ? 'ativo' : ''}`}
+            onClick={() => setFiltroAtivo('todos')}
+          >
+            TODOS
+          </button>
+          <button 
+            className={`filtro-botao ${filtroAtivo === 'primeiros-socorros' ? 'ativo' : ''}`}
+            onClick={() => setFiltroAtivo('primeiros-socorros')}
+          >
             <img src={iconePrimeirosSocorros} alt="Primeiros Socorros" />
             PRIMEIROS SOCORROS
           </button>
-          <button className="filtro-botao">
+          <button 
+            className={`filtro-botao ${filtroAtivo === 'adestramento' ? 'ativo' : ''}`}
+            onClick={() => setFiltroAtivo('adestramento')}
+          >
             <img src={iconePrimeirosSocorros} alt="Adestramento" />
             ADESTRAMENTO
           </button>
-          <button className="filtro-botao">
+          <button 
+            className={`filtro-botao ${filtroAtivo === 'bem-estar' ? 'ativo' : ''}`}
+            onClick={() => setFiltroAtivo('bem-estar')}
+          >
             <img src={iconePrimeirosSocorros} alt="Bem-estar" />
             BEM-ESTAR
           </button>
-          <button className="filtro-botao">
+          <button 
+            className={`filtro-botao ${filtroAtivo === 'caes' ? 'ativo' : ''}`}
+            onClick={() => setFiltroAtivo('caes')}
+          >
             <img src={iconePatapreta} alt="Cães" />
             CÃES
           </button>
-          <button className="filtro-botao">
+          <button 
+            className={`filtro-botao ${filtroAtivo === 'gatos' ? 'ativo' : ''}`}
+            onClick={() => setFiltroAtivo('gatos')}
+          >
             <img src={iconeGato} alt="Gatos" />
             GATOS
           </button>
@@ -147,7 +204,12 @@ const GuiasPrimeirosSocorros = () => {
 
         {/* Lista de guias */}
         <div className="guias-lista">
-          {guias.map((guia) => (
+          {guiasFiltrados.length === 0 ? (
+            <p style={{ textAlign: 'center', padding: '40px', color: '#6A4C9C' }}>
+              Nenhum guia encontrado para este filtro.
+            </p>
+          ) : (
+            guiasFiltrados.map((guia) => (
             <div key={guia.id} className="guia-card">
               <div className="guia-card-conteudo">
                 <div className="guia-card-header">
@@ -174,7 +236,7 @@ const GuiasPrimeirosSocorros = () => {
                 <img src={guia.imagem} alt={guia.titulo} />
               </div>
             </div>
-          ))}
+          )))}
         </div>
       </div>
     </section>

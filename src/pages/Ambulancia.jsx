@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import './Ambulancia.css';
 import iconeAlerta from '../assets/iconeAlerta.png';
 import iconLocation from '../assets/iconLocation.png';
@@ -17,12 +18,47 @@ const Ambulancia = () => {
   const [urgencia, setUrgencia] = useState('media');
   const [sintomas, setSintomas] = useState('');
   const [telefone, setTelefone] = useState('(11) 91488-6511');
+  const [pets, setPets] = useState([]);
+  const [loadingPets, setLoadingPets] = useState(false);
   const navigate = useNavigate();
+  const { user, isLoggedIn } = useAuth();
 
-  const pets = [
-    { value: 'pet1', nome: 'Rex' },
-    { value: 'pet2', nome: 'Luna' }
-  ];
+  // Buscar pets do usuário logado
+  useEffect(() => {
+    const fetchPets = async () => {
+      if (!isLoggedIn || !user) return;
+      
+      try {
+        setLoadingPets(true);
+        const token = localStorage.getItem('token');
+        const userId = user.idTutor || user.id || localStorage.getItem('userId');
+        
+        if (!userId) return;
+        
+        const response = await fetch(`/api/Pets/tutor/${userId}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        });
+        
+        if (response.ok) {
+          const petsData = await response.json();
+          const petsArray = Array.isArray(petsData) ? petsData : (petsData ? [petsData] : []);
+          setPets(petsArray.map(pet => ({
+            value: pet.idPet || pet.id,
+            nome: pet.nPet || pet.nome || 'Pet sem nome'
+          })));
+        }
+      } catch (error) {
+        console.error('Erro ao buscar pets:', error);
+      } finally {
+        setLoadingPets(false);
+      }
+    };
+    
+    fetchPets();
+  }, [isLoggedIn, user]);
 
   const handleContinuar = () => {
     if (step < 3) {
@@ -36,13 +72,65 @@ const Ambulancia = () => {
   const handleUsarLocalizacao = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
-        (position) => {
-          // Aqui você poderia usar uma API de geocodificação reversa
-          setLocalizacao('Localização detectada');
-          setIsEditandoLocalizacao(false);
+        async (position) => {
+          const { latitude, longitude } = position.coords;
+          
+          try {
+            // Usar API de geocodificação reversa (OpenStreetMap Nominatim)
+            const response = await fetch(
+              `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=18&addressdetails=1`,
+              {
+                headers: {
+                  'User-Agent': 'Artemys Pet Care App'
+                }
+              }
+            );
+            
+            if (response.ok) {
+              const data = await response.json();
+              if (data.address) {
+                const endereco = [];
+                if (data.address.road) endereco.push(data.address.road);
+                if (data.address.house_number) endereco.push(data.address.house_number);
+                if (data.address.suburb || data.address.neighbourhood) endereco.push(data.address.suburb || data.address.neighbourhood);
+                if (data.address.city || data.address.town) endereco.push(data.address.city || data.address.town);
+                if (data.address.state) endereco.push(data.address.state);
+                
+                const enderecoFormatado = endereco.length > 0 
+                  ? endereco.join(', ') 
+                  : `${latitude.toFixed(6)}, ${longitude.toFixed(6)}`;
+                
+                setLocalizacao(enderecoFormatado);
+                setIsEditandoLocalizacao(false);
+              } else {
+                setLocalizacao(`${latitude.toFixed(6)}, ${longitude.toFixed(6)}`);
+                setIsEditandoLocalizacao(false);
+              }
+            } else {
+              setLocalizacao(`${latitude.toFixed(6)}, ${longitude.toFixed(6)}`);
+              setIsEditandoLocalizacao(false);
+            }
+          } catch (error) {
+            console.error('Erro ao obter endereço:', error);
+            setLocalizacao(`${latitude.toFixed(6)}, ${longitude.toFixed(6)}`);
+            setIsEditandoLocalizacao(false);
+          }
         },
         (error) => {
-          alert('Não foi possível obter sua localização');
+          let mensagem = 'Não foi possível obter sua localização';
+          if (error.code === 1) {
+            mensagem = 'Permissão de localização negada. Por favor, permita o acesso à localização nas configurações do navegador.';
+          } else if (error.code === 2) {
+            mensagem = 'Localização indisponível. Verifique se o GPS está ativado.';
+          } else if (error.code === 3) {
+            mensagem = 'Tempo esgotado ao obter localização. Tente novamente.';
+          }
+          alert(mensagem);
+        },
+        {
+          enableHighAccuracy: true,
+          timeout: 10000,
+          maximumAge: 0
         }
       );
     } else {
@@ -139,8 +227,11 @@ const Ambulancia = () => {
                         className="select-ambulancia"
                         value={petSelecionado}
                         onChange={(e) => setPetSelecionado(e.target.value)}
+                        disabled={loadingPets}
                       >
-                        <option value="">Selecione seu pet</option>
+                        <option value="">
+                          {loadingPets ? 'Carregando pets...' : pets.length === 0 ? 'Nenhum pet cadastrado' : 'Selecione seu pet'}
+                        </option>
                         {pets.map(pet => (
                           <option key={pet.value} value={pet.value}>{pet.nome}</option>
                         ))}
@@ -239,7 +330,7 @@ const Ambulancia = () => {
                       </div>
                       <div className="resumo-item">
                         <strong>Pet:</strong>
-                        <span>{pets.find(p => p.value === petSelecionado)?.nome || 'Não selecionado'}</span>
+                        <span>{pets.find(p => p.value === petSelecionado || p.value === parseInt(petSelecionado))?.nome || 'Não selecionado'}</span>
                       </div>
                       <div className="resumo-item">
                         <strong>Urgência:</strong>
