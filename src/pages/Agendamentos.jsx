@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useNotification } from '../context/NotificationContext';
 import './Agendamentos.css';
 import iconeVoltar from '../assets/iconeVoltar.png';
 import iconeCalendario from '../assets/iconeCalendario.png';
@@ -13,6 +14,7 @@ import iconSearch from '../assets/iconSearch.png';
 import Book from '../assets/Book.png';
 
 const Agendamentos = () => {
+  const { showSuccess } = useNotification();
   const [activeTab, setActiveTab] = useState('proximos');
   const [modalDetalhes, setModalDetalhes] = useState(null);
   const [modalExcluir, setModalExcluir] = useState(null);

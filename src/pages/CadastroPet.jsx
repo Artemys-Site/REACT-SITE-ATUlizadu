@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useNotification } from '../context/NotificationContext';
 import './CadastroPet.css';
 import artySegurandogato from '../assets/artySegurandogato.webp';
 import iconeCoracao from '../assets/iconeCoracao.png';
@@ -8,6 +9,7 @@ import iconeCoracao from '../assets/iconeCoracao.png';
 const CadastroPet = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { showError, showSuccess, showWarning } = useNotification();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState(null);
   const [fotoFile, setFotoFile] = useState(null);
@@ -134,13 +136,13 @@ const CadastroPet = () => {
     if (file) {
       // Validar tipo de arquivo
       if (!file.type.startsWith('image/')) {
-        alert('Por favor, selecione apenas arquivos de imagem.');
+        showError('Por favor, selecione apenas arquivos de imagem.');
         return;
       }
       
       // Validar tamanho (máximo 5MB)
       if (file.size > 5 * 1024 * 1024) {
-        alert('A imagem deve ter no máximo 5MB.');
+        showError('A imagem deve ter no máximo 5MB.');
         return;
       }
 
@@ -323,13 +325,13 @@ const CadastroPet = () => {
           } catch (vacinaError) {
             console.error('Erro ao cadastrar algumas vacinações:', vacinaError);
             // Avisar o usuário, mas não falhar o cadastro do pet
-            alert('Pet cadastrado com sucesso, mas houve erro ao cadastrar algumas vacinações. Você pode adicioná-las depois no perfil.');
+            showWarning('Pet cadastrado com sucesso, mas houve erro ao cadastrar algumas vacinações. Você pode adicioná-las depois no perfil.');
           }
         }
 
         // Redirecionar para o perfil após sucesso
         setIsSubmitting(false);
-        alert('Pet cadastrado com sucesso!');
+        showSuccess('Pet cadastrado com sucesso!');
         // Usar replace para forçar recarregamento e adicionar timestamp para garantir atualização
         navigate('/perfil', { replace: true, state: { refresh: true, timestamp: Date.now() } });
         return;

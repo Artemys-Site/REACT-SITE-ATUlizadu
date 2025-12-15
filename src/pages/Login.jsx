@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useNotification } from '../context/NotificationContext';
 import { API_BASE_URL } from '../config/api';
 import './Login.css';
 
@@ -11,6 +12,7 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { login } = useAuth();
+  const { showError, showWarning } = useNotification();
 
   const handleAccountTypeSelect = (type) => {
     setAccountType(type);
@@ -20,7 +22,7 @@ const Login = () => {
     e.preventDefault();
     
     if (!accountType) {
-      alert('Por favor, selecione um tipo de conta');
+      showWarning('Por favor, selecione um tipo de conta');
       return;
     }
     
@@ -116,7 +118,7 @@ const Login = () => {
             } else {
               // Mensagens específicas por status code
               if (response.status === 401) {
-                errorMessage = 'Email ou senha incorretos. Verifique suas credenciais e tente novamente.';
+                errorMessage = 'Senha ou email incorreto';
               } else if (response.status === 404) {
                 errorMessage = 'Endpoint não encontrado. Verifique a configuração da API.';
               } else if (response.status === 500) {
@@ -129,7 +131,7 @@ const Login = () => {
         } catch (parseError) {
           console.error('❌ Erro ao processar resposta de erro:', parseError);
           if (response.status === 401) {
-            errorMessage = 'Email ou senha incorretos. Verifique suas credenciais e tente novamente.';
+            errorMessage = 'Senha ou email incorreto';
           } else {
           errorMessage = `Erro no servidor (${response.status}). Tente novamente.`;
         }
@@ -397,7 +399,19 @@ const Login = () => {
       }
     } catch (error) {
       console.error('Erro no login:', error);
-      alert(error.message || 'Erro ao fazer login. Tente novamente.');
+      // Verificar se o erro é relacionado a credenciais incorretas
+      const errorMessage = error.message || '';
+      if (errorMessage.includes('401') || 
+          errorMessage.includes('Email ou senha') || 
+          errorMessage.includes('credenciais') ||
+          errorMessage.includes('incorretos') ||
+          errorMessage.includes('Unauthorized')) {
+        showError('Senha ou email incorreto');
+      } else if (errorMessage) {
+        showError(errorMessage);
+      } else {
+        showError('Erro ao fazer login. Tente novamente.');
+      }
     } finally {
       setIsLoading(false);
     }

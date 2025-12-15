@@ -1,10 +1,13 @@
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
+import { NotificationProvider } from './context/NotificationContext';
 import Header from './components/Header';
 import HeaderVeterinario from './components/HeaderVeterinario';
 import HeaderAmbulancia from './components/HeaderAmbulancia';
 import Footer from './components/Footer';
 import ProtectedRoute from './components/ProtectedRoute';
+import Notification from './components/Notification';
+import ConfirmDialog from './components/ConfirmDialog';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Artigos from './pages/Artigos';
@@ -304,7 +307,11 @@ function App() {
   return (
     <Router>
       <AuthProvider>
-        <AppContent />
+        <NotificationProvider>
+          <AppContent />
+          <Notification />
+          <ConfirmDialog />
+        </NotificationProvider>
       </AuthProvider>
     </Router>
   );

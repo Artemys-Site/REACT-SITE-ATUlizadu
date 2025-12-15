@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useNotification } from '../context/NotificationContext';
 import './Perfil.css';
 import fotoBob from '../assets/fotoBob.jpeg';
 import fotoMila from '../assets/fotoMila.jpg';
@@ -14,6 +15,7 @@ const Perfil = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { user, updateUser, logout } = useAuth();
+  const { showError, showSuccess, showWarning, showConfirm } = useNotification();
   
   // Detectar tipo de conta do usuário logado
   const accountType = user?.accountType || user?.tipo?.toLowerCase() || 'tutor';
@@ -406,13 +408,13 @@ const Perfil = () => {
     if (file) {
       // Validar tipo de arquivo
       if (!file.type.startsWith('image/')) {
-        alert('Por favor, selecione apenas arquivos de imagem.');
+        showError('Por favor, selecione apenas arquivos de imagem.');
         return;
       }
       
       // Validar tamanho (máximo 5MB)
       if (file.size > 5 * 1024 * 1024) {
-        alert('A imagem deve ter no máximo 5MB.');
+        showError('A imagem deve ter no máximo 5MB.');
         return;
       }
 
@@ -549,7 +551,7 @@ const Perfil = () => {
 
       // Verificar se há algo para atualizar
       if (Object.keys(updateData).length === 0) {
-        alert('Nenhuma alteração foi feita.');
+        showWarning('Nenhuma alteração foi feita.');
         setIsSaving(false);
         return;
       }
@@ -619,10 +621,10 @@ const Perfil = () => {
       setIsEditing(false);
       setEditData(null);
       setFotoFile(null);
-      alert('Perfil atualizado com sucesso!');
+      showSuccess('Perfil atualizado com sucesso!');
     } catch (err) {
       console.error('Erro ao salvar alterações:', err);
-      alert(err.message || 'Erro ao salvar alterações. Tente novamente.');
+      showError(err.message || 'Erro ao salvar alterações. Tente novamente.');
     } finally {
       setIsSaving(false);
     }
@@ -765,7 +767,7 @@ const Perfil = () => {
 
       logout();
       setShowDeleteModal(false);
-      alert('Sua conta e todos os dados associados foram excluídos com sucesso.');
+      showSuccess('Sua conta e todos os dados associados foram excluídos com sucesso.');
       window.location.href = '/';
     } catch (error) {
       console.error('Erro ao excluir conta:', error);
@@ -876,7 +878,7 @@ const Perfil = () => {
 
   const handleSalvarVacina = async () => {
     if (!vacinaForm.TipoVacina.trim() || !vacinaForm.DoseVacina.trim()) {
-      alert('Por favor, preencha todos os campos obrigatórios.');
+      showError('Por favor, preencha todos os campos obrigatórios.');
       return;
     }
 
@@ -886,7 +888,7 @@ const Perfil = () => {
       const petId = modalPet?.IdPet || modalPet?.idPet || modalPet?.id;
 
       if (!petId) {
-        alert('Erro: Pet não identificado.');
+        showError('Erro: Pet não identificado.');
         return;
       }
 
@@ -908,10 +910,10 @@ const Perfil = () => {
         if (response.ok) {
           await recarregarVacinas(petId);
           handleFecharModalVacina();
-          alert('Vacina atualizada com sucesso!');
+          showSuccess('Vacina atualizada com sucesso!');
         } else {
           const error = await response.json().catch(() => ({ message: 'Erro desconhecido' }));
-          alert(`Erro ao atualizar vacina: ${error.message || 'Erro desconhecido'}`);
+          showError(`Erro ao atualizar vacina: ${error.message || 'Erro desconhecido'}`);
         }
       } else {
         // Criar nova vacina
@@ -931,49 +933,50 @@ const Perfil = () => {
         if (response.ok) {
           await recarregarVacinas(petId);
           handleFecharModalVacina();
-          alert('Vacina cadastrada com sucesso!');
+          showSuccess('Vacina cadastrada com sucesso!');
         } else {
           const error = await response.json().catch(() => ({ message: 'Erro desconhecido' }));
-          alert(`Erro ao cadastrar vacina: ${error.message || 'Erro desconhecido'}`);
+          showError(`Erro ao cadastrar vacina: ${error.message || 'Erro desconhecido'}`);
         }
       }
     } catch (error) {
       console.error('Erro ao salvar vacina:', error);
-      alert('Erro ao salvar vacina. Tente novamente.');
+      showError('Erro ao salvar vacina. Tente novamente.');
     } finally {
       setSavingVacina(false);
     }
   };
 
   const handleExcluirVacina = async (vacina) => {
-    if (!window.confirm(`Tem certeza que deseja excluir a vacina ${vacina.TipoVacina || vacina.tipoVacina}?`)) {
-      return;
-    }
+    showConfirm(
+      `Tem certeza que deseja excluir a vacina ${vacina.TipoVacina || vacina.tipoVacina}?`,
+      async () => {
+        try {
+          const token = localStorage.getItem('token');
+          const vacinaId = vacina.IdVacina || vacina.idVacina;
+          const petId = modalPet?.IdPet || modalPet?.idPet || modalPet?.id;
 
-    try {
-      const token = localStorage.getItem('token');
-      const vacinaId = vacina.IdVacina || vacina.idVacina;
-      const petId = modalPet?.IdPet || modalPet?.idPet || modalPet?.id;
+          const response = await fetch(`/api/Vacinas/${vacinaId}`, {
+            method: 'DELETE',
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json'
+            }
+          });
 
-      const response = await fetch(`/api/Vacinas/${vacinaId}`, {
-        method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
+          if (response.ok || response.status === 204) {
+            await recarregarVacinas(petId);
+            showSuccess('Vacina excluída com sucesso!');
+          } else {
+            const error = await response.json().catch(() => ({ message: 'Erro desconhecido' }));
+            showError(`Erro ao excluir vacina: ${error.message || 'Erro desconhecido'}`);
+          }
+        } catch (error) {
+          console.error('Erro ao excluir vacina:', error);
+          showError('Erro ao excluir vacina. Tente novamente.');
         }
-      });
-
-      if (response.ok || response.status === 204) {
-        await recarregarVacinas(petId);
-        alert('Vacina excluída com sucesso!');
-      } else {
-        const error = await response.json().catch(() => ({ message: 'Erro desconhecido' }));
-        alert(`Erro ao excluir vacina: ${error.message || 'Erro desconhecido'}`);
       }
-    } catch (error) {
-      console.error('Erro ao excluir vacina:', error);
-      alert('Erro ao excluir vacina. Tente novamente.');
-    }
+    );
   };
 
   const handleIniciarEdicaoPet = () => {
@@ -1080,13 +1083,13 @@ const Perfil = () => {
 
     // Validar tipo de arquivo
     if (!file.type.startsWith('image/')) {
-      alert('Por favor, selecione apenas arquivos de imagem.');
+      showError('Por favor, selecione apenas arquivos de imagem.');
       return;
     }
 
     // Validar tamanho (max 5MB)
     if (file.size > 5 * 1024 * 1024) {
-      alert('A imagem deve ter no máximo 5MB.');
+      showError('A imagem deve ter no máximo 5MB.');
       return;
     }
 
@@ -1255,7 +1258,7 @@ const Perfil = () => {
         console.error('Erro ao recarregar pets:', err);
       }
 
-      alert('Pet atualizado com sucesso!');
+      showSuccess('Pet atualizado com sucesso!');
       setIsEditingPet(false);
       setPetEditData(null);
       setPetFotoPreview(null);
@@ -1267,91 +1270,89 @@ const Perfil = () => {
       }
     } catch (error) {
       console.error('Erro ao salvar pet:', error);
-      alert(error.message || 'Erro ao salvar alterações do pet. Tente novamente.');
+      showError(error.message || 'Erro ao salvar alterações do pet. Tente novamente.');
     } finally {
       setIsSavingPet(false);
     }
   };
 
-  const handleExcluirPet = async () => {
+  const handleExcluirPet = () => {
     if (!modalPet) return;
 
     const confirmMessage = 'Tem certeza que deseja excluir este pet?\n\nEsta ação não pode ser desfeita e todos os dados do pet serão permanentemente removidos.';
-    if (!window.confirm(confirmMessage)) {
-      return;
-    }
+    showConfirm(confirmMessage, async () => {
+      setIsDeletingPet(true);
 
-    setIsDeletingPet(true);
-
-    try {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        throw new Error('Token não encontrado. Faça login novamente.');
-      }
-
-      const petId = modalPet.IdPet || modalPet.idPet || modalPet.id;
-      if (!petId) {
-        throw new Error('ID do pet não encontrado.');
-      }
-
-      const response = await fetch(`/api/Pets/${petId}`, {
-        method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
+      try {
+        const token = localStorage.getItem('token');
+        if (!token) {
+          throw new Error('Token não encontrado. Faça login novamente.');
         }
-      });
 
-      if (!response.ok) {
-        if (response.status === 404) {
-          throw new Error('Pet não encontrado.');
-        } else if (response.status === 401) {
-          throw new Error('Sessão expirada. Faça login novamente.');
-        } else {
-          const errorData = await response.text();
-          throw new Error(`Erro ao excluir pet: ${response.status}${errorData ? ` - ${errorData}` : ''}`);
+        const petId = modalPet.IdPet || modalPet.idPet || modalPet.id;
+        if (!petId) {
+          throw new Error('ID do pet não encontrado.');
         }
-      }
 
-      // Recarregar dados do perfil
-      const userId = localStorage.getItem('userId');
-      const storedUser = localStorage.getItem('user');
-      if (storedUser) {
-        const parsedUser = JSON.parse(storedUser);
-        const currentAccountType = parsedUser.accountType || parsedUser.tipo?.toLowerCase() || 'tutor';
-        const currentIsTutor = currentAccountType === 'tutor';
+        const response = await fetch(`/api/Pets/${petId}`, {
+          method: 'DELETE',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        });
 
-        if (currentIsTutor) {
-          const tutorId = parseInt(userId);
-          const petsUrl = `/api/Pets/tutor/${tutorId}`;
-          const petsResponse = await fetch(petsUrl, {
-            method: 'GET',
-            headers: {
-              'Authorization': `Bearer ${token}`,
-              'Content-Type': 'application/json'
-            }
-          });
-
-          if (petsResponse.ok) {
-            const petsBuscados = await petsResponse.json();
-            const petsDoTutor = Array.isArray(petsBuscados) ? petsBuscados : (petsBuscados ? [petsBuscados] : []);
-            
-            setUserData(prev => ({
-              ...prev,
-              pets: petsDoTutor.filter(p => p != null && p !== undefined)
-            }));
+        if (!response.ok) {
+          if (response.status === 404) {
+            throw new Error('Pet não encontrado.');
+          } else if (response.status === 401) {
+            throw new Error('Sessão expirada. Faça login novamente.');
+          } else {
+            const errorData = await response.text();
+            throw new Error(`Erro ao excluir pet: ${response.status}${errorData ? ` - ${errorData}` : ''}`);
           }
         }
-      }
 
-      alert('Pet excluído com sucesso!');
-      handleFecharModalPet();
-    } catch (error) {
-      console.error('Erro ao excluir pet:', error);
-      alert(error.message || 'Erro ao excluir pet. Tente novamente.');
-    } finally {
-      setIsDeletingPet(false);
-    }
+        // Recarregar dados do perfil
+        const userId = localStorage.getItem('userId');
+        const storedUser = localStorage.getItem('user');
+        if (storedUser) {
+          const parsedUser = JSON.parse(storedUser);
+          const currentAccountType = parsedUser.accountType || parsedUser.tipo?.toLowerCase() || 'tutor';
+          const currentIsTutor = currentAccountType === 'tutor';
+
+          if (currentIsTutor) {
+            const tutorId = parseInt(userId);
+            const petsUrl = `/api/Pets/tutor/${tutorId}`;
+            const petsResponse = await fetch(petsUrl, {
+              method: 'GET',
+              headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+              }
+            });
+
+            if (petsResponse.ok) {
+              const petsBuscados = await petsResponse.json();
+              const petsDoTutor = Array.isArray(petsBuscados) ? petsBuscados : (petsBuscados ? [petsBuscados] : []);
+              
+              setUserData(prev => ({
+                ...prev,
+                pets: petsDoTutor.filter(p => p != null && p !== undefined)
+              }));
+            }
+          }
+        }
+
+        showSuccess('Pet excluído com sucesso!');
+        handleFecharModalPet();
+      } catch (error) {
+        console.error('Erro ao excluir pet:', error);
+        showError(error.message || 'Erro ao excluir pet. Tente novamente.');
+      } finally {
+        setIsDeletingPet(false);
+      }
+    });
   };
 
   // Funções auxiliares

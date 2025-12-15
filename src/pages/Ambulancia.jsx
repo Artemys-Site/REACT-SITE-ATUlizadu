@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useNotification } from '../context/NotificationContext';
 import './Ambulancia.css';
 import iconeAlerta from '../assets/iconeAlerta.png';
 import iconLocation from '../assets/iconLocation.png';
@@ -22,6 +23,7 @@ const Ambulancia = () => {
   const [loadingPets, setLoadingPets] = useState(false);
   const navigate = useNavigate();
   const { user, isLoggedIn } = useAuth();
+  const { showError } = useNotification();
 
   // Buscar pets do usuário logado
   useEffect(() => {
